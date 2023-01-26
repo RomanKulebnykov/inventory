@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "586341334501",
+    "project_id": "inventory-b52ef",
+    "storage_bucket": "inventory-b52ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586341334501:android:49cf132c5209d00a51c30c",
+        "android_client_info": {
+          "package_name": "com.example.inventory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586341334501-anp8cqpo9tk6afcr052kia6bo61o4hak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdSynHFy5CfZBGQXHdSuWgWufoKUndr1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586341334501-anp8cqpo9tk6afcr052kia6bo61o4hak.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "586341334501-3m3cvh9cpvghi965l9dtd3ej3s0hlfib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kron.inventory.inventory"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586341334501:android:d769db0cb7da70de51c30c",
+        "android_client_info": {
+          "package_name": "com.kron.inventory.inventory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586341334501-anp8cqpo9tk6afcr052kia6bo61o4hak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdSynHFy5CfZBGQXHdSuWgWufoKUndr1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586341334501-anp8cqpo9tk6afcr052kia6bo61o4hak.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "586341334501-3m3cvh9cpvghi965l9dtd3ej3s0hlfib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kron.inventory.inventory"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
