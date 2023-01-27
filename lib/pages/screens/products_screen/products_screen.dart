@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:inventory/providers/edit_product_controller.dart';
+import 'package:provider/provider.dart';
 
 import '../../../utils/device.dart';
 import '../../../widgets/widgets.dart';
-import 'dialogs/add_product_dialog.dart';
+
+import '../../edit_product_page.dart';
 import 'widgets/product_list.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -31,15 +34,16 @@ class ProductsScreen extends StatelessWidget {
         context: context,
         isDismissible: false,
         builder: (context) {
-          return const AddProductDialog();
+          return const EditProductPage();
         },
       );
     } else {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
-            return const Scaffold(
-              body: AddProductDialog(),
+            return ChangeNotifierProvider<EditProductController>(
+              create: (context) => EditProductController(),
+              child: const EditProductPage(),
             );
           },
         ),

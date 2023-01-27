@@ -2,7 +2,6 @@ export 'i_order_product.dart';
 export 'i_order_basic.dart';
 export 'i_order_money.dart';
 export 'i_item_product.dart';
-export 'i_product_basic.dart';
 
 export 'money_action_orders/order_incoming_payment.dart';
 export 'money_action_orders/order_outgoing_payment.dart';

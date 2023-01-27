@@ -29,16 +29,8 @@ class Products extends ChangeNotifier {
   }
 
   Future<void> addProduct({
-    required String title,
-    required String code,
-    double? defaultPrice,
+    required Product newProduct,
   }) async {
-    final newProduct = Product(
-      id: const Uuid().v4(),
-      code: code,
-      title: title,
-      defaultPrice: defaultPrice ?? 0,
-    );
     await _repository.addProduct(newProduct);
     await _updateProductList();
   }

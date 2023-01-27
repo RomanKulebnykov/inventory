@@ -18,7 +18,7 @@ class ProductList extends StatelessWidget {
             return ListTile(
               title: Text(product.title),
               trailing: Text(
-                AppFormatter.currencyFormatter(product.defaultPrice),
+                AppFormatter.currencyFormatter(product.entryPrice),
               ),
               subtitle: const ProductStatsRow(),
             );

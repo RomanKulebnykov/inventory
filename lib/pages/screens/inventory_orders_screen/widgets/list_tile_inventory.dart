@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/order_item_presentation.dart';
+import '../../../../models/order_item.dart';
 import '../../../../widgets/buttons/increment_button.dart';
 
 class ListTileInventory extends StatelessWidget {
@@ -10,8 +10,8 @@ class ListTileInventory extends StatelessWidget {
     required this.onChange,
   }) : super(key: key);
 
-  final OrderItemPresentation orderItem;
-  final void Function(OrderItemPresentation updItem) onChange;
+  final OrderItem orderItem;
+  final void Function(OrderItem updItem) onChange;
 
   @override
   Widget build(BuildContext context) {

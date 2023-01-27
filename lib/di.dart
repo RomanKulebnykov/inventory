@@ -16,9 +16,9 @@ class Di {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     final firestore = FirebaseFirestore.instance;
-    // firestore.useFirestoreEmulator('localhost', 8080);
-    // firestore.settings = const Settings(persistenceEnabled: false);
-    // getIt.registerLazySingleton(() => firestore);
+    firestore.useFirestoreEmulator('localhost', 8080);
+    firestore.settings = const Settings(persistenceEnabled: false);
+    getIt.registerLazySingleton(() => firestore);
 
     ///#########################################################################
     /// Repositories ///////////////////////////////////////////////////////////

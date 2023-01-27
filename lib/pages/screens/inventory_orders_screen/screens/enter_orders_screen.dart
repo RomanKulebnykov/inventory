@@ -63,8 +63,9 @@ class EnterOrdersScreen extends StatelessWidget {
                         context: context,
                         isDismissible: false,
                         builder: (context) {
-                          return ChangeNotifierProvider<EditProductOrderC>(
-                            create: (context) => EditProductOrderC(),
+                          return ChangeNotifierProvider<
+                              EditProductOrderController>(
+                            create: (context) => EditProductOrderController(),
                             child: const AddEnterOrderDialog(),
                           );
                         },

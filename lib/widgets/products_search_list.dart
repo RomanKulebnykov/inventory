@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/order_item_presentation.dart';
+import '../models/order_item.dart';
 import '../pages/screens/inventory_orders_screen/widgets/list_tile_inventory.dart';
 
 class ProductSearchList extends StatelessWidget {
@@ -10,8 +10,8 @@ class ProductSearchList extends StatelessWidget {
     required this.onItemUpdated,
   }) : super(key: key);
 
-  final List<OrderItemPresentation> orderItems;
-  final void Function(OrderItemPresentation newValue) onItemUpdated;
+  final List<OrderItem> orderItems;
+  final void Function(OrderItem newValue) onItemUpdated;
 
   @override
   Widget build(BuildContext context) {

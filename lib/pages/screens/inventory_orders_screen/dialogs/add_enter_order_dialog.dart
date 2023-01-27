@@ -16,12 +16,8 @@ class AddEnterOrderDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Consumer<EditProductOrderC>(
-        builder: (
-          context,
-          controller,
-          child,
-        ) {
+      child: Consumer<EditProductOrderController>(
+        builder: (context, controller, child) {
           return Form(
             key: controller.formKey,
             child: Column(

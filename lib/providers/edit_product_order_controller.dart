@@ -4,18 +4,18 @@ import 'package:inventory_manager/inventory_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../models/order_item_presentation.dart';
+import '../models/order_item.dart';
 import '../models/product.dart';
 
-class EditProductOrderC extends ChangeNotifier {
-  factory EditProductOrderC.read(BuildContext context) =>
-      context.read<EditProductOrderC>();
+class EditProductOrderController extends ChangeNotifier {
+  factory EditProductOrderController.read(BuildContext context) =>
+      context.read<EditProductOrderController>();
 
-  factory EditProductOrderC.watch(BuildContext context) =>
-      context.watch<EditProductOrderC>();
+  factory EditProductOrderController.watch(BuildContext context) =>
+      context.watch<EditProductOrderController>();
 
   /// Constructor //////////////////////////////////////////////////////////////
-  EditProductOrderC({
+  EditProductOrderController({
     OrderProductBalance? initialOrder,
     Future<List<Product>> Function(List<String> ids)? fetchProducts,
   }) {
@@ -31,8 +31,7 @@ class EditProductOrderC extends ChangeNotifier {
       _dateTime = initialOrder.dateTime;
       fetchProducts!(initialOrder.items.map((e) => e.id).toList())
           .then((products) {
-        _orderItems.addAll(
-            products.map((e) => OrderItemPresentation.fromProductItem(e)));
+        _orderItems.addAll(products.map((e) => OrderItem.fromProductItem(e)));
         notifyListeners();
       });
     }
@@ -41,7 +40,7 @@ class EditProductOrderC extends ChangeNotifier {
   /// Fields ///////////////////////////////////////////////////////////////////
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final String id;
-  late final List<OrderItemPresentation> _orderItems = [];
+  late final List<OrderItem> _orderItems = [];
   late OrderStatus _status;
   late DateTime _dateTime;
 
@@ -55,7 +54,7 @@ class EditProductOrderC extends ChangeNotifier {
       );
   DateTime get date => DateTime(_dateTime.year, _dateTime.month, _dateTime.day);
   TimeOfDay get time => TimeOfDay.fromDateTime(_dateTime);
-  List<OrderItemPresentation> get orderItems => [..._orderItems];
+  List<OrderItem> get orderItems => [..._orderItems];
   OrderStatus get status => _status;
 
   /// Update State Methods /////////////////////////////////////////////////////
@@ -63,13 +62,13 @@ class EditProductOrderC extends ChangeNotifier {
     final isContains = _orderItems.map((e) => e.product).contains(product);
     if (!isContains) {
       _orderItems.add(
-        OrderItemPresentation.fromProductItem(product),
+        OrderItem.fromProductItem(product),
       );
     }
     notifyListeners();
   }
 
-  void updateOrderItem(OrderItemPresentation updatedItem) {
+  void updateOrderItem(OrderItem updatedItem) {
     var index = orderItems.indexWhere(
       (element) => element.id == updatedItem.id,
     );

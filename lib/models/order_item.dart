@@ -1,10 +1,10 @@
 import 'package:inventory/models/product.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 
-class OrderItemPresentation extends ItemBalance {
+class OrderItem extends ItemBalance {
   final Product product;
 
-  OrderItemPresentation({
+  OrderItem({
     required this.product,
     required super.id,
     required super.price,
@@ -13,13 +13,13 @@ class OrderItemPresentation extends ItemBalance {
   // double price;
   // int count;
 
-  OrderItemPresentation copyWith({
+  OrderItem copyWith({
     Product? product,
     String? id,
     int? count,
     double? price,
   }) {
-    return OrderItemPresentation(
+    return OrderItem(
       id: id ?? this.id,
       count: count ?? this.count,
       price: price ?? this.price,
@@ -27,11 +27,11 @@ class OrderItemPresentation extends ItemBalance {
     );
   }
 
-  OrderItemPresentation.fromProductItem(Product product)
+  OrderItem.fromProductItem(Product product)
       : this(
           id: product.id,
           product: product,
-          price: product.defaultPrice,
+          price: product.entryPrice,
           count: 1,
         );
 
