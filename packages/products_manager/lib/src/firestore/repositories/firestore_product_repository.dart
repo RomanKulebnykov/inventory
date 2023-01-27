@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:products_manager/src/repositories/products_repository.dart';
 
-import '../../models/i_product_basic.dart';
-import '../../models/product_model.dart';
+import '../../repositories/models/i_product_basic.dart';
+import '../../repositories/models/product_model.dart';
 
 class FirestoreProductRepository extends ProductsRepository {
   final CollectionReference<Map<String, dynamic>>

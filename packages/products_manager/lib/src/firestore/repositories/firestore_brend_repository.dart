@@ -1,5 +1,6 @@
-import 'package:products_manager/src/models/brend_model.dart';
 import 'package:products_manager/src/repositories/brend_repository.dart';
+
+import '../../repositories/models/brend_model.dart';
 
 class FirestoreBrendRepository extends BrendRepository {
   @override
