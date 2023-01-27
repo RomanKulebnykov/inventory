@@ -1,4 +1,4 @@
-import 'domain/brend.dart';
+import 'domain/brand.dart';
 import 'domain/product.dart';
 
 abstract class ProductsManager {

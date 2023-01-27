@@ -1,9 +1,8 @@
 import 'package:products_manager/products_manager.dart';
-import 'package:products_manager/src/domain/brend.dart';
-import 'package:products_manager/src/domain/product.dart';
-import 'package:products_manager/src/firestore/repositories/firestore_product_repository.dart';
+import 'package:products_manager/src/repositories/mappers/product_mapper.dart';
+import 'package:products_manager/src/repositories/models/product_model.dart';
 
-import 'repositories/firestore_brend_repository.dart';
+import '../repositories/models/brand_model.dart';
 
 class FirestoreProductManager extends ProductsManager {
   final FirestoreProductRepository productsRepository;
@@ -15,14 +14,30 @@ class FirestoreProductManager extends ProductsManager {
   });
 
   @override
-  Future<Brend> getBrendById(String id) {
-    // TODO: implement getBrendById
+  Future<Product> getProduct(String id) async {
+    final productM = await productsRepository.getProduct(id);
+    return _createDomainProduct(productM);
+  }
+
+  Future<Product> _createDomainProduct(ProductModel productM) async {
+    final BrandModel? brandM;
+    final String? imageUrl;
+    if (productM.brendId != null) {
+      brandM = await brendRepository.getBrendById(productM.brendId!);
+    }
+    if (productM.imagePath != null) {
+      /// TODO: GetImage
+    }
+    return productM.toProduct(/****/);
+  }
+
+  Future<Brend> _createDomainBrand(BrandModel brendM) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> saveBrend(Brend brend) {
-    // TODO: implement saveBrend
+  Future<List<Product>> getProducts() {
+    // TODO: implement getProducts
     throw UnimplementedError();
   }
 
@@ -39,14 +54,14 @@ class FirestoreProductManager extends ProductsManager {
   }
 
   @override
-  Future<Product> getProduct(String id) {
-    // TODO: implement getProduct
+  Future<Brend> getBrendById(String id) {
+    // TODO: implement getBrendById
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Product>> getProducts() {
-    // TODO: implement getProducts
+  Future<void> saveBrend(Brend brend) {
+    // TODO: implement saveBrend
     throw UnimplementedError();
   }
 }

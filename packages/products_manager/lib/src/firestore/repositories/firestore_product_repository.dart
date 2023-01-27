@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:products_manager/src/repositories/products_repository.dart';
 
-import '../../repositories/models/i_product_basic.dart';
+import '../../repositories/models/i_product.dart';
 import '../../repositories/models/product_model.dart';
 
 class FirestoreProductRepository extends ProductsRepository {
-  final CollectionReference<Map<String, dynamic>>
-      Function<T extends ProductBasic>() getProductCollectionPath;
+  final CollectionReference<Map<String, dynamic>> Function<T extends IProduct>()
+      getProductCollectionPath;
 
   /// -------------------------------------------------------------- Constructor
   FirestoreProductRepository(this.getProductCollectionPath);
@@ -45,7 +45,7 @@ class FirestoreProductRepository extends ProductsRepository {
           id: snapshot['id'] as String,
           title: snapshot['title'] as String,
           code: snapshot['code'] as String,
-          article: List<String>.from(snapshot['article']),
+          articles: List<String>.from(snapshot['article']),
           entryPrice: double.parse(snapshot['entryPrice'].toString()),
           sellingPrice: double.parse(snapshot['sellingPrice'].toString()),
           barCode: snapshot['barCode'] as String,
@@ -59,7 +59,7 @@ class FirestoreProductRepository extends ProductsRepository {
           'id': product.id,
           'title': product.title,
           'code': product.code,
-          'article': product.article,
+          'article': product.articles,
           'entryPrice': product.entryPrice,
           'sellingPrice': product.sellingPrice,
           'barCode': product.barCode,

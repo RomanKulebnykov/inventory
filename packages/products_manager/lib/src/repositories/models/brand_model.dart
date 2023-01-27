@@ -1,10 +1,10 @@
-class BrendModel {
+class BrandModel {
   String id;
   String name;
   String description;
   String? logoURL;
 
-  BrendModel({
+  BrandModel({
     required this.id,
     required this.name,
     required this.description,
@@ -20,8 +20,8 @@ class BrendModel {
     };
   }
 
-  factory BrendModel.fromMap(Map<String, dynamic> map) {
-    return BrendModel(
+  factory BrandModel.fromMap(Map<String, dynamic> map) {
+    return BrandModel(
       id: map['id'] as String,
       name: map['name'] as String,
       description: map['description'] as String,

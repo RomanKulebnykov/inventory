@@ -1,35 +1,26 @@
-import 'i_product_basic.dart';
+import 'i_product.dart';
 
-class ProductModel extends ProductBasic {
-  final List<String> article;
+class ProductModel extends IProduct {
   final String? barCode;
-  final String? imagePath;
   final String? brendId;
-  final double entryPrice;
-  final double sellingPrice;
-  final String? description;
 
   const ProductModel({
     required super.id,
     required super.title,
     required super.code,
-    required this.article,
-    required this.entryPrice,
-    required this.sellingPrice,
+    required super.articles,
+    required super.entryPrice,
+    required super.sellingPrice,
+    super.description,
     this.barCode,
-    this.imagePath,
+    super.imagePath,
     this.brendId,
-    this.description,
   });
 
   @override
   List<Object?> get props => [
         ...super.props,
-        article,
         barCode,
-        imagePath,
-        entryPrice,
-        sellingPrice,
-        description
+        brendId,
       ];
 }

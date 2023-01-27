@@ -1,20 +1,25 @@
 import 'package:equatable/equatable.dart';
 
-class ProductBasic extends Equatable {
+class IProduct extends Equatable {
   final String id;
   final String title;
   final String code;
-
-  // final double defaultEntryPrice;
-  // final double defaultSellingPrice;
+  final List<String> articles;
+  final double entryPrice;
+  final double sellingPrice;
+  final String? description;
+  final String? imagePath;
 
   /// -------------------------------------------------------------- Constructor
-  const ProductBasic({
+  const IProduct({
     required this.id,
     required this.title,
     required this.code,
-    // required this.defaultEntryPrice,
-    // required this.defaultSellingPrice,
+    required this.entryPrice,
+    required this.sellingPrice,
+    required this.articles,
+    this.description,
+    this.imagePath,
   });
 
   /// -------------------------------------------------------------------- props
@@ -23,6 +28,10 @@ class ProductBasic extends Equatable {
         id,
         title,
         code,
-        // defaultEntryPrice,
+        entryPrice,
+        sellingPrice,
+        articles,
+        description,
+        imagePath,
       ];
 }
