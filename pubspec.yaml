@@ -51,7 +51,9 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   inventory_manager:
-    path: inventory_manager/
+    path: packages/inventory_manager
+  products_manager:
+    path: packages/products_manager
 
 dev_dependencies:
   flutter_test:
