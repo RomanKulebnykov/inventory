@@ -3,7 +3,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //
-// import '../../models/brend.dart';
+// import '../../models/brend_model.dart';
 // import 'brend_logo_image.dart';
 //
 // class ChoiceBrendWidget extends StatefulWidget {

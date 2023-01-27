@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:inventory/models/product.dart';
+import 'package:inventory/models/product_model.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {

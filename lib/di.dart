@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 
 import 'firebase_options.dart';
-import 'repositories/products_repository.dart';
 
 class Di {
   Di._internal();

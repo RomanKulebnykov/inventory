@@ -1,4 +1,4 @@
-import 'package:inventory/models/product.dart';
+import 'package:inventory/models/product_model.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 
 class OrderItem extends ItemBalance {
