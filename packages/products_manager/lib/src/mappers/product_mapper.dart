@@ -1,11 +1,12 @@
 import 'package:products_manager/products_manager.dart';
-import 'package:products_manager/src/repositories/models/product_model.dart';
+
+import '../firestore/models/product_model.dart';
 
 extension ModelToDomain on ProductModel {
   Product toProduct({
     String? imageURL,
     String? barCode,
-    Brend? brend,
+    Brand? brend,
   }) {
     return Product(
       id: id,

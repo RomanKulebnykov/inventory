@@ -1,24 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:products_manager/products_manager.dart';
-import 'package:products_manager/src/repositories/mappers/product_mapper.dart';
-import 'package:products_manager/src/repositories/models/product_model.dart';
+import 'package:products_manager/src/mappers/product_mapper.dart';
 
-import '../repositories/models/brand_model.dart';
+import 'models/brand_model.dart';
+import 'models/i_product.dart';
+import 'models/product_model.dart';
 
-class FirestoreProductManager extends ProductsManager {
-  final FirestoreProductRepository productsRepository;
-  final FirestoreBrendRepository brendRepository;
+abstract class FirestoreProductManager extends ProductsManager {
+  late final FirestoreProductRepository productsRepository;
+  late final FirestoreBrendRepository brendRepository;
 
+  /// -------------------------------------------------------------- Constructor
   FirestoreProductManager({
-    required this.productsRepository,
-    required this.brendRepository,
-  });
-
-  @override
-  Future<Product> getProduct(String id) async {
-    final productM = await productsRepository.getProduct(id);
-    return _createDomainProduct(productM);
+    required final CollectionReference<Map<String, dynamic>> Function()
+        getBrendsCollectionPath,
+    required final CollectionReference<Map<String, dynamic>>
+            Function<T extends IProduct>()
+        getProductCollectionPath,
+  }) {
+    brendRepository = FirestoreBrendRepository(
+      getBrendsCollectionPath: getBrendsCollectionPath,
+    );
+    productsRepository = FirestoreProductRepository(
+      getProductCollectionPath: getProductCollectionPath,
+    );
   }
 
+  /// ----------------------------------------------------- _createDomainProduct
   Future<Product> _createDomainProduct(ProductModel productM) async {
     final BrandModel? brandM;
     final String? imageUrl;
@@ -31,36 +39,49 @@ class FirestoreProductManager extends ProductsManager {
     return productM.toProduct(/****/);
   }
 
-  Future<Brend> _createDomainBrand(BrandModel brendM) async {
+  /// ------------------------------------------------------- _createDomainBrand
+  Future<Brand> _createDomainBrand(BrandModel brendM) async {
     throw UnimplementedError();
   }
 
+  /// --------------------------------------------------------------- getProduct
+  @override
+  Future<Product> getProduct(String id) async {
+    final productM = await productsRepository.getProduct(id);
+    return _createDomainProduct(productM);
+  }
+
+  /// -------------------------------------------------------------- getProducts
   @override
   Future<List<Product>> getProducts() {
     // TODO: implement getProducts
     throw UnimplementedError();
   }
 
+  /// --------------------------------------------------------------- addProduct
   @override
   Future<void> addProduct(Product product) {
     // TODO: implement addProduct
     throw UnimplementedError();
   }
 
+  /// ------------------------------------------------------------ deleteProduct
   @override
   Future<void> deleteProduct(String id) {
     // TODO: implement deleteProduct
     throw UnimplementedError();
   }
 
+  /// ------------------------------------------------------------- getBrendById
   @override
-  Future<Brend> getBrendById(String id) {
+  Future<Brand> getBrendById(String id) {
     // TODO: implement getBrendById
     throw UnimplementedError();
   }
 
+  /// ---------------------------------------------------------------- saveBrend
   @override
-  Future<void> saveBrend(Brend brend) {
+  Future<void> saveBrend(Brand brend) {
     // TODO: implement saveBrend
     throw UnimplementedError();
   }

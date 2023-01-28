@@ -6,5 +6,3 @@ export 'src/domain/product.dart';
 export 'src/firestore/firestore_product_manager.dart';
 export 'src/firestore/repositories/firestore_brend_repository.dart';
 export 'src/firestore/repositories/firestore_product_repository.dart';
-export 'src/repositories/brand_repository.dart';
-export 'src/repositories/products_repository.dart';

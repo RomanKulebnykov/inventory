@@ -1,10 +1,11 @@
 import 'package:products_manager/src/domain/brand.dart';
-import 'package:products_manager/src/repositories/models/i_product.dart';
+
+import '../firestore/models/i_product.dart';
 
 class Product extends IProduct {
   final String? barCode;
   final String? imageURL;
-  final Brend? brend;
+  final Brand? brend;
 
   const Product({
     required super.id,

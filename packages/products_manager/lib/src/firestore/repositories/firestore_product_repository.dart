@@ -1,38 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:products_manager/src/repositories/products_repository.dart';
 
-import '../../repositories/models/i_product.dart';
-import '../../repositories/models/product_model.dart';
+import '../models/i_product.dart';
+import '../models/product_model.dart';
 
-class FirestoreProductRepository extends ProductsRepository {
+class FirestoreProductRepository {
   final CollectionReference<Map<String, dynamic>> Function<T extends IProduct>()
       getProductCollectionPath;
 
   /// -------------------------------------------------------------- Constructor
-  FirestoreProductRepository(this.getProductCollectionPath);
+  FirestoreProductRepository({required this.getProductCollectionPath});
 
   /// --------------------------------------------------------------- getProduct
-  @override
   Future<ProductModel> getProduct(String id) async {
     final snap = await productsConverter.doc(id).get();
     return snap.data()!;
   }
 
   /// --------------------------------------------------------------- getProduct
-  @override
   Future<List<ProductModel>> getProducts() async {
     final snapshot = await productsConverter.get();
     return snapshot.docs.map((e) => e.data()).toList();
   }
 
   /// --------------------------------------------------------------- addProduct
-  @override
   Future<void> addProduct(ProductModel product) async {
     await productsConverter.doc(product.id).set(product);
   }
 
   /// ------------------------------------------------------------ deleteProduct
-  @override
   Future<void> deleteProduct(String productId) async {
     await productsConverter.doc(productId).delete();
   }
