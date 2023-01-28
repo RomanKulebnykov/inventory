@@ -1,6 +1,6 @@
 
 
-import '../firestore/models/i_brend.dart';
+import 'i_brend.dart';
 
 class Brand extends IBrand {
   final String? logImageURL;

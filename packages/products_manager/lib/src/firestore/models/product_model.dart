@@ -1,4 +1,4 @@
-import 'i_product.dart';
+import '../../domain/i_product.dart';
 
 class ProductModel extends IProduct {
   final String? barCode;
@@ -11,6 +11,7 @@ class ProductModel extends IProduct {
     required super.articles,
     required super.entryPrice,
     required super.sellingPrice,
+    required super.lastUpdate,
     super.description,
     this.barCode,
     super.imagePath,

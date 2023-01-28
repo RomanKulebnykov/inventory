@@ -1,8 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-
-import '../models/product.dart';
-import '../providers/products.dart';
+import 'package:products_manager/products_manager.dart';
 
 class ProductSearch extends StatelessWidget {
   const ProductSearch({

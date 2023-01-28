@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/i_product.dart';
+import '../../domain/i_product.dart';
 import '../models/product_model.dart';
 
 class FirestoreProductRepository {
@@ -45,6 +45,7 @@ class FirestoreProductRepository {
           sellingPrice: double.parse(snapshot['sellingPrice'].toString()),
           barCode: snapshot['barCode'] as String,
           imagePath: snapshot['imagePath'] as String,
+          lastUpdate: snapshot['imagePath'].toDate(),
           description: snapshot['description'] as String,
           brendId: snapshot['brendId'] as String?,
         );
@@ -59,8 +60,9 @@ class FirestoreProductRepository {
           'sellingPrice': product.sellingPrice,
           'barCode': product.barCode,
           'imagePath': product.imagePath,
-          'brendId': product.brendId,
+          'lastUpdate': product.lastUpdate,
           'description': product.description,
+          'brendId': product.brendId,
         };
       },
     );

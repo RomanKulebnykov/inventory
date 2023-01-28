@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../providers/products.dart';
+import '../../../../providers/products_provider.dart';
 import '../../../../utils/formatters.dart';
 
 class ProductList extends StatelessWidget {
@@ -9,7 +9,7 @@ class ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Products>(
+    return Consumer<ProductsProvider>(
       builder: (context, products, child) {
         return ListView.builder(
           itemCount: products.count,

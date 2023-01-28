@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_manager/inventory_manager.dart';
+import 'package:products_manager/products_manager.dart';
 
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/order_item.dart';
-import '../models/product.dart';
 
 class EditProductOrderController extends ChangeNotifier {
   factory EditProductOrderController.read(BuildContext context) =>

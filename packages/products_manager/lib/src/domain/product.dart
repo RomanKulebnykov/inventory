@@ -1,6 +1,6 @@
 import 'package:products_manager/src/domain/brand.dart';
 
-import '../firestore/models/i_product.dart';
+import 'i_product.dart';
 
 class Product extends IProduct {
   final String? barCode;
@@ -14,6 +14,7 @@ class Product extends IProduct {
     required super.entryPrice,
     required super.sellingPrice,
     required super.articles,
+    required super.lastUpdate,
     super.description,
     super.imagePath,
     this.barCode,

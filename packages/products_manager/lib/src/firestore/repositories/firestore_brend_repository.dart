@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:products_manager/products_manager.dart';
 
 import '../models/brand_model.dart';
 
@@ -7,18 +6,15 @@ class FirestoreBrendRepository {
   final CollectionReference<Map<String, dynamic>> Function()
       getBrendsCollectionPath;
 
-  FirestoreBrendRepository({
-    required this.getBrendsCollectionPath,
-  });
+  FirestoreBrendRepository({required this.getBrendsCollectionPath});
 
-  Future<BrandModel> getBrendById(String id) {
-    // TODO: implement getBrendById
-    throw UnimplementedError();
+  Future<BrandModel> getBrendById(String id) async {
+    final snap = await brandConverter.doc(id).get();
+    return snap.data()!;
   }
 
-  Future<void> saveBrend(BrandModel brend) {
-    // TODO: implement saveBrend
-    throw UnimplementedError();
+  Future<void> saveBrend(BrandModel brend) async {
+    brandConverter.doc(brend.id).set(brend);
   }
 
   CollectionReference<BrandModel> get brandConverter {

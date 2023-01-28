@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 
 import 'package:provider/provider.dart';
-import '../../../../providers/providers.dart';
+import '../../../../providers/edit_product_order_controller.dart';
+import '../../../../providers/product_orders_provider.dart';
 import '../../../../widgets/buttons/circle_button.dart';
 import '../dialogs/add_enter_order_dialog.dart';
 
@@ -30,7 +31,7 @@ class EnterOrdersScreen extends StatelessWidget {
         /// Order list section
         ///
         Expanded(
-          child: Consumer<ProductOrders<OrderInventoryEnter>>(
+          child: Consumer<ProductOrdersProvider<OrderInventoryEnter>>(
             builder: (context, productOrders, child) {
               return ListView.builder(
                 itemCount: productOrders.count,

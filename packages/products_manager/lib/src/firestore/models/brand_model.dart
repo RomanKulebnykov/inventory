@@ -1,4 +1,4 @@
-import 'i_brend.dart';
+import '../../domain/i_brend.dart';
 
 class BrandModel extends IBrand {
   BrandModel({

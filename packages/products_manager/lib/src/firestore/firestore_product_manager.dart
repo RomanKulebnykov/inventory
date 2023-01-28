@@ -3,10 +3,9 @@ import 'package:products_manager/products_manager.dart';
 import 'package:products_manager/src/mappers/product_mapper.dart';
 
 import 'models/brand_model.dart';
-import 'models/i_product.dart';
 import 'models/product_model.dart';
 
-abstract class FirestoreProductManager extends ProductsManager {
+class FirestoreProductManager extends ProductsManager {
   late final FirestoreProductRepository productsRepository;
   late final FirestoreBrendRepository brendRepository;
 
@@ -60,7 +59,7 @@ abstract class FirestoreProductManager extends ProductsManager {
 
   /// --------------------------------------------------------------- addProduct
   @override
-  Future<void> addProduct(Product product) {
+  Future<void> saveProduct(Product product) {
     // TODO: implement addProduct
     throw UnimplementedError();
   }

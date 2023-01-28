@@ -3,7 +3,9 @@ import 'package:inventory_manager/inventory_manager.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../../providers/providers.dart';
+import '../../../../providers/edit_product_order_controller.dart';
+import '../../../../providers/product_orders_provider.dart';
+import '../../../../providers/products_provider.dart';
 import '../../../../utils/formatters.dart';
 import '../../../../widgets/widgets.dart';
 
@@ -48,7 +50,7 @@ class AddEnterOrderDialog extends StatelessWidget {
                           onItemUpdated: controller.updateOrderItem,
                         ),
                         ProductSearch(
-                          items: Products.watch(context).items,
+                          items: ProductsProvider.watch(context).items,
                           onFind: controller.addOrderItem,
                         ),
                       ],
@@ -63,7 +65,7 @@ class AddEnterOrderDialog extends StatelessWidget {
                       status: controller.status,
                       items: controller.orderItems,
                     );
-                    ProductOrders<OrderInventoryEnter>.read(context)
+                    ProductOrdersProvider<OrderInventoryEnter>.read(context)
                         .addOrder(newOrder: order);
                   },
                   submitStr: 'Add Enter Order',

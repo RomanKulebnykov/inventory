@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_manager/inventory_manager.dart';
+import 'package:products_manager/products_manager.dart';
 
 import 'firebase_options.dart';
 
@@ -20,11 +21,20 @@ class Di {
     getIt.registerLazySingleton(() => firestore);
 
     ///#########################################################################
-    /// Repositories ///////////////////////////////////////////////////////////
+    /// Products Manager ///////////////////////////////////////////////////////////
     ///#########################################################################
 
-    /// ----------------------------------------------------- ProductsRepository
-    getIt.registerLazySingleton(() => ProductsRepository(getIt()));
+    /// -------------------------------------------------------- ProductsManager
+    getIt.registerLazySingleton<ProductsManager>(
+      () => FirestoreProductManager(
+        getBrendsCollectionPath: () {
+          return firestore.collection('brends');
+        },
+        getProductCollectionPath: <T extends IProduct>() {
+          return firestore.collection('Products');
+        },
+      ),
+    );
 
     ///#########################################################################
     /// Inventory Manager //////////////////////////////////////////////////////

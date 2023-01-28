@@ -9,7 +9,7 @@ abstract class ProductsManager {
   Future<void> saveBrend(Brand brend);
   Future<Product> getProduct(String id);
   Future<List<Product>> getProducts();
-  Future<void> addProduct(Product product);
+  Future<void> saveProduct(Product product);
   Future<void> deleteProduct(String id);
 }
 

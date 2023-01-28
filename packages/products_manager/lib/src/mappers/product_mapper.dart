@@ -16,6 +16,7 @@ extension ModelToDomain on ProductModel {
       sellingPrice: sellingPrice,
       articles: articles,
       description: description,
+      lastUpdate: lastUpdate,
       imageURL: imageURL,
       barCode: barCode,
       brend: brend,
@@ -33,6 +34,7 @@ extension DomainToModel on Product {
       entryPrice: entryPrice,
       sellingPrice: sellingPrice,
       description: description,
+      lastUpdate: lastUpdate,
       barCode: barCode,
       brendId: brend?.id,
     );

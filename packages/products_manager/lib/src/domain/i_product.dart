@@ -9,6 +9,7 @@ class IProduct extends Equatable {
   final double sellingPrice;
   final String? description;
   final String? imagePath;
+  final DateTime lastUpdate;
 
   /// -------------------------------------------------------------- Constructor
   const IProduct({
@@ -18,6 +19,7 @@ class IProduct extends Equatable {
     required this.entryPrice,
     required this.sellingPrice,
     required this.articles,
+    required this.lastUpdate,
     this.description,
     this.imagePath,
   });
@@ -31,6 +33,7 @@ class IProduct extends Equatable {
         entryPrice,
         sellingPrice,
         articles,
+        lastUpdate,
         description,
         imagePath,
       ];

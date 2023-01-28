@@ -9,8 +9,8 @@ import 'package:window_manager/window_manager.dart';
 import 'di.dart';
 import 'pages/home_page.dart';
 import 'providers/navigation_controller.dart';
-import 'providers/product_orders.dart';
-import 'providers/products.dart';
+import 'providers/product_orders_provider.dart';
+import 'providers/products_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,17 +30,17 @@ class MyApp extends StatelessWidget {
     final appTheme = AppTheme(Device.of(context).deviceType);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<Products>(
-          create: (context) => Products(Di.getIt()),
+        ChangeNotifierProvider<ProductsProvider>(
+          create: (context) => ProductsProvider(Di.getIt()),
         ),
         ChangeNotifierProvider<NavigationController>(
           create: (context) => NavigationController(),
         ),
-        ChangeNotifierProvider<ProductOrders<OrderInventoryEnter>>(
-          create: (context) => ProductOrders(Di.getIt()),
+        ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryEnter>>(
+          create: (context) => ProductOrdersProvider(Di.getIt()),
         ),
-        ChangeNotifierProvider<ProductOrders<OrderInventoryLoss>>(
-          create: (context) => ProductOrders(Di.getIt()),
+        ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryLoss>>(
+          create: (context) => ProductOrdersProvider(Di.getIt()),
         ),
       ],
       child: MaterialApp(

@@ -3,14 +3,14 @@ import 'package:inventory_manager/inventory_manager.dart';
 
 import 'package:provider/provider.dart';
 
-class ProductOrders<T extends OrderProduct> extends ChangeNotifier {
-  factory ProductOrders.read(BuildContext context) =>
-      context.read<ProductOrders<T>>();
+class ProductOrdersProvider<T extends OrderProduct> extends ChangeNotifier {
+  factory ProductOrdersProvider.read(BuildContext context) =>
+      context.read<ProductOrdersProvider<T>>();
 
-  factory ProductOrders.watch(BuildContext context) =>
-      context.watch<ProductOrders<T>>();
+  factory ProductOrdersProvider.watch(BuildContext context) =>
+      context.watch<ProductOrdersProvider<T>>();
 
-  ProductOrders(this._inventoryManager) {
+  ProductOrdersProvider(this._inventoryManager) {
     _inventoryManager.getProductOrders<T>().then((value) {
       _orders = value ?? [];
       notifyListeners();

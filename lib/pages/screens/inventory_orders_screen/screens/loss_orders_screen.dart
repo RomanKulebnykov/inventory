@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../providers/product_orders.dart';
+import '../../../../providers/product_orders_provider.dart';
 import '../../../../widgets/buttons/circle_button.dart';
 import '../dialogs/add_loss_order_dialog.dart';
 
@@ -30,7 +30,7 @@ class LossOrdersScreen extends StatelessWidget {
         /// Order list section
         ///
         Expanded(
-          child: Consumer<ProductOrders<OrderInventoryLoss>>(
+          child: Consumer<ProductOrdersProvider<OrderInventoryLoss>>(
             builder: (context, productOrders, child) {
               return ListView.builder(
                 itemCount: productOrders.count,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventory/providers/edit_product_controller.dart';
+import 'package:inventory/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/device.dart';
@@ -42,7 +43,12 @@ class ProductsScreen extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) {
             return ChangeNotifierProvider<EditProductController>(
-              create: (context) => EditProductController(),
+              create: (context) => EditProductController(
+                onSave: (product) {
+                  ProductsProvider.read(context)
+                      .saveProduct(newProduct: product);
+                },
+              ),
               child: const EditProductPage(),
             );
           },
