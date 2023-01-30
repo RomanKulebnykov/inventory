@@ -52,9 +52,11 @@ class FirestoreProductManager extends ProductsManager {
 
   /// -------------------------------------------------------------- getProducts
   @override
-  Future<List<Product>> getProducts() {
-    // TODO: implement getProducts
-    throw UnimplementedError();
+  Future<List<Product>> getProducts() async {
+    final productsM = await productsRepository.getProducts();
+    return Future.wait(
+      productsM.map((productM) => _createDomainProduct(productM)),
+    );
   }
 
   /// --------------------------------------------------------------- addProduct

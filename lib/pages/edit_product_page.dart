@@ -50,7 +50,7 @@ class EditProductPage extends StatelessWidget {
                   ),
                   SubmitControlsRow(
                     submitStr: 'Add Product',
-                    onSubmit: () {},
+                    onSubmit: controller.saveProduct,
                   ),
                 ],
               ),

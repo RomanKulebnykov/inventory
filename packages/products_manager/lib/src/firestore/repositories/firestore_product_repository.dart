@@ -8,7 +8,9 @@ class FirestoreProductRepository {
       getProductCollectionPath;
 
   /// -------------------------------------------------------------- Constructor
-  FirestoreProductRepository({required this.getProductCollectionPath});
+  FirestoreProductRepository({
+    required this.getProductCollectionPath,
+  });
 
   /// --------------------------------------------------------------- getProduct
   Future<ProductModel> getProduct(String id) async {
