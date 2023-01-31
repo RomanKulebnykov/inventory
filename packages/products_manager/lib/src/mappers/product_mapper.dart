@@ -4,7 +4,7 @@ import '../firestore/models/product_model.dart';
 
 extension ModelToDomain on ProductModel {
   Product toProduct({
-    String? imageURL,
+    required ItemImage image,
     String? barCode,
     Brand? brend,
   }) {
@@ -17,7 +17,7 @@ extension ModelToDomain on ProductModel {
       articles: articles,
       description: description,
       lastUpdate: lastUpdate,
-      imageURL: imageURL,
+      image: image,
       barCode: barCode,
       brend: brend,
     );
@@ -37,6 +37,7 @@ extension DomainToModel on Product {
       lastUpdate: lastUpdate,
       barCode: barCode,
       brendId: brend?.id,
+      imagePath: image?.imagePath,
     );
   }
 }

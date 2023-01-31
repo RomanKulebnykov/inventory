@@ -8,7 +8,6 @@ class IProduct extends Equatable {
   final double entryPrice;
   final double sellingPrice;
   final String? description;
-  final String? imagePath;
   final DateTime lastUpdate;
 
   /// -------------------------------------------------------------- Constructor
@@ -21,7 +20,6 @@ class IProduct extends Equatable {
     required this.articles,
     required this.lastUpdate,
     this.description,
-    this.imagePath,
   });
 
   /// -------------------------------------------------------------------- props
@@ -35,6 +33,5 @@ class IProduct extends Equatable {
         articles,
         lastUpdate,
         description,
-        imagePath,
       ];
 }

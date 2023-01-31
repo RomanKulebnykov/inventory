@@ -45,6 +45,7 @@ dependencies:
 
   firebase_core: ^2.4.1
   cloud_firestore: ^4.3.1
+  firebase_storage: ^11.0.10
 
   file_picker: ^5.2.5
   window_manager: ^0.3.0
@@ -54,8 +55,15 @@ dependencies:
 
   inventory_manager:
     path: packages/inventory_manager
+
   products_manager:
     path: packages/products_manager
+
+  remote_data_storage:
+    path: packages/remote_data_storage
+
+  local_data_storage:
+    path: packages/local_data_storage
 
 dev_dependencies:
   flutter_test:

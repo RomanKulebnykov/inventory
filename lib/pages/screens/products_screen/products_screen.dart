@@ -44,7 +44,9 @@ class ProductsScreen extends StatelessWidget {
           builder: (context) {
             return ChangeNotifierProvider<EditProductController>(
               create: (context) => EditProductController(
-                onProductImageSave: (image) {},
+                onProductImageUpdate: (name, bytes) {
+                  return 'path';
+                },
                 onProductSave: (product) {
                   ProductsProvider.read(context)
                       .saveProduct(newProduct: product);

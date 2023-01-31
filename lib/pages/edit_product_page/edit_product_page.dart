@@ -1,7 +1,10 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory/providers/edit_product_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:remote_data_storage/remote_data_storage.dart';
 
+import '../../di.dart';
 import '../../utils/formatters.dart';
 import '../../widgets/widgets.dart';
 import 'product_image_editor.dart';
@@ -31,7 +34,15 @@ class EditProductPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ProductImageEditor(
-                        onImageChange: (newImage) {},
+                        onImageChange: (newImage) {
+                          final remStorage = RemoteDataStorage(Di.getIt());
+                          remStorage.saveFile(
+                            filename: newImage.name,
+                            extension: newImage.extension!,
+                            bytes: newImage.bytes!,
+                            type: FileType.productImage,
+                          );
+                        },
                       ),
                       const Spacer(flex: 3),
                       _buildLeftSection(controller),

@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 import 'package:products_manager/products_manager.dart';
@@ -16,9 +17,15 @@ class Di {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     final firestore = FirebaseFirestore.instance;
-    firestore.useFirestoreEmulator('localhost', 8080);
-    firestore.settings = const Settings(persistenceEnabled: false);
+    final fbStorage = FirebaseStorage.instance;
+    if (true) {
+      firestore.useFirestoreEmulator('localhost', 8080);
+      firestore.settings = const Settings(persistenceEnabled: false);
+      await fbStorage.useStorageEmulator('localhost', 9199);
+    }
+
     getIt.registerLazySingleton(() => firestore);
+    getIt.registerLazySingleton(() => fbStorage);
 
     ///#########################################################################
     /// Products Manager ///////////////////////////////////////////////////////////

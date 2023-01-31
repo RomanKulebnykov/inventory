@@ -1,16 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:products_manager/products_manager.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {
   EditProductController({
-    required this.onProductImageSave,
+    required this.onProductImageUpdate,
     required this.onProductSave,
     Product? editProduct,
   }) {
     if (editProduct != null) {
       id = editProduct.id;
-      imagePath = editProduct.imagePath;
+      image = editProduct.image;
       title = TextEditingController(text: editProduct.title);
       code = TextEditingController(text: editProduct.code);
       article = TextEditingController(text: editProduct.articles.join(','));
@@ -20,7 +22,7 @@ class EditProductController extends ChangeNotifier {
       barCode = TextEditingController(text: editProduct.barCode);
     } else {
       id = const Uuid().v4();
-      imagePath = null;
+      image = null;
       title = TextEditingController();
       code = TextEditingController();
       article = TextEditingController();
@@ -32,10 +34,9 @@ class EditProductController extends ChangeNotifier {
   }
 
   final void Function(Product product) onProductSave;
-  final void Function(String image) onProductImageSave;
+  final String Function(String name, Uint8List bytes) onProductImageUpdate;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final String id;
-  String? imagePath;
   late final TextEditingController title;
   late final TextEditingController code;
   late final TextEditingController article;
@@ -44,10 +45,14 @@ class EditProductController extends ChangeNotifier {
   late final TextEditingController description;
   late final TextEditingController barCode;
 
+  bool isImageBeenUpdate = false;
+  ItemImage? image;
+
   void saveProduct() {
+    if (isImageBeenUpdate) {}
     final savedProduct = Product(
       id: id,
-      imagePath: imagePath,
+      image: image,
       title: title.text,
       code: code.text,
       articles: article.text.replaceAll(' ', '').split(','),

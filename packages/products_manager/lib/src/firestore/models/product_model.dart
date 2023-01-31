@@ -3,6 +3,7 @@ import '../../domain/i_product.dart';
 class ProductModel extends IProduct {
   final String? barCode;
   final String? brendId;
+  final String? imagePath;
 
   const ProductModel({
     required super.id,
@@ -14,14 +15,15 @@ class ProductModel extends IProduct {
     required super.lastUpdate,
     super.description,
     this.barCode,
-    super.imagePath,
+    this.imagePath,
     this.brendId,
   });
 
   @override
   List<Object?> get props => [
-        ...super.props,
+        super.props,
         barCode,
         brendId,
+        imagePath,
       ];
 }

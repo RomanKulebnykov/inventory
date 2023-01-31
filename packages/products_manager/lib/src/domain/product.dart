@@ -1,12 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:products_manager/src/domain/brand.dart';
 
 import 'i_product.dart';
 
 class Product extends IProduct {
   final String? barCode;
-  final String? imageURL;
   final Brand? brend;
-
+  final ItemImage? image;
   const Product({
     required super.id,
     required super.title,
@@ -16,17 +17,31 @@ class Product extends IProduct {
     required super.articles,
     required super.lastUpdate,
     super.description,
-    super.imagePath,
+    this.image,
     this.barCode,
-    this.imageURL,
     this.brend,
   });
 
   @override
   List<Object?> get props => [
-        ...super.props,
+        super.props,
         barCode,
-        imageURL,
         brend,
       ];
+}
+
+class ItemImage {
+  final String name;
+  final String extension;
+  final Uint8List? bytes;
+  final String? imageUrl;
+  final String? imagePath;
+
+  ItemImage({
+    required this.name,
+    required this.bytes,
+    required this.extension,
+    this.imageUrl,
+    this.imagePath,
+  });
 }
