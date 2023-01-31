@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import '../../pages/screens/products_screen/products_screen.dart';
 
 class ScreenManager {
-  List<ScreenGroup> screensGroups() => _screensGroups;
-  List<Screen> screens({required int group}) => _screensGroups[group].screens;
-  Screen screenInCurrentGroup({required int group, required int screen}) =>
+  static List<ScreenGroup> screensGroups() => _screensGroups;
+
+  static List<Screen> screens({required int group}) =>
+      _screensGroups[group].screens;
+
+  static Screen screenInCurrentGroup(
+          {required int group, required int screen}) =>
       _screensGroups[group].screens[screen];
 
   static const List<ScreenGroup> _screensGroups = [

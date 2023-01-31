@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory/blocs/navigation/navigation_bloc.dart';
+import 'package:inventory/blocs/navigation/screen_manager.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/navigation_controller.dart';
@@ -25,26 +28,17 @@ class _HomePageLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NavigationController>(
-      builder: (context, navC, child) {
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
         return Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            elevation: 5,
-            currentIndex: navC.screenIndex,
-            onTap: navC.setScreen,
-            items: [
-              for (final screen in navC.screenInCurrentGroup)
-                BottomNavigationBarItem(
-                  icon: screen.icon,
-                  label: screen.title,
-                )
-            ],
-          ),
           body: Row(
             children: [
               NavigationRail(
-                selectedIndex: navC.screenGroupIndex,
-                onDestinationSelected: navC.setScreenGroup,
+                selectedIndex: state.groupIndex,
+                onDestinationSelected: (value) {
+                  NavigationBloc.addEvent(context, TapOnGroup(value));
+                  // context.read<NavigationBloc>().add(TapOnGroup(value));
+                },
                 labelType: NavigationRailLabelType.all,
                 useIndicator: true,
                 indicatorColor: Colors.blueGrey.withAlpha(20),
@@ -57,7 +51,7 @@ class _HomePageLarge extends StatelessWidget {
                 ),
                 // extended: true,
                 destinations: [
-                  for (final screenGroup in navC.screensGroup)
+                  for (final screenGroup in state.getScreensGroups)
                     NavigationRailDestination(
                       icon: screenGroup.icon,
                       selectedIcon: screenGroup.selectedIcon,
@@ -68,9 +62,24 @@ class _HomePageLarge extends StatelessWidget {
               Expanded(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: 500),
-                  child: navC.currentScreen.screen,
+                  child: state.selectedScreen.screen,
                 ),
               ),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            elevation: 5,
+            currentIndex: state.screenIndex,
+            onTap: (value) {
+              NavigationBloc.addEvent(context, TapOnScreen(value));
+              // context.read<NavigationBloc>().add(TapOnScreen(value));
+            },
+            items: [
+              for (final screen in state.screensInSelectedGroup)
+                BottomNavigationBarItem(
+                  icon: screen.icon,
+                  label: screen.title,
+                )
             ],
           ),
         );

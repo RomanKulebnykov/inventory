@@ -4,6 +4,13 @@ class NavigationState extends Equatable {
   final int groupIndex;
   final int screenIndex;
 
+  List<ScreenGroup> get getScreensGroups => ScreenManager.screensGroups();
+
+  List<Screen> get screensInSelectedGroup =>
+      ScreenManager.screens(group: groupIndex);
+
+  Screen get selectedScreen => screensInSelectedGroup[screenIndex];
+
   const NavigationState({
     this.groupIndex = 0,
     this.screenIndex = 0,
