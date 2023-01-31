@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory/blocs/navigation/navigation_bloc.dart';
 import 'package:inventory/utils/device.dart';
 import 'package:inventory/utils/theme.dart';
 import 'package:inventory_manager/inventory_manager.dart';
@@ -28,33 +30,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = AppTheme(Device.of(context).deviceType);
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider<ProductsProvider>(
-          create: (context) => ProductsProvider(Di.getIt()),
-        ),
-        ChangeNotifierProvider<NavigationController>(
-          create: (context) => NavigationController(),
-        ),
-        ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryEnter>>(
-          create: (context) => ProductOrdersProvider(Di.getIt()),
-        ),
-        ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryLoss>>(
-          create: (context) => ProductOrdersProvider(Di.getIt()),
+        BlocProvider(
+          create: (context) => NavigationBloc(),
         ),
       ],
-      child: MaterialApp(
-        title: 'Inventory Manager Demo',
-        theme: appTheme.getTheme,
-        builder: (context, child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaleFactor: appTheme.scaleFactor,
-            ),
-            child: child!,
-          );
-        },
-        home: const HomePage(),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ProductsProvider>(
+            create: (context) => ProductsProvider(Di.getIt()),
+          ),
+          ChangeNotifierProvider<NavigationController>(
+            create: (context) => NavigationController(),
+          ),
+          ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryEnter>>(
+            create: (context) => ProductOrdersProvider(Di.getIt()),
+          ),
+          ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryLoss>>(
+            create: (context) => ProductOrdersProvider(Di.getIt()),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Inventory Manager Demo',
+          theme: appTheme.getTheme,
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaleFactor: appTheme.scaleFactor,
+              ),
+              child: child!,
+            );
+          },
+          home: const HomePage(),
+        ),
       ),
     );
   }
