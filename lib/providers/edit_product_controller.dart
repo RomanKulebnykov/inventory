@@ -4,7 +4,8 @@ import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {
   EditProductController({
-    required this.onSave,
+    required this.onProductImageSave,
+    required this.onProductSave,
     Product? editProduct,
   }) {
     if (editProduct != null) {
@@ -12,7 +13,7 @@ class EditProductController extends ChangeNotifier {
       imagePath = editProduct.imagePath;
       title = TextEditingController(text: editProduct.title);
       code = TextEditingController(text: editProduct.code);
-      title = TextEditingController(text: editProduct.articles.join(','));
+      article = TextEditingController(text: editProduct.articles.join(','));
       entryPrice = TextEditingController(text: '${editProduct.entryPrice}');
       sellingPrice = TextEditingController(text: '${editProduct.sellingPrice}');
       description = TextEditingController(text: editProduct.description);
@@ -30,7 +31,8 @@ class EditProductController extends ChangeNotifier {
     }
   }
 
-  final void Function(Product product) onSave;
+  final void Function(Product product) onProductSave;
+  final void Function(String image) onProductImageSave;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final String id;
   String? imagePath;
@@ -55,7 +57,7 @@ class EditProductController extends ChangeNotifier {
       barCode: barCode.text,
       lastUpdate: DateTime.now().toUtc(),
     );
-    onSave(savedProduct);
+    onProductSave(savedProduct);
   }
 
   @override

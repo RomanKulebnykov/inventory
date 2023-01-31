@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory/blocs/navigation/navigation_bloc.dart';
+import 'package:inventory/blocs/products/products_bloc.dart';
 import 'package:inventory/utils/device.dart';
 import 'package:inventory/utils/theme.dart';
 import 'package:inventory_manager/inventory_manager.dart';
@@ -17,9 +18,9 @@ import 'providers/products_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await windowManager.ensureInitialized();
-  // windowManager.setMinimumSize(const Size(800, 640));
-  // windowManager.setSize(const Size(800, 640));
+  await windowManager.ensureInitialized();
+  windowManager.setSize(const Size(800, 640));
+  windowManager.setMinimumSize(const Size(800, 640));
 
   await Di.setup();
   runApp(const MyApp());
@@ -32,17 +33,13 @@ class MyApp extends StatelessWidget {
     final appTheme = AppTheme(Device.of(context).deviceType);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => NavigationBloc(),
-        ),
+        BlocProvider(create: (context) => NavigationBloc()),
+        BlocProvider(create: (context) => ProductsBloc(Di.getIt())),
       ],
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider<ProductsProvider>(
             create: (context) => ProductsProvider(Di.getIt()),
-          ),
-          ChangeNotifierProvider<NavigationController>(
-            create: (context) => NavigationController(),
           ),
           ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryEnter>>(
             create: (context) => ProductOrdersProvider(Di.getIt()),

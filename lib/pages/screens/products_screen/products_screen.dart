@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../../utils/device.dart';
 import '../../../widgets/widgets.dart';
 
-import '../../edit_product_page.dart';
+import '../../edit_product_page/edit_product_page.dart';
 import 'widgets/product_list.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -44,7 +44,8 @@ class ProductsScreen extends StatelessWidget {
           builder: (context) {
             return ChangeNotifierProvider<EditProductController>(
               create: (context) => EditProductController(
-                onSave: (product) {
+                onProductImageSave: (image) {},
+                onProductSave: (product) {
                   ProductsProvider.read(context)
                       .saveProduct(newProduct: product);
                 },
