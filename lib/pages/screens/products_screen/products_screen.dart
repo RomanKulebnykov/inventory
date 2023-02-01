@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventory/providers/edit_product_controller.dart';
+import 'package:inventory/pages/edit_product_page/edit_product_controller.dart';
 import 'package:inventory/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -44,14 +44,10 @@ class ProductsScreen extends StatelessWidget {
           builder: (context) {
             return ChangeNotifierProvider<EditProductController>(
               create: (context) => EditProductController(
-                onProductImageUpdate: (name, bytes) {
-                  throw UnimplementedError();
-                },
                 onProductSave: (product) {
                   ProductsProvider.read(context)
                       .saveProduct(newProduct: product);
                 },
-                onProductImageDelete: (String name) async {},
               ),
               child: const EditProductPage(),
             );

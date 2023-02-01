@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:domain_models/domain_models.dart';
 import 'package:file_helpers/file_helpers.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,9 +6,7 @@ import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {
   EditProductController({
-    required this.onProductImageUpdate,
     required this.onProductSave,
-    required this.onProductImageDelete,
     Product? editProduct,
   }) {
     if (editProduct != null) {
@@ -47,11 +43,7 @@ class EditProductController extends ChangeNotifier {
   late final TextEditingController barCode;
 
   final void Function(Product product) onProductSave;
-  final Future<ImageData> Function(String name, Uint8List bytes)
-      onProductImageUpdate;
-  final Future<void> Function(String name) onProductImageDelete;
 
-  // bool isImageBeenUpdate = false;
   ImageData? _image;
   ImageData? _updatedImage;
   ImageData? get image => _updatedImage ?? _image;
@@ -74,7 +66,7 @@ class EditProductController extends ChangeNotifier {
   void saveProduct() {
     final savedProduct = Product(
       id: id,
-      image: _image,
+      image: _updatedImage ?? _image,
       title: title.text,
       code: code.text,
       articles: article.text.replaceAll(' ', '').split(','),

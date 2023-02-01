@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/edit_product_controller.dart';
+import 'edit_product_controller.dart';
 import '../../utils/formatters.dart';
 import '../../widgets/widgets.dart';
 import 'image_product_main.dart';
