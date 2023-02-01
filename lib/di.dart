@@ -34,10 +34,13 @@ class Di {
     ///#########################################################################
     /// Storage ////////////////////////////////////////////////////////////////
     ///#########################################################################
+    getIt.registerLazySingleton(() => DataStorageRemote(getIt()));
+    getIt.registerLazySingleton(() => DataStorageLocal());
+
     final storageRepository = DataStorageRepository(
       basePath: 'username',
-      local: DataStorageLocal(),
-      remote: DataStorageRemote(getIt()),
+      local: getIt(),
+      remote: getIt(),
     );
 
     getIt.registerLazySingleton(() => storageRepository);

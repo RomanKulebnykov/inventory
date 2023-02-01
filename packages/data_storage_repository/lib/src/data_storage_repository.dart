@@ -21,7 +21,7 @@ class DataStorageRepository {
   Future<String?> updateProductImage(ImageData image) async {
     return remote.saveFile(
       path: '$basePath/products/',
-      filename: image.name,
+      filename: image.name!,
       bytes: image.bytes!,
     );
   }

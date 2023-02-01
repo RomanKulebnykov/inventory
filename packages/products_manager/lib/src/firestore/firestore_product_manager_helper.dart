@@ -12,7 +12,6 @@ extension FirestoreProductManagerHelper on FirestoreProductManager {
       image = ImageData(
         name: 'name',
         bytes: Uint8List.fromList([]),
-        extension: 'extension',
       );
 
       /// TODO: GetImage

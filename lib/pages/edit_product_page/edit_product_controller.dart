@@ -11,7 +11,7 @@ class EditProductController extends ChangeNotifier {
   }) {
     if (editProduct != null) {
       id = editProduct.id;
-      _image = editProduct.image?.copyWith();
+      _image = editProduct.image.copyWith();
       title = TextEditingController(text: editProduct.title);
       code = TextEditingController(text: editProduct.code);
       article = TextEditingController(text: editProduct.articles.join(','));
@@ -21,7 +21,7 @@ class EditProductController extends ChangeNotifier {
       barCode = TextEditingController(text: editProduct.barCode);
     } else {
       id = const Uuid().v4();
-      _image = null;
+      _image = ImageData();
       title = TextEditingController();
       code = TextEditingController();
       article = TextEditingController();
@@ -44,20 +44,17 @@ class EditProductController extends ChangeNotifier {
 
   final void Function(Product product) onProductSave;
 
-  ImageData? _image;
-  ImageData? get image => _image?.copyWith();
+  late ImageData _image;
+  ImageData get image => _image.copyWith();
 
   void updateProductImage(PlatformFile newImage) async {
-    _image = ImageData(
-      name: id,
-      bytes: newImage.bytes,
-      extension: newImage.extension!,
-    );
+    _image =
+        _image.addReplaceImage(name: newImage.name, bytes: newImage.bytes!);
     notifyListeners();
   }
 
   void deleteProductImage() async {
-    _image = null;
+    _image = _image.markNeedRemove();
     notifyListeners();
   }
 

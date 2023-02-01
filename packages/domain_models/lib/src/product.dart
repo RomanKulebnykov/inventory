@@ -6,7 +6,7 @@ import 'i_product.dart';
 class Product extends IProduct {
   final String? barCode;
   final Brand? brend;
-  final ImageData? image;
+  final ImageData image;
 
   const Product({
     required super.id,

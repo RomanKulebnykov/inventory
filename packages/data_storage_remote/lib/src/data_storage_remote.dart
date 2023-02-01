@@ -7,7 +7,15 @@ class DataStorageRemote {
 
   final FirebaseStorage storage;
 
-  getFile() {}
+  Future<String?> getFileByName(String name) async {
+    final basePath = 'username/productImage/aaa';
+    final ref = storage.ref(basePath);
+    ref;
+    // final list = await ref.list();
+    // for (final item in list.items) {
+    //   print(item.name);
+    // }
+  }
 
   Future<String?> saveFile({
     required String path,

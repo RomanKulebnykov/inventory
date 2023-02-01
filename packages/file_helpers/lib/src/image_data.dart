@@ -1,43 +1,83 @@
 import 'dart:typed_data';
 
-enum ImageStatus {
-  normal,
-  updated,
-  deleted,
-  empty;
+class UpdateImage {
+  final String name;
+  final Uint8List? bytes;
+
+  UpdateImage({
+    required this.name,
+    this.bytes,
+  });
 }
 
 class ImageData {
-  final String name;
-  final String extension;
-
+  final String? name;
   final Uint8List? bytes;
   final String? imageUrl;
   final String? imagePath;
+  final bool isNeedDelete;
+  final UpdateImage? replace;
 
-  bool get hasImage => imageUrl != null || bytes != null;
+  Uint8List? get updBytes {
+    if (isNeedDelete == false) {
+      // print('replace bytes ${replace?.bytes}');
+      return replace?.bytes ?? bytes;
+    }
+    return null;
+  }
+
+  ImageData addReplaceImage({
+    required String name,
+    required Uint8List bytes,
+  }) {
+    return ImageData(
+      replace: UpdateImage(name: name, bytes: bytes),
+      isNeedDelete: false,
+      name: name,
+      bytes: bytes,
+      imagePath: imagePath,
+      imageUrl: imageUrl,
+    );
+  }
+
+  ImageData markNeedRemove() {
+    return ImageData(
+      replace: null,
+      isNeedDelete: name != null ? true : false,
+      name: name,
+      bytes: bytes,
+      imagePath: imagePath,
+      imageUrl: imageUrl,
+    );
+  }
+
+  bool get hasImage =>
+      imageUrl != null || bytes != null || replace?.bytes != null;
 
   ImageData({
-    required this.name,
-    required this.bytes,
-    required this.extension,
+    this.name,
+    this.bytes,
+    this.isNeedDelete = false,
+    this.replace,
     this.imageUrl,
     this.imagePath,
   });
 
   ImageData copyWith({
     String? name,
-    String? extension,
     Uint8List? bytes,
     String? imageUrl,
     String? imagePath,
+    bool? isNeedDelete,
+    UpdateImage? replace,
   }) {
     return ImageData(
       name: name ?? this.name,
-      extension: extension ?? this.extension,
       bytes: bytes ?? this.bytes,
       imageUrl: imageUrl ?? this.imageUrl,
       imagePath: imagePath ?? this.imagePath,
+      isNeedDelete: isNeedDelete ?? this.isNeedDelete,
+      replace: replace ?? this.replace,
     );
   }
 }

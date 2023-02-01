@@ -1,6 +1,8 @@
+import 'package:data_storage_remote/data_storage_remote.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../di.dart';
 import 'edit_product_controller.dart';
 import '../../utils/formatters.dart';
 import '../../widgets/widgets.dart';
@@ -20,6 +22,13 @@ class EditProductPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        DataStorageRemote remote = Di.getIt();
+                        remote.getFileByName('aaa');
+                      },
+                      child: const Text('Test')),
+
                   /// ----------------------------------------------------- HEAD
                   _buildHeadSection(controller),
                   const SizedBox(height: 16),
