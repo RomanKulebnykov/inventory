@@ -13,14 +13,12 @@ class UpdateImage {
 class ImageData {
   final String? name;
   final Uint8List? bytes;
-  final String? imageUrl;
   final String? imagePath;
   final bool isNeedDelete;
   final UpdateImage? replace;
 
-  Uint8List? get updBytes {
+  Uint8List? get bytesData {
     if (isNeedDelete == false) {
-      // print('replace bytes ${replace?.bytes}');
       return replace?.bytes ?? bytes;
     }
     return null;
@@ -36,7 +34,6 @@ class ImageData {
       name: name,
       bytes: bytes,
       imagePath: imagePath,
-      imageUrl: imageUrl,
     );
   }
 
@@ -47,19 +44,14 @@ class ImageData {
       name: name,
       bytes: bytes,
       imagePath: imagePath,
-      imageUrl: imageUrl,
     );
   }
-
-  bool get hasImage =>
-      imageUrl != null || bytes != null || replace?.bytes != null;
 
   ImageData({
     this.name,
     this.bytes,
     this.isNeedDelete = false,
     this.replace,
-    this.imageUrl,
     this.imagePath,
   });
 
@@ -74,7 +66,6 @@ class ImageData {
     return ImageData(
       name: name ?? this.name,
       bytes: bytes ?? this.bytes,
-      imageUrl: imageUrl ?? this.imageUrl,
       imagePath: imagePath ?? this.imagePath,
       isNeedDelete: isNeedDelete ?? this.isNeedDelete,
       replace: replace ?? this.replace,

@@ -22,7 +22,7 @@ class ImageProductMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSetImage = image != null && image!.hasImage;
+    final bool isSetImage = image?.bytesData != null;
     final buttonColor = Theme.of(context).colorScheme.primary;
     return Stack(
       children: [
