@@ -8,6 +8,10 @@ environment:
   sdk: '>=2.19.0 <3.0.0'
 
 dependencies:
+
+  file_helpers:
+    path: ../file_helpers
+
   data_storage_remote:
     path: ../data_storage_remote
 

@@ -45,12 +45,13 @@ class ProductsScreen extends StatelessWidget {
             return ChangeNotifierProvider<EditProductController>(
               create: (context) => EditProductController(
                 onProductImageUpdate: (name, bytes) {
-                  return 'path';
+                  throw UnimplementedError();
                 },
                 onProductSave: (product) {
                   ProductsProvider.read(context)
                       .saveProduct(newProduct: product);
                 },
+                onProductImageDelete: (String name) async {},
               ),
               child: const EditProductPage(),
             );

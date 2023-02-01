@@ -1,5 +1,6 @@
 import 'package:data_storage_local/data_storage_local.dart';
 import 'package:data_storage_remote/data_storage_remote.dart';
+import 'package:file_helpers/file_helpers.dart';
 
 enum FileType {
   productImage,
@@ -17,5 +18,7 @@ class DataStorageRepository {
     required this.basePath,
   });
 
-  Future<String?> updateProductImage() async {}
+  Future<ImageData> updateProductImage() async {
+    throw UnimplementedError();
+  }
 }

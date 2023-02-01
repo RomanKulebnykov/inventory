@@ -7,6 +7,8 @@ class ImageData {
   final String? imageUrl;
   final String? imagePath;
 
+  bool get hasImage => imageUrl != null || bytes != null;
+
   ImageData({
     required this.name,
     required this.bytes,
@@ -14,4 +16,20 @@ class ImageData {
     this.imageUrl,
     this.imagePath,
   });
+
+  ImageData copyWith({
+    String? name,
+    String? extension,
+    Uint8List? bytes,
+    String? imageUrl,
+    String? imagePath,
+  }) {
+    return ImageData(
+      name: name ?? this.name,
+      extension: extension ?? this.extension,
+      bytes: bytes ?? this.bytes,
+      imageUrl: imageUrl ?? this.imageUrl,
+      imagePath: imagePath ?? this.imagePath,
+    );
+  }
 }

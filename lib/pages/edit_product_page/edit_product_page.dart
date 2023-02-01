@@ -1,12 +1,10 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:inventory/providers/edit_product_controller.dart';
 import 'package:provider/provider.dart';
 
-import '../../di.dart';
+import '../../providers/edit_product_controller.dart';
 import '../../utils/formatters.dart';
 import '../../widgets/widgets.dart';
-import 'product_image_editor.dart';
+import 'image_product_main.dart';
 
 class EditProductPage extends StatelessWidget {
   const EditProductPage({Key? key}) : super(key: key);
@@ -32,16 +30,10 @@ class EditProductPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ProductImageEditor(
-                        onImageChange: (newImage) {
-                          // final remStorage = RemoteDataStorage(Di.getIt());
-                          // remStorage.saveFile(
-                          //   filename: newImage.name,
-                          //   extension: newImage.extension!,
-                          //   bytes: newImage.bytes!,
-                          //   type: FileType.productImage,
-                          // );
-                        },
+                      ImageProductMain(
+                        image: controller.image,
+                        onImageChange: controller.updateProductImage,
+                        onImageRemoved: controller.deleteProductImage,
                       ),
                       const Spacer(flex: 3),
                       _buildLeftSection(controller),

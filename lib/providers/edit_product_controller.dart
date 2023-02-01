@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:domain_models/domain_models.dart';
 import 'package:file_helpers/file_helpers.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,11 +10,12 @@ class EditProductController extends ChangeNotifier {
   EditProductController({
     required this.onProductImageUpdate,
     required this.onProductSave,
+    required this.onProductImageDelete,
     Product? editProduct,
   }) {
     if (editProduct != null) {
       id = editProduct.id;
-      image = editProduct.image;
+      _image = editProduct.image?.copyWith();
       title = TextEditingController(text: editProduct.title);
       code = TextEditingController(text: editProduct.code);
       article = TextEditingController(text: editProduct.articles.join(','));
@@ -23,7 +25,7 @@ class EditProductController extends ChangeNotifier {
       barCode = TextEditingController(text: editProduct.barCode);
     } else {
       id = const Uuid().v4();
-      image = null;
+      _image = null;
       title = TextEditingController();
       code = TextEditingController();
       article = TextEditingController();
@@ -34,8 +36,6 @@ class EditProductController extends ChangeNotifier {
     }
   }
 
-  final void Function(Product product) onProductSave;
-  final String Function(String name, Uint8List bytes) onProductImageUpdate;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final String id;
   late final TextEditingController title;
@@ -46,14 +46,35 @@ class EditProductController extends ChangeNotifier {
   late final TextEditingController description;
   late final TextEditingController barCode;
 
-  bool isImageBeenUpdate = false;
-  ImageData? image;
+  final void Function(Product product) onProductSave;
+  final Future<ImageData> Function(String name, Uint8List bytes)
+      onProductImageUpdate;
+  final Future<void> Function(String name) onProductImageDelete;
+
+  // bool isImageBeenUpdate = false;
+  ImageData? _image;
+  ImageData? _updatedImage;
+  ImageData? get image => _updatedImage ?? _image;
+
+  void updateProductImage(PlatformFile newImage) async {
+    _updatedImage = ImageData(
+      name: id,
+      bytes: newImage.bytes,
+      extension: newImage.extension!,
+    );
+    notifyListeners();
+  }
+
+  void deleteProductImage() async {
+    _updatedImage = null;
+    _image = null;
+    notifyListeners();
+  }
 
   void saveProduct() {
-    if (isImageBeenUpdate) {}
     final savedProduct = Product(
       id: id,
-      image: image,
+      image: _image,
       title: title.text,
       code: code.text,
       articles: article.text.replaceAll(' ', '').split(','),
