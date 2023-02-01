@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:domain_models/domain_models.dart';
 
-import '../../domain/i_product.dart';
 import '../models/product_model.dart';
 
 class FirestoreProductRepository {

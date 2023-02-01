@@ -1,10 +1,11 @@
-import 'package:products_manager/products_manager.dart';
+import 'package:domain_models/domain_models.dart';
+import 'package:file_helpers/file_helpers.dart';
 
 import '../firestore/models/product_model.dart';
 
 extension ModelToDomain on ProductModel {
   Product toProduct({
-    required ItemImage image,
+    required ImageData image,
     String? barCode,
     Brand? brend,
   }) {

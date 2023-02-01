@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
-import 'domain/brand.dart';
-import 'domain/product.dart';
+import 'package:domain_models/domain_models.dart';
 
 /// ------------------------------------------------------------ ProductsManager
 abstract class ProductsManager {

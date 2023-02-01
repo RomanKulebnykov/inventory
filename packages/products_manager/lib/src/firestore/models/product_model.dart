@@ -1,4 +1,4 @@
-import '../../domain/i_product.dart';
+import 'package:domain_models/domain_models.dart';
 
 class ProductModel extends IProduct {
   final String? barCode;

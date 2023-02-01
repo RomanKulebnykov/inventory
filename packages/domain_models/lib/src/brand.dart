@@ -1,5 +1,3 @@
-
-
 import 'i_brend.dart';
 
 class Brand extends IBrand {

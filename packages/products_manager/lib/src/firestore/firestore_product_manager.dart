@@ -1,8 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:domain_models/domain_models.dart';
+import 'package:file_helpers/file_helpers.dart';
 import 'package:products_manager/products_manager.dart';
-import 'package:products_manager/src/mappers/product_mapper.dart';
 
 import 'models/brand_model.dart';
 import 'models/product_model.dart';
@@ -30,12 +31,12 @@ class FirestoreProductManager extends ProductsManager {
   /// ----------------------------------------------------- _createDomainProduct
   Future<Product> _createDomainProduct(ProductModel productM) async {
     final BrandModel? brandM;
-    final ItemImage image;
+    final ImageData image;
     if (productM.brendId != null) {
       brandM = await brendRepository.getBrendById(productM.brendId!);
     }
     if (productM.imagePath != null) {
-      image = ItemImage(
+      image = ImageData(
         name: 'name',
         bytes: Uint8List.fromList([]),
         extension: 'extension',

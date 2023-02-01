@@ -1,3 +1,4 @@
+import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 import 'package:products_manager/products_manager.dart';

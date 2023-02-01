@@ -34,13 +34,13 @@ class EditProductPage extends StatelessWidget {
                     children: [
                       ProductImageEditor(
                         onImageChange: (newImage) {
-                          final remStorage = RemoteDataStorage(Di.getIt());
-                          remStorage.saveFile(
-                            filename: newImage.name,
-                            extension: newImage.extension!,
-                            bytes: newImage.bytes!,
-                            type: FileType.productImage,
-                          );
+                          // final remStorage = RemoteDataStorage(Di.getIt());
+                          // remStorage.saveFile(
+                          //   filename: newImage.name,
+                          //   extension: newImage.extension!,
+                          //   bytes: newImage.bytes!,
+                          //   type: FileType.productImage,
+                          // );
                         },
                       ),
                       const Spacer(flex: 3),

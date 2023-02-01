@@ -53,6 +53,12 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   cupertino_icons: ^1.0.2
 
+  domain_models:
+    path: packages/domain_models
+
+  file_helpers:
+    path: packages/file_helpers
+
   inventory_manager:
     path: packages/inventory_manager
 

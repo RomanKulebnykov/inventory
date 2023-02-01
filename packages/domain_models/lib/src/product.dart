@@ -1,13 +1,13 @@
-import 'dart:typed_data';
+import 'package:file_helpers/file_helpers.dart';
 
-import 'package:products_manager/src/domain/brand.dart';
-
+import 'brand.dart';
 import 'i_product.dart';
 
 class Product extends IProduct {
   final String? barCode;
   final Brand? brend;
-  final ItemImage? image;
+  final ImageData? image;
+
   const Product({
     required super.id,
     required super.title,
@@ -28,20 +28,4 @@ class Product extends IProduct {
         barCode,
         brend,
       ];
-}
-
-class ItemImage {
-  final String name;
-  final String extension;
-  final Uint8List? bytes;
-  final String? imageUrl;
-  final String? imagePath;
-
-  ItemImage({
-    required this.name,
-    required this.bytes,
-    required this.extension,
-    this.imageUrl,
-    this.imagePath,
-  });
 }

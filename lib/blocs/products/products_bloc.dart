@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:domain_models/domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:products_manager/products_manager.dart';
 

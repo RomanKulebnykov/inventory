@@ -1,4 +1,4 @@
-import 'package:products_manager/products_manager.dart';
+import 'package:domain_models/domain_models.dart';
 
 import '../firestore/models/brand_model.dart';
 

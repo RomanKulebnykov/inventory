@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:domain_models/domain_models.dart';
+import 'package:file_helpers/file_helpers.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:products_manager/products_manager.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {
@@ -46,7 +47,7 @@ class EditProductController extends ChangeNotifier {
   late final TextEditingController barCode;
 
   bool isImageBeenUpdate = false;
-  ItemImage? image;
+  ImageData? image;
 
   void saveProduct() {
     if (isImageBeenUpdate) {}

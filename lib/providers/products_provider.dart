@@ -1,3 +1,4 @@
+import 'package:domain_models/domain_models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:products_manager/products_manager.dart';
 import 'package:provider/provider.dart';
