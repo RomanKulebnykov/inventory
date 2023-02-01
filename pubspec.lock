@@ -97,6 +97,27 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  data_storage_local:
+    dependency: "direct main"
+    description:
+      path: "packages/data_storage_local"
+      relative: true
+    source: path
+    version: "1.0.0"
+  data_storage_remote:
+    dependency: "direct main"
+    description:
+      path: "packages/data_storage_remote"
+      relative: true
+    source: path
+    version: "1.0.0"
+  data_storage_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/data_storage_repository"
+      relative: true
+    source: path
+    version: "1.0.0"
   dropdown_search:
     dependency: "direct main"
     description:
@@ -287,13 +308,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  local_data_storage:
-    dependency: "direct main"
-    description:
-      path: "packages/local_data_storage"
-      relative: true
-    source: path
-    version: "1.0.0"
   matcher:
     dependency: transitive
     description:
@@ -357,13 +371,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
-  remote_data_storage:
-    dependency: "direct main"
-    description:
-      path: "packages/remote_data_storage"
-      relative: true
-    source: path
-    version: "1.0.0"
   screen_retriever:
     dependency: transitive
     description:

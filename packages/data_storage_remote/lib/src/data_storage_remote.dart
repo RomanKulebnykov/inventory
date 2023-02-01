@@ -7,27 +7,27 @@ enum FileType {
   brendImage;
 }
 
-class RemoteDataStorage {
-  RemoteDataStorage(this.storage);
+class DataStorageRemote {
+  DataStorageRemote(this.storage);
 
   final FirebaseStorage storage;
+  final String basePath = 'username';
 
   getFile() {}
 
-  Future<bool> saveFile({
+  Future<String?> saveFile({
     required String filename,
     required String extension,
     required Uint8List bytes,
     required FileType type,
   }) async {
     try {
-      final ref = storage.ref('username/${type.name}/$filename');
+      final ref = storage.ref('$basePath/${type.name}/$filename');
       await ref.putData(bytes);
-      print('OKKKK');
-      return true;
+      return ref.fullPath;
     } catch (e) {
       print(e);
-      return false;
+      return null;
     }
   }
 }

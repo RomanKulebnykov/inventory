@@ -1,4 +1,4 @@
-import 'package:remote_data_storage/remote_data_storage.dart';
+import 'package:data_storage_repository/data_storage_repository.dart';
 import 'package:test/test.dart';
 
 void main() {
