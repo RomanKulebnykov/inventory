@@ -49,6 +49,7 @@ class Di {
     /// -------------------------------------------------------- ProductsManager
     getIt.registerLazySingleton<ProductsManager>(
       () => FirestoreProductManager(
+        storageRepository: getIt(),
         getBrendsCollectionPath: () {
           return firestore.collection('brends');
         },

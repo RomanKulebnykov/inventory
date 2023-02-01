@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inventory/blocs/products/products_bloc.dart';
 import 'package:inventory/pages/edit_product_page/edit_product_controller.dart';
-import 'package:inventory/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/device.dart';
@@ -45,8 +45,9 @@ class ProductsScreen extends StatelessWidget {
             return ChangeNotifierProvider<EditProductController>(
               create: (context) => EditProductController(
                 onProductSave: (product) {
-                  ProductsProvider.read(context)
-                      .saveProduct(newProduct: product);
+                  // ProductsProvider.read(context)
+                  //     .saveProduct(newProduct: product);
+                  ProductsBloc.addEvent(context, SaveProductEvent(product));
                 },
               ),
               child: const EditProductPage(),

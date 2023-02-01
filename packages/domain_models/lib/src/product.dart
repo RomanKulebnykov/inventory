@@ -17,7 +17,7 @@ class Product extends IProduct {
     required super.articles,
     required super.lastUpdate,
     super.description,
-    this.image,
+    required this.image,
     this.barCode,
     this.brend,
   });
@@ -25,6 +25,7 @@ class Product extends IProduct {
   @override
   List<Object?> get props => [
         super.props,
+        image,
         barCode,
         brend,
       ];

@@ -1,8 +1,16 @@
 import 'dart:typed_data';
 
+enum ImageStatus {
+  normal,
+  updated,
+  deleted,
+  empty;
+}
+
 class ImageData {
   final String name;
   final String extension;
+
   final Uint8List? bytes;
   final String? imageUrl;
   final String? imagePath;

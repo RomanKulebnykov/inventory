@@ -1,23 +1,25 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:data_storage_repository/data_storage_repository.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:file_helpers/file_helpers.dart';
 import 'package:products_manager/products_manager.dart';
+import 'package:products_manager/src/mappers/product_mapper.dart';
 
 import 'models/brand_model.dart';
 import 'models/product_model.dart';
 
-class FirestoreProductManager extends ProductsManager {
-  late final FirestoreProductRepository productsRepository;
-  late final FirestoreBrendRepository brendRepository;
+part 'firestore_product_manager_helper.dart';
 
+typedef CollRef = CollectionReference<Map<String, dynamic>>;
+
+class FirestoreProductManager extends ProductsManager {
   /// -------------------------------------------------------------- Constructor
   FirestoreProductManager({
-    required final CollectionReference<Map<String, dynamic>> Function()
-        getBrendsCollectionPath,
-    required final CollectionReference<Map<String, dynamic>>
-            Function<T extends IProduct>()
+    required this.storageRepository,
+    required final CollRef Function() getBrendsCollectionPath,
+    required final CollRef Function<T extends IProduct>()
         getProductCollectionPath,
   }) {
     brendRepository = FirestoreBrendRepository(
@@ -28,30 +30,9 @@ class FirestoreProductManager extends ProductsManager {
     );
   }
 
-  /// ----------------------------------------------------- _createDomainProduct
-  Future<Product> _createDomainProduct(ProductModel productM) async {
-    final BrandModel? brandM;
-    final ImageData image;
-    if (productM.brendId != null) {
-      brandM = await brendRepository.getBrendById(productM.brendId!);
-    }
-    if (productM.imagePath != null) {
-      image = ImageData(
-        name: 'name',
-        bytes: Uint8List.fromList([]),
-        extension: 'extension',
-      );
-
-      /// TODO: GetImage
-    } else {}
-    throw UnimplementedError();
-    // return productM.toProduct(image:image  /****/);
-  }
-
-  /// ------------------------------------------------------- _createDomainBrand
-  Future<Brand> _createDomainBrand(BrandModel brendM) async {
-    throw UnimplementedError();
-  }
+  late final FirestoreProductRepository productsRepository;
+  late final FirestoreBrendRepository brendRepository;
+  final DataStorageRepository storageRepository;
 
   /// --------------------------------------------------------------- getProduct
   @override
@@ -71,9 +52,12 @@ class FirestoreProductManager extends ProductsManager {
 
   /// --------------------------------------------------------------- addProduct
   @override
-  Future<void> saveProduct(Product product) {
-    // TODO: implement addProduct
-    throw UnimplementedError();
+  Future<void> saveProduct(Product product) async {
+    final image = product.image;
+    if (image != null && image.bytes != null) {
+      final newPath = await storageRepository.updateProductImage(image);
+    }
+    await productsRepository.saveProduct(product.toProductModel());
   }
 
   /// ------------------------------------------------------------ deleteProduct

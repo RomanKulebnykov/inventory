@@ -26,7 +26,9 @@ extension ModelToDomain on ProductModel {
 }
 
 extension DomainToModel on Product {
-  ProductModel toProductModel() {
+  ProductModel toProductModel({
+    String? newPath,
+  }) {
     return ProductModel(
       id: id,
       title: title,
@@ -38,7 +40,7 @@ extension DomainToModel on Product {
       lastUpdate: lastUpdate,
       barCode: barCode,
       brendId: brend?.id,
-      imagePath: image?.imagePath,
+      imagePath: newPath ?? image?.imagePath,
     );
   }
 }

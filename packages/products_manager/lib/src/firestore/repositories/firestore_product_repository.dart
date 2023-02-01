@@ -25,7 +25,7 @@ class FirestoreProductRepository {
   }
 
   /// --------------------------------------------------------------- addProduct
-  Future<void> addProduct(ProductModel product) async {
+  Future<void> saveProduct(ProductModel product) async {
     await productsConverter.doc(product.id).set(product);
   }
 

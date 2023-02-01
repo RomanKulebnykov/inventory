@@ -21,6 +21,9 @@ dependencies:
   file_helpers:
     path: ../file_helpers
 
+  data_storage_repository:
+    path: ../data_storage_repository
+
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0

@@ -18,7 +18,11 @@ class DataStorageRepository {
     required this.basePath,
   });
 
-  Future<ImageData> updateProductImage() async {
-    throw UnimplementedError();
+  Future<String?> updateProductImage(ImageData image) async {
+    return remote.saveFile(
+      path: '$basePath/products/',
+      filename: image.name,
+      bytes: image.bytes!,
+    );
   }
 }

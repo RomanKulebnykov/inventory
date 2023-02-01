@@ -45,11 +45,10 @@ class EditProductController extends ChangeNotifier {
   final void Function(Product product) onProductSave;
 
   ImageData? _image;
-  ImageData? _updatedImage;
-  ImageData? get image => _updatedImage ?? _image;
+  ImageData? get image => _image?.copyWith();
 
   void updateProductImage(PlatformFile newImage) async {
-    _updatedImage = ImageData(
+    _image = ImageData(
       name: id,
       bytes: newImage.bytes,
       extension: newImage.extension!,
@@ -58,7 +57,6 @@ class EditProductController extends ChangeNotifier {
   }
 
   void deleteProductImage() async {
-    _updatedImage = null;
     _image = null;
     notifyListeners();
   }
@@ -66,7 +64,7 @@ class EditProductController extends ChangeNotifier {
   void saveProduct() {
     final savedProduct = Product(
       id: id,
-      image: _updatedImage ?? _image,
+      image: _image,
       title: title.text,
       code: code.text,
       articles: article.text.replaceAll(' ', '').split(','),
