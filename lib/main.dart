@@ -11,7 +11,6 @@ import 'package:window_manager/window_manager.dart';
 
 import 'di.dart';
 import 'pages/home_page.dart';
-import 'providers/navigation_controller.dart';
 import 'providers/product_orders_provider.dart';
 import 'providers/products_provider.dart';
 

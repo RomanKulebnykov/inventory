@@ -60,15 +60,25 @@ class EditProductController extends ChangeNotifier {
   late Brand? _brand;
   Brand? get brand => _brand?.copyWith();
 
-  void onBrandChange(Brand? selectedBrand) {
-    print('fff');
+  void setBrand(Brand? selectedBrand) {
     _brand = selectedBrand;
+    notifyListeners();
   }
 
   List<Brand> getAvailableBrends() {
     return [
-      Brand(id: 'id1', name: '1', description: 'description1'),
-      Brand(id: 'id2', name: '2', description: 'description2'),
+      Brand(
+        id: 'id1',
+        name: '1',
+        description: 'description1',
+        image: ImageData(),
+      ),
+      Brand(
+        id: 'id2',
+        name: '2',
+        description: 'description2',
+        image: ImageData(),
+      ),
     ];
   }
 
@@ -76,7 +86,7 @@ class EditProductController extends ChangeNotifier {
   late final ImageData _image;
   ImageData get image => _image.copyWith();
 
-  void updateProductImage(PlatformFile newImage) async {
+  void setProductImage(PlatformFile newImage) async {
     _image.replace(newImage.name, newImage.bytes!);
     notifyListeners();
   }

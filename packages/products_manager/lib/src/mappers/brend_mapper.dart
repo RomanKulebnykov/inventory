@@ -4,7 +4,7 @@ import 'package:file_helpers/file_helpers.dart';
 import '../firestore/models/brand_model.dart';
 
 extension ModelToDomain on BrandModel {
-  Brand toBrandDomain({ImageData? image}) {
+  Brand toBrandDomain({required ImageData image}) {
     return Brand(
       id: id,
       name: name,
@@ -20,7 +20,7 @@ extension DomainToModel on Brand {
       id: id,
       name: name,
       description: description,
-      logoImagePath: image?.imagePath,
+      logoImagePath: image.imagePath,
     );
   }
 }

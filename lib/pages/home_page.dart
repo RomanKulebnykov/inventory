@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory/blocs/navigation/navigation_bloc.dart';
-import 'package:inventory/blocs/navigation/screen_manager.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/navigation_controller.dart';
 import '../utils/device.dart';
 import '../utils/theme.dart';
 

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:inventory/utils/file_manager.dart';
 import 'package:inventory/widgets/image_data_view.dart';
 
-class ImageProductMain extends StatelessWidget {
-  const ImageProductMain({
+class ImageDataEditView extends StatelessWidget {
+  const ImageDataEditView({
     Key? key,
     this.width = 200,
     this.height = 200,

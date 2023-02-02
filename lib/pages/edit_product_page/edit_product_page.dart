@@ -1,14 +1,17 @@
 import 'package:data_storage_remote/data_storage_remote.dart';
-import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory/pages/edit_brand/edit_brand_cubit.dart';
+import 'package:inventory/pages/edit_brand/edit_brand_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
+import '../../utils/theme.dart';
 import '../../widgets/choice_brend_widget/choice_brend.dart';
 import 'edit_product_controller.dart';
 import '../../utils/formatters.dart';
 import '../../widgets/widgets.dart';
-import 'image_product_main.dart';
+import '../../widgets/image_data_edit_view.dart';
 
 class EditProductPage extends StatelessWidget {
   const EditProductPage({Key? key}) : super(key: key);
@@ -34,7 +37,7 @@ class EditProductPage extends StatelessWidget {
                       child: const Text('Test')),
 
                   /// ----------------------------------------------------- HEAD
-                  _buildHeadSection(controller),
+                  _buildHeadSection(context, controller),
                   const SizedBox(height: 16),
 
                   /// ----------------------------------------------------- BODY
@@ -43,9 +46,9 @@ class EditProductPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ImageProductMain(
+                      ImageDataEditView(
                         image: controller.image,
-                        onImageChange: controller.updateProductImage,
+                        onImageChange: controller.setProductImage,
                         onImageRemoved: controller.deleteProductImage,
                       ),
                       const Spacer(flex: 3),
@@ -170,7 +173,8 @@ class EditProductPage extends StatelessWidget {
   }
 
   /// -------------------------------------------------------- _buildHeadSection
-  Widget _buildHeadSection(EditProductController controller) {
+  Widget _buildHeadSection(
+      BuildContext context, EditProductController controller) {
     return Row(
       children: [
         Expanded(
@@ -185,12 +189,33 @@ class EditProductPage extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        SizedBox(
-          width: 150,
-          child: ChoiceBrend(
-            brands: controller.getAvailableBrends(),
-            onSelect: controller.onBrandChange,
-          ),
+        Row(
+          children: [
+            IconButton(
+              color: AppTheme.addElementColor,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BlocProvider(
+                      create: (context) => EditBrandCubit(
+                        newBrendDidAdd: controller.setBrand,
+                      ),
+                      child: const EditBrandDialog(),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.add_circle),
+            ),
+            SizedBox(
+              width: 150,
+              child: ChoiceBrend(
+                brands: controller.getAvailableBrends(),
+                onSelect: controller.setBrand,
+              ),
+            ),
+          ],
         ),
       ],
     );

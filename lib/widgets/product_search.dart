@@ -1,7 +1,6 @@
 import 'package:domain_models/domain_models.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:products_manager/products_manager.dart';
 
 class ProductSearch extends StatelessWidget {
   const ProductSearch({

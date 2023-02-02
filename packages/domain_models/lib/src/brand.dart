@@ -3,12 +3,12 @@ import 'package:file_helpers/file_helpers.dart';
 import 'i_brend.dart';
 
 class Brand extends IBrand {
-  final ImageData? image;
+  final ImageData image;
   Brand({
     required super.id,
     required super.name,
     required super.description,
-    this.image,
+    required this.image,
   });
 
   @override
