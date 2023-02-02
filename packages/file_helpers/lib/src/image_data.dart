@@ -1,74 +1,68 @@
 import 'dart:typed_data';
 
-class UpdateImage {
+class UpdateImageParam {
+  UpdateImageParam(this.name);
   final String name;
-  final Uint8List? bytes;
+}
 
-  UpdateImage({
-    required this.name,
-    this.bytes,
-  });
+class UpdateImageParamDelete extends UpdateImageParam {
+  UpdateImageParamDelete(super.name);
+}
+
+class UpdateImageParamReplace extends UpdateImageParam {
+  UpdateImageParamReplace(super.name, this.bytes);
+  final Uint8List bytes;
 }
 
 class ImageData {
   final String? name;
-  final Uint8List? bytes;
+  final Uint8List? _bytes;
   final String? imagePath;
-  final bool isNeedDelete;
-  final UpdateImage? replace;
 
-  Uint8List? get bytesData {
-    if (isNeedDelete == false) {
-      return replace?.bytes ?? bytes;
+  UpdateImageParam? updateImageParam;
+
+  Uint8List? get data {
+    if (updateImageParam != null) {
+      if (updateImageParam is UpdateImageParamReplace) {
+        return (updateImageParam as UpdateImageParamReplace).bytes;
+      } else {
+        return null;
+      }
+    } else {
+      return _bytes;
     }
-    return null;
   }
 
-  ImageData addReplaceImage({
-    required String name,
-    required Uint8List bytes,
-  }) {
-    return ImageData(
-      replace: UpdateImage(name: name, bytes: bytes),
-      isNeedDelete: false,
-      name: name,
-      bytes: bytes,
-      imagePath: imagePath,
-    );
+  void replace(String name, Uint8List bytes) {
+    updateImageParam = UpdateImageParamReplace(name, bytes);
   }
 
-  ImageData markNeedRemove() {
-    return ImageData(
-      replace: null,
-      isNeedDelete: name != null ? true : false,
-      name: name,
-      bytes: bytes,
-      imagePath: imagePath,
-    );
+  void remove() {
+    if (name != null) {
+      updateImageParam = UpdateImageParamDelete(name!);
+    } else {
+      updateImageParam = null;
+    }
   }
 
   ImageData({
     this.name,
-    this.bytes,
-    this.isNeedDelete = false,
-    this.replace,
+    Uint8List? bytes,
     this.imagePath,
-  });
+    this.updateImageParam,
+  }) : _bytes = bytes;
 
   ImageData copyWith({
     String? name,
     Uint8List? bytes,
-    String? imageUrl,
     String? imagePath,
-    bool? isNeedDelete,
-    UpdateImage? replace,
+    UpdateImageParam? updateImageParam,
   }) {
     return ImageData(
       name: name ?? this.name,
-      bytes: bytes ?? this.bytes,
+      bytes: bytes ?? _bytes,
       imagePath: imagePath ?? this.imagePath,
-      isNeedDelete: isNeedDelete ?? this.isNeedDelete,
-      replace: replace ?? this.replace,
+      updateImageParam: updateImageParam ?? this.updateImageParam,
     );
   }
 }

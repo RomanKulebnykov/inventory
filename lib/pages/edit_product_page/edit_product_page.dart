@@ -1,8 +1,10 @@
 import 'package:data_storage_remote/data_storage_remote.dart';
+import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
+import '../../widgets/choice_brend_widget/choice_brend.dart';
 import 'edit_product_controller.dart';
 import '../../utils/formatters.dart';
 import '../../widgets/widgets.dart';
@@ -22,6 +24,7 @@ class EditProductPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  ///TODO: TEST
                   ElevatedButton(
                       onPressed: () {
                         DataStorageRemote remote = Di.getIt();
@@ -78,6 +81,7 @@ class EditProductPage extends StatelessWidget {
     );
   }
 
+  /// ------------------------------------------------------- _buildRightSection
   Widget _buildRightSection(EditProductController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -116,6 +120,7 @@ class EditProductPage extends StatelessWidget {
     );
   }
 
+  /// -------------------------------------------------------- _buildLeftSection
   Widget _buildLeftSection(EditProductController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -162,6 +167,7 @@ class EditProductPage extends StatelessWidget {
     );
   }
 
+  /// -------------------------------------------------------- _buildHeadSection
   Widget _buildHeadSection(EditProductController controller) {
     return Row(
       children: [
@@ -177,7 +183,13 @@ class EditProductPage extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        const Text('BrendPlaceholder'),
+        SizedBox(
+          width: 150,
+          child: ChoiceBrend(
+            brands: controller.getAvailableBrends(),
+            onSelect: controller.onBrandChange,
+          ),
+        ),
       ],
     );
   }

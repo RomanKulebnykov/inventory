@@ -22,7 +22,7 @@ class DataStorageRepository {
     return remote.saveFile(
       path: '$basePath/products/',
       filename: image.name!,
-      bytes: image.bytes!,
+      bytes: image.data!,
     );
   }
 }

@@ -54,7 +54,7 @@ class FirestoreProductManager extends ProductsManager {
   @override
   Future<void> saveProduct(Product product) async {
     final image = product.image;
-    if (image != null && image.bytes != null) {
+    if (image != null && image.data != null) {
       final newPath = await storageRepository.updateProductImage(image);
     }
     await productsRepository.saveProduct(product.toProductModel());

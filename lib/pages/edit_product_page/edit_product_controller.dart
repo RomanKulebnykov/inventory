@@ -19,6 +19,8 @@ class EditProductController extends ChangeNotifier {
       sellingPrice = TextEditingController(text: '${editProduct.sellingPrice}');
       description = TextEditingController(text: editProduct.description);
       barCode = TextEditingController(text: editProduct.barCode);
+
+      _brand = editProduct.brend;
     } else {
       id = const Uuid().v4();
       _image = ImageData();
@@ -29,10 +31,11 @@ class EditProductController extends ChangeNotifier {
       sellingPrice = TextEditingController(text: '0.0');
       description = TextEditingController();
       barCode = TextEditingController();
+
+      _brand = null;
     }
   }
 
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final String id;
   late final TextEditingController title;
   late final TextEditingController code;
@@ -42,22 +45,38 @@ class EditProductController extends ChangeNotifier {
   late final TextEditingController description;
   late final TextEditingController barCode;
 
-  final void Function(Product product) onProductSave;
+  /// ------------------------------------------------------------ Product Brand
+  late Brand? _brand;
+  Brand? get brand => _brand?.copyWith();
 
-  late ImageData _image;
+  void onBrandChange(Brand? selectedBrand) {
+    _brand = selectedBrand;
+  }
+
+  List<Brand> getAvailableBrends() {
+    return [
+      Brand(id: 'id1', name: '1', description: 'description1'),
+      Brand(id: 'id2', name: '2', description: 'description2'),
+    ];
+  }
+
+  /// ------------------------------------------------------------ Product Image
+  late final ImageData _image;
   ImageData get image => _image.copyWith();
 
   void updateProductImage(PlatformFile newImage) async {
-    _image =
-        _image.addReplaceImage(name: newImage.name, bytes: newImage.bytes!);
+    _image.replace(newImage.name, newImage.bytes!);
     notifyListeners();
   }
 
   void deleteProductImage() async {
-    _image = _image.markNeedRemove();
+    _image.remove();
     notifyListeners();
   }
 
+  /// -------------------------------------------------------------- saveProduct
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final void Function(Product product) onProductSave;
   void saveProduct() {
     final savedProduct = Product(
       id: id,
@@ -69,11 +88,13 @@ class EditProductController extends ChangeNotifier {
       sellingPrice: double.parse(sellingPrice.text),
       description: description.text,
       barCode: barCode.text,
+      brend: _brand,
       lastUpdate: DateTime.now().toUtc(),
     );
     onProductSave(savedProduct);
   }
 
+  /// ------------------------------------------------------------------ dispose
   @override
   void dispose() {
     title.dispose();
