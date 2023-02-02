@@ -1,12 +1,14 @@
 import 'package:domain_models/domain_models.dart';
 import 'package:file_helpers/file_helpers.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:products_manager/products_manager.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {
   EditProductController({
-    required this.onProductSave,
+    required this.manager,
+    // required this.onProductSave,
     Product? editProduct,
   }) {
     if (editProduct != null) {
@@ -35,6 +37,15 @@ class EditProductController extends ChangeNotifier {
       _brand = null;
     }
   }
+  final ProductsManager manager;
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _showMessage(String text) {
+    ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(
+      SnackBar(content: Text(text), showCloseIcon: true),
+    );
+  }
 
   late final String id;
   late final TextEditingController title;
@@ -50,6 +61,7 @@ class EditProductController extends ChangeNotifier {
   Brand? get brand => _brand?.copyWith();
 
   void onBrandChange(Brand? selectedBrand) {
+    print('fff');
     _brand = selectedBrand;
   }
 
@@ -76,7 +88,7 @@ class EditProductController extends ChangeNotifier {
 
   /// -------------------------------------------------------------- saveProduct
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final void Function(Product product) onProductSave;
+  // final void Function(Product product) onProductSave;
   void saveProduct() {
     final savedProduct = Product(
       id: id,
@@ -91,7 +103,9 @@ class EditProductController extends ChangeNotifier {
       brend: _brand,
       lastUpdate: DateTime.now().toUtc(),
     );
-    onProductSave(savedProduct);
+    _showMessage('Add product: ${savedProduct.title}');
+    // manager.saveProduct(savedProduct);
+    // onProductSave(savedProduct);
   }
 
   /// ------------------------------------------------------------------ dispose

@@ -3,6 +3,7 @@ import 'package:inventory/blocs/products/products_bloc.dart';
 import 'package:inventory/pages/edit_product_page/edit_product_controller.dart';
 import 'package:provider/provider.dart';
 
+import '../../../di.dart';
 import '../../../utils/device.dart';
 import '../../../widgets/widgets.dart';
 
@@ -44,11 +45,12 @@ class ProductsScreen extends StatelessWidget {
           builder: (context) {
             return ChangeNotifierProvider<EditProductController>(
               create: (context) => EditProductController(
-                onProductSave: (product) {
-                  // ProductsProvider.read(context)
-                  //     .saveProduct(newProduct: product);
-                  ProductsBloc.addEvent(context, SaveProductEvent(product));
-                },
+                manager: Di.getIt(),
+                // onProductSave: (product) {
+                //   // ProductsProvider.read(context)
+                //   //     .saveProduct(newProduct: product);
+                //   ProductsBloc.addEvent(context, SaveProductEvent(product));
+                // },
               ),
               child: const EditProductPage(),
             );

@@ -5,9 +5,11 @@ class SubmitControlsRow extends StatelessWidget {
     Key? key,
     required this.submitStr,
     required this.onSubmit,
+    required this.onCancel,
   }) : super(key: key);
 
   final Function() onSubmit;
+  final Function() onCancel;
   final String submitStr;
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,7 @@ class SubmitControlsRow extends StatelessWidget {
               Theme.of(context).colorScheme.error,
             ),
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: onCancel,
           child: const Text(
             'Cancel',
           ),
@@ -34,10 +34,7 @@ class SubmitControlsRow extends StatelessWidget {
               Theme.of(context).colorScheme.primary,
             ),
           ),
-          onPressed: () {
-            onSubmit();
-            Navigator.of(context).pop();
-          },
+          onPressed: onSubmit,
           child: Text(submitStr),
         ),
       ],

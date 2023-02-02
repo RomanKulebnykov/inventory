@@ -17,6 +17,7 @@ class EditProductPage extends StatelessWidget {
     return Consumer<EditProductController>(
       builder: (context, controller, child) {
         return Scaffold(
+          key: controller.scaffoldKey,
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -71,6 +72,7 @@ class EditProductPage extends StatelessWidget {
                   SubmitControlsRow(
                     submitStr: 'Add Product',
                     onSubmit: controller.saveProduct,
+                    onCancel: () {},
                   ),
                 ],
               ),

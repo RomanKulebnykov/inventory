@@ -69,6 +69,7 @@ class AddEnterOrderDialog extends StatelessWidget {
                         .addOrder(newOrder: order);
                   },
                   submitStr: 'Add Enter Order',
+                  onCancel: () {},
                 ),
                 const Divider(),
               ],
