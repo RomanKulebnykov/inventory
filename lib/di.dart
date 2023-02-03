@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_manager/inventory_manager.dart';
-import 'package:products_manager/products_manager.dart';
+import 'package:products_manager/fs_products_repository.dart';
 
 import 'firebase_options.dart';
 

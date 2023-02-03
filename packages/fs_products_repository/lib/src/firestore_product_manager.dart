@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_storage_repository/data_storage_repository.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:file_helpers/file_helpers.dart';
-import 'package:products_manager/products_manager.dart';
-import 'package:products_manager/src/mappers/product_mapper.dart';
+import 'package:fs_products_repository/src/mappers/product_mapper.dart';
 
+import '../fs_products_repository.dart';
 import 'models/brand_model.dart';
 import 'models/product_model.dart';
 
@@ -14,7 +14,7 @@ part 'firestore_product_manager_helper.dart';
 
 typedef CollRef = CollectionReference<Map<String, dynamic>>;
 
-class FirestoreProductManager extends ProductsManager {
+class FirestoreProductManager extends ProductsRepository {
   /// -------------------------------------------------------------- Constructor
   FirestoreProductManager({
     required this.storageRepository,
@@ -78,6 +78,18 @@ class FirestoreProductManager extends ProductsManager {
   @override
   Future<void> saveBrend(Brand brend) {
     // TODO: implement saveBrend
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteBrand(String id) {
+    // TODO: implement deleteBrand
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Brand>> getBrands() {
+    // TODO: implement getBrands
     throw UnimplementedError();
   }
 }

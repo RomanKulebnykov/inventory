@@ -1,4 +1,4 @@
-name: products_manager
+name: fs_products_repository
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
 publish_to: none

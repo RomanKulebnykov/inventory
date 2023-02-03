@@ -1,7 +1,7 @@
 import 'package:domain_models/domain_models.dart';
 import 'package:file_helpers/file_helpers.dart';
 
-import '../firestore/models/brand_model.dart';
+import '../models/brand_model.dart';
 
 extension ModelToDomain on BrandModel {
   Brand toBrandDomain({required ImageData image}) {

@@ -2,7 +2,7 @@ import 'package:domain_models/domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:products_manager/products_manager.dart';
+import 'package:products_manager/fs_products_repository.dart';
 
 part 'products_event.dart';
 part 'products_state.dart';

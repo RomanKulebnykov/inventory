@@ -2,7 +2,7 @@ import 'package:domain_models/domain_models.dart';
 import 'package:file_helpers/file_helpers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:products_manager/products_manager.dart';
+import 'package:products_manager/fs_products_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {

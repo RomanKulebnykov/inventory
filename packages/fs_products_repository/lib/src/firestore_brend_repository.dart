@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../models/brand_model.dart';
+import 'models/brand_model.dart';
 
 class FirestoreBrendRepository {
   final CollectionReference<Map<String, dynamic>> Function()

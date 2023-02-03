@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:domain_models/domain_models.dart';
 
-import '../models/product_model.dart';
+import 'models/product_model.dart';
 
 class FirestoreProductRepository {
   final CollectionReference<Map<String, dynamic>> Function<T extends IProduct>()

@@ -1,6 +1,6 @@
 import 'package:domain_models/domain_models.dart';
 import 'package:inventory_manager/inventory_manager.dart';
-import 'package:products_manager/products_manager.dart';
+import 'package:products_manager/fs_products_repository.dart';
 
 class OrderItem extends ItemBalance {
   final Product product;
