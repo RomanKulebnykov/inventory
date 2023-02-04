@@ -1,17 +1,13 @@
-name: domain_models
+name: dart_guard
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
-publish_to: 'none'
 # repository: https://github.com/my_org/my_repo
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
 
-dependencies:
-  equatable: ^2.0.5
-  uuid: ^3.0.7
-  file_helpers:
-    path: ../file_helpers
+# dependencies:
+#   path: ^1.8.0
 
 dev_dependencies:
   lints: ^2.0.0
