@@ -10,7 +10,7 @@ import '../fs_products_repository.dart';
 import 'models/brand_model.dart';
 import 'models/product_model.dart';
 
-part 'firestore_product_manager_helper.dart';
+part 'fs_products_repository_helper.dart';
 
 typedef CollRef = CollectionReference<Map<String, dynamic>>;
 

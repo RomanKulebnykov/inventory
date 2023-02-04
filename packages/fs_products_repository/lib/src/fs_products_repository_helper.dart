@@ -1,4 +1,4 @@
-part of 'firestore_product_manager.dart';
+part of 'fs_products_repository.dart';
 
 extension FirestoreProductManagerHelper on FirestoreProductManager {
   /// ----------------------------------------------------- _createDomainProduct
