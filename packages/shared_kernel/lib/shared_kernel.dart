@@ -7,3 +7,5 @@ export 'src/i_entity.dart';
 export 'src/i_repository.dart';
 export 'src/i_value_object.dart';
 export 'src/domain_events_processor.dart';
+
+export 'src/models/image_data.dart';

@@ -25,8 +25,5 @@ class Product extends IProduct {
   @override
   List<Object?> get props => [
         super.props,
-        image,
-        barCode,
-        brend,
       ];
 }

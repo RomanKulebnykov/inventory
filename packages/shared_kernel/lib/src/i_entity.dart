@@ -5,9 +5,7 @@ import 'package:uuid/uuid.dart';
 import 'i_domain_event.dart';
 
 abstract class IEntity extends Equatable {
-  IEntity(
-    String? id,
-  ) : id = id ?? Uuid().v4();
+  const IEntity(this.id);
 
   final String id;
 
