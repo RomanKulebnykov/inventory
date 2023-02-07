@@ -51,4 +51,21 @@ class Guard {
       setIfIncorrect: setIfIncorrect,
     );
   }
+
+  static num againstZeroOrNegative(
+    num val, {
+    num? setIfIncorrect,
+    String? fieldName,
+    String errorStr = 'value is zero or negative',
+  }) {
+    return _againstFrame<num>(
+      val,
+      checker: (v) => v > 0,
+      exception: NegativeGuardException(
+        fieldName: fieldName,
+        errorDescription: errorStr,
+      ),
+      setIfIncorrect: setIfIncorrect,
+    );
+  }
 }
