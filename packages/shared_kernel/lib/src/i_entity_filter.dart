@@ -1,3 +1,5 @@
+import 'i_repository.dart';
+
 abstract class Specification<T> {
   bool isSatisfiedBy(T candidate);
   Specification<T> and(Specification<T> otherSpec) {
@@ -57,11 +59,6 @@ enum FilterOperator {
   less,
   contains,
   inSet,
-}
-
-abstract class IEntityFilter<T> {
-  // List<FilterCondition> get conditions;
-  bool isSatisfiedBy(T candidate);
 }
 
 class FilterCondition {
