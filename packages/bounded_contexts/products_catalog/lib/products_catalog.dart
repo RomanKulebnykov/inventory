@@ -10,5 +10,4 @@ export 'src/repositories/brends_repository.dart';
 
 ///Infrastructure
 export 'src/infrastructure/brand_filter.dart';
-export 'src/infrastructure/brend_ds_firestore.dart';
-export 'src/infrastructure/products_ds_firestore.dart';
+export 'src/infrastructure/product_ds_firestore/products_ds_firestore.dart';

@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:domain_models/domain_models.dart';
+import 'package:products_catalog/src/infrastructure/product_ds_firestore/product_model.dart';
 
-import 'models/product_model.dart';
-
-class FirestoreProductRepository {
-  final CollectionReference<Map<String, dynamic>> Function<T extends IProduct>()
-      getProductCollectionPath;
-
+class ProductDataSourceFirestore {
   /// -------------------------------------------------------------- Constructor
-  FirestoreProductRepository({
+  ProductDataSourceFirestore({
     required this.getProductCollectionPath,
   });
+
+  /// --------------------------------------------------------------- Properties
+  final CollectionReference<Map<String, dynamic>> Function()
+      getProductCollectionPath;
 
   /// --------------------------------------------------------------- getProduct
   Future<ProductModel> getProduct(String id) async {
