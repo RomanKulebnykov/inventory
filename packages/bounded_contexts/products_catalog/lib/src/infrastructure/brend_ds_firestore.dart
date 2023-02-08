@@ -1,15 +1,7 @@
+import 'package:products_catalog/products_catalog.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
-import '../../products_catalog.dart';
-import '../infrastructure/brand_filter.dart';
-
-class BrandsRepository extends IRepository<Brand, BrandFilter> {
-  BrandsRepository({
-    required super.policies,
-    required super.local,
-    required super.remote,
-  });
-
+class BrendDataSourceFirestore extends DataSource<Brand, BrandFilter> {
   @override
   Future<Brand> getById(String id) {
     // TODO: implement getById
@@ -31,12 +23,6 @@ class BrandsRepository extends IRepository<Brand, BrandFilter> {
   @override
   Future<bool> save(Brand entity) {
     // TODO: implement save
-    throw UnimplementedError();
-  }
-
-  @override
-  Stream<Brand> stream(BrandFilter filter) {
-    // TODO: implement stream
     throw UnimplementedError();
   }
 }

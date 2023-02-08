@@ -1,21 +1,42 @@
 import 'package:products_catalog/products_catalog.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
-abstract class ProductsRepository extends IRepository<Product, ProductFilter> {
-  @override
-  Future<Product> getById(String id);
+import '../infrastructure/product_filter.dart';
+
+class ProductsRepository extends IRepository<Product, ProductFilter> {
+  ProductsRepository({
+    required super.policies,
+    required super.local,
+    required super.remote,
+  });
 
   @override
-  Future<List<Product>> list(ProductFilter filter);
+  Future<Product> getById(String id) {
+    // TODO: implement getById
+    throw UnimplementedError();
+  }
 
   @override
-  Stream<Product> stream(ProductFilter filter);
+  Future<List<Product>> list(ProductFilter filter) {
+    // TODO: implement list
+    throw UnimplementedError();
+  }
 
   @override
-  Future<bool> remove(String id);
+  Future<bool> remove(String id) {
+    // TODO: implement remove
+    throw UnimplementedError();
+  }
 
   @override
-  Future<bool> save(Product entity);
+  Future<bool> save(Product entity) {
+    // TODO: implement save
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<Product> stream(ProductFilter filter) {
+    // TODO: implement stream
+    throw UnimplementedError();
+  }
 }
-
-class ProductFilter extends IEntityFilter {}

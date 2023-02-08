@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_storage_repository/data_storage_repository.dart';
 import 'package:domain_models/domain_models.dart';
-import 'package:file_helpers/file_helpers.dart';
 import 'package:fs_products_repository/src/mappers/product_mapper.dart';
 
 import '../fs_products_repository.dart';
