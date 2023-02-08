@@ -37,7 +37,7 @@ class BrandDataSourceFirestore extends IDataSource<Brand, BrandFilter> {
   @override
   Future<bool> save(Brand entity) async {
     print(entity.image);
-
+    final imageRef = getStorageFilesPath().child(entity.id).child('logo.jpg');
     return false;
   }
 
