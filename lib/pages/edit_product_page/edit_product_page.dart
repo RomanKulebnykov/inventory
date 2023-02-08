@@ -193,8 +193,9 @@ class EditProductPage extends StatelessWidget {
                   builder: (context) {
                     return BlocProvider(
                       create: (context) => EditBrandCubit(
-                          // newBrendDidAdd: controller.setBrand,
-                          ),
+                        repository: Di.getIt(),
+                        // newBrendDidAdd: controller.setBrand,
+                      ),
                       child: const EditBrandDialog(),
                     );
                   },

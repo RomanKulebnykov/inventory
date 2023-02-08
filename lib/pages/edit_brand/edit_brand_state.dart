@@ -7,11 +7,14 @@ class EditBrandState extends Equatable {
   final TextEditingController description;
   final ImageData image;
 
+  final String? snackBarMessage;
+
   const EditBrandState({
     required this.id,
     required this.name,
     required this.description,
     required this.image,
+    this.snackBarMessage,
   });
 
   void close() {
@@ -20,19 +23,19 @@ class EditBrandState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, name, description, image];
+  List<Object?> get props => [id, name, description, image, snackBarMessage];
 
   EditBrandState copyWith({
     String? id,
-    TextEditingController? name,
-    TextEditingController? description,
     ImageData? image,
+    String? snackBarMessage,
   }) {
     return EditBrandState(
       id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
+      name: name,
+      description: description,
       image: image ?? this.image,
+      snackBarMessage: snackBarMessage ?? this.snackBarMessage,
     );
   }
 }

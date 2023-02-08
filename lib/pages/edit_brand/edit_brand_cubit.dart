@@ -14,6 +14,7 @@ class EditBrandCubit extends Cubit<EditBrandState> {
     return context.read<EditBrandCubit>();
   }
   EditBrandCubit({
+    required this.repository,
     Brand? editBrand,
     this.newBrendDidAdd,
   }) : super(
@@ -35,14 +36,16 @@ class EditBrandCubit extends Cubit<EditBrandState> {
 
   final Function(Brand newBrend)? newBrendDidAdd;
 
+  final BrandsRepository repository;
+
   void updateImage(PlatformFile newImage) async {
     final updImage = state.image..replace(newImage.name, newImage.bytes!);
-    emit(state.copyWith(image: updImage.copyWith()));
+    emit(state.copyWith(image: updImage.copyWith(), snackBarMessage: null));
   }
 
   void deleteImage() async {
     final updImage = state.image..remove();
-    emit(state.copyWith(image: updImage.copyWith()));
+    emit(state.copyWith(image: updImage.copyWith(), snackBarMessage: null));
   }
 
   Future<void> saveBrend() async {
@@ -52,7 +55,15 @@ class EditBrandCubit extends Cubit<EditBrandState> {
       description: state.description.text,
       image: state.image,
     );
-    if (newBrendDidAdd != null) newBrendDidAdd!(newBrend);
+    final result = await repository.save(newBrend);
+    final String message;
+    if (result == true) {
+      message = 'OK';
+      if (newBrendDidAdd != null) newBrendDidAdd!(newBrend);
+    } else {
+      message = 'Error';
+    }
+    emit(state.copyWith(snackBarMessage: message));
   }
 
   @override

@@ -65,4 +65,9 @@ class ImageData {
       updateImageParam: updateImageParam ?? this.updateImageParam,
     );
   }
+
+  @override
+  String toString() {
+    return 'ImageData{name: $name, _bytes: ${_bytes?.length}, imagePath: $imagePath, updateImageParam: $updateImageParam}';
+  }
 }

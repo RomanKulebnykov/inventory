@@ -1,20 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:products_catalog/src/infrastructure/brand_ds_firestore/brand_factory.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
 import 'brand_model.dart';
 
-class BrendDataSourceFirestore extends IDataSource<Brand, BrandFilter> {
+class BrandDataSourceFirestore extends IDataSource<Brand, BrandFilter> {
   /// -------------------------------------------------------------- Constructor
 
-  BrendDataSourceFirestore({
+  BrandDataSourceFirestore({
     required this.getBrendsCollectionPath,
+    required this.getStorageFilesPath,
   });
 
   /// --------------------------------------------------------------- Properties
   final CollectionReference<Map<String, dynamic>> Function()
       getBrendsCollectionPath;
+
+  final Reference Function() getStorageFilesPath;
 
   @override
   Future<Brand?> getById(String id) async {
@@ -31,6 +35,13 @@ class BrendDataSourceFirestore extends IDataSource<Brand, BrandFilter> {
   }
 
   @override
+  Future<bool> save(Brand entity) async {
+    print(entity.image);
+
+    return false;
+  }
+
+  @override
   Future<List<Brand>> list(BrandFilter filter) {
     // TODO: implement list
     throw UnimplementedError();
@@ -39,12 +50,6 @@ class BrendDataSourceFirestore extends IDataSource<Brand, BrandFilter> {
   @override
   Future<bool> remove(String id) {
     // TODO: implement remove
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> save(Brand entity) {
-    // TODO: implement save
     throw UnimplementedError();
   }
 

@@ -28,9 +28,9 @@ class BrandsRepository extends IRepository<Brand, BrandFilter> {
   }
 
   @override
-  Future<bool> save(Brand entity) {
-    // TODO: implement save
-    throw UnimplementedError();
+  Future<bool> save(Brand entity) async {
+    remote.save(entity);
+    return false;
   }
 
   @override
