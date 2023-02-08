@@ -29,25 +29,15 @@ class EditBrandDialog extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Builder(builder: (context) {
-                      return BlocSelector<EditBrandCubit, EditBrandState,
-                          String>(
-                        selector: (state) {
-                          return state.name.text;
-                        },
-                        builder: (context, state) {
-                          return TextFormField(
-                            controller: state,
-                            decoration: InputDecoration(
-                              label: const Text('Name'),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }),
+                    TextFormField(
+                      controller: state.name,
+                      decoration: InputDecoration(
+                        label: const Text('Name'),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: state.description,
