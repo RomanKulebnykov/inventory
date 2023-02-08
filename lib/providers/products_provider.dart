@@ -8,14 +8,14 @@ class ProductsProvider extends ChangeNotifier {
   factory ProductsProvider.watch(BuildContext context) =>
       context.watch<ProductsProvider>();
 
-  ProductsProvider(this._productsManager) {
-    _productsManager.getProducts().then((value) {
-      _products = value;
-      notifyListeners();
-    });
+  ProductsProvider() {
+    // _productsManager.getProducts().then((value) {
+    //   _products = value;
+    //   notifyListeners();
+    // });
   }
 
-  final ProductsManager _productsManager;
+  // final ProductsManager _productsManager;
 
   List<Product> _products = [];
   List<Product> get items => [..._products];
@@ -23,14 +23,14 @@ class ProductsProvider extends ChangeNotifier {
   int get count => _products.length;
 
   Future<void> _updateProductList() async {
-    _products = await _productsManager.getProducts();
+    // _products = await _productsManager.getProducts();
     notifyListeners();
   }
 
   Future<void> saveProduct({
     required Product newProduct,
   }) async {
-    await _productsManager.saveProduct(newProduct);
+    // await _productsManager.saveProduct(newProduct);
     await _updateProductList();
   }
 }

@@ -1,8 +1,7 @@
-import 'package:domain_models/domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:products_manager/fs_products_repository.dart';
+import 'package:products_catalog/products_catalog.dart';
 
 part 'products_event.dart';
 part 'products_state.dart';
@@ -19,10 +18,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
   /// ----------------------------------------------------------- Private Fields
-  final ProductsManager _productsManager;
+  // final ProductsManager _productsManager;
 
   /// -------------------------------------------------------------- Constructor
-  ProductsBloc(this._productsManager) : super(ProductsInitial()) {
+  ProductsBloc() : super(ProductsInitial()) {
     if (state is ProductsInitial) add(UpdateListOfProductsEvent());
 
     on<UpdateListOfProductsEvent>(_onUpdateListOfProductsEvent);
@@ -37,7 +36,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async {
     emit(ProductsInProgress());
     try {
-      final products = await _productsManager.getProducts();
+      final products = <Product>[]; //await _productsManager.getProducts();
       emit(ProductsSuccess(products));
     } catch (e) {
       emit(const ProductsFailure('Failure'));
@@ -49,7 +48,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     SaveProductEvent event,
     Emitter<ProductsState> emit,
   ) async {
-    await _productsManager.saveProduct(event.product);
+    // await _productsManager.saveProduct(event.product);
     add(UpdateListOfProductsEvent());
   }
 }

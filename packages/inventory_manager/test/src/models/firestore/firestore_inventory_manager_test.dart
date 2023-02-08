@@ -1,7 +1,6 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:inventory_manager/inventory_manager.dart';
 import 'package:test/test.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../test_helper.dart';
 

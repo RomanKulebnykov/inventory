@@ -1,12 +1,7 @@
-import 'package:data_storage_local/data_storage_local.dart';
-import 'package:data_storage_remote/data_storage_remote.dart';
-import 'package:data_storage_repository/data_storage_repository.dart';
-import 'package:domain_models/domain_models.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_manager/inventory_manager.dart';
-import 'package:products_manager/fs_products_repository.dart';
 
 import 'firebase_options.dart';
 
@@ -34,33 +29,23 @@ class Di {
     ///#########################################################################
     /// Storage ////////////////////////////////////////////////////////////////
     ///#########################################################################
-    getIt.registerLazySingleton(() => DataStorageRemote(getIt()));
-    getIt.registerLazySingleton(() => DataStorageLocal());
-
-    final storageRepository = DataStorageRepository(
-      basePath: 'username',
-      local: getIt(),
-      remote: getIt(),
-    );
-
-    getIt.registerLazySingleton(() => storageRepository);
 
     ///#########################################################################
     /// Products Manager ///////////////////////////////////////////////////////
     ///#########################################################################
 
-    /// -------------------------------------------------------- ProductsManager
-    getIt.registerLazySingleton<ProductsManager>(
-      () => FirestoreProductManager(
-        storageRepository: getIt(),
-        getBrendsCollectionPath: () {
-          return firestore.collection('brends');
-        },
-        getProductCollectionPath: <T extends IProduct>() {
-          return firestore.collection('Products');
-        },
-      ),
-    );
+    // /// -------------------------------------------------------- ProductsManager
+    // getIt.registerLazySingleton<ProductsManager>(
+    //   () => FirestoreProductManager(
+    //     storageRepository: getIt(),
+    //     getBrendsCollectionPath: () {
+    //       return firestore.collection('brends');
+    //     },
+    //     getProductCollectionPath: <T extends IProduct>() {
+    //       return firestore.collection('Products');
+    //     },
+    //   ),
+    // );
 
     ///#########################################################################
     /// Inventory Manager //////////////////////////////////////////////////////

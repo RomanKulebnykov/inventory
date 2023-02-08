@@ -33,12 +33,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => NavigationBloc()),
-        BlocProvider(create: (context) => ProductsBloc(Di.getIt())),
+        BlocProvider(create: (context) => ProductsBloc()),
       ],
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider<ProductsProvider>(
-            create: (context) => ProductsProvider(Di.getIt()),
+            create: (context) => ProductsProvider(),
           ),
           ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryEnter>>(
             create: (context) => ProductOrdersProvider(Di.getIt()),

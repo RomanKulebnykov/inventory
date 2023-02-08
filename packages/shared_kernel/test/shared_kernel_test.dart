@@ -1,4 +1,3 @@
-import 'package:shared_kernel/shared_kernel.dart';
 import 'package:test/test.dart';
 
 void main() {

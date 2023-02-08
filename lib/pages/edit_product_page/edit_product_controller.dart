@@ -20,7 +20,7 @@ class EditProductController extends ChangeNotifier {
       description = TextEditingController(text: editProduct.description);
       barCode = TextEditingController(text: editProduct.barCode);
 
-      _brand = editProduct.brend;
+      // _brand = editProduct.brend;
     } else {
       id = const Uuid().v4();
       _image = ImageData();
@@ -98,7 +98,7 @@ class EditProductController extends ChangeNotifier {
   // final void Function(Product product) onProductSave;
   void saveProduct() {
     final savedProduct = Product(
-      id: id,
+      id,
       image: _image,
       title: title.text,
       code: code.text,
@@ -107,7 +107,7 @@ class EditProductController extends ChangeNotifier {
       sellingPrice: double.parse(sellingPrice.text),
       description: description.text,
       barCode: barCode.text,
-      brend: _brand,
+      // brend: _brand,
       lastUpdate: DateTime.now().toUtc(),
     );
     _showMessage('Add product: ${savedProduct.title}');
