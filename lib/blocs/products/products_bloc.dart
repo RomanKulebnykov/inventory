@@ -22,11 +22,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   /// -------------------------------------------------------------- Constructor
   ProductsBloc() : super(ProductsInitial()) {
-    if (state is ProductsInitial) add(UpdateListOfProductsEvent());
-
     on<UpdateListOfProductsEvent>(_onUpdateListOfProductsEvent);
 
     on<SaveProductEvent>(_onSaveProductsEvent);
+
+    if (state is ProductsInitial) add(UpdateListOfProductsEvent());
   }
 
   /// ------------------------------------------------ UpdateListOfProductsEvent

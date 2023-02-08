@@ -10,14 +10,12 @@ class EditBrandDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     return SimpleDialog(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BlocBuilder<EditBrandCubit, EditBrandState>(
             builder: (context, state) {
-              print('bloc build');
               return Form(
                 child: Column(
                   children: [
@@ -31,15 +29,25 @@ class EditBrandDialog extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: state.name,
-                      decoration: InputDecoration(
-                        label: const Text('Name'),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
+                    Builder(builder: (context) {
+                      return BlocSelector<EditBrandCubit, EditBrandState,
+                          String>(
+                        selector: (state) {
+                          return state.name.text;
+                        },
+                        builder: (context, state) {
+                          return TextFormField(
+                            controller: state,
+                            decoration: InputDecoration(
+                              label: const Text('Name'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: state.description,
