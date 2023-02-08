@@ -1,6 +1,5 @@
-import 'package:domain_models/domain_models.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:products_manager/fs_products_repository.dart';
+import 'package:products_catalog/products_catalog.dart';
 import 'package:provider/provider.dart';
 
 class ProductsProvider extends ChangeNotifier {

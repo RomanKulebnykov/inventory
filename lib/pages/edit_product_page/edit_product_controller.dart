@@ -1,13 +1,11 @@
-import 'package:domain_models/domain_models.dart';
-import 'package:file_helpers/file_helpers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:products_manager/fs_products_repository.dart';
+import 'package:products_catalog/products_catalog.dart';
+import 'package:shared_kernel/shared_kernel.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {
   EditProductController({
-    required this.manager,
     // required this.onProductSave,
     Product? editProduct,
   }) {
@@ -37,7 +35,6 @@ class EditProductController extends ChangeNotifier {
       _brand = null;
     }
   }
-  final ProductsManager manager;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -68,13 +65,13 @@ class EditProductController extends ChangeNotifier {
   List<Brand> getAvailableBrends() {
     return [
       Brand(
-        id: 'id1',
+        'id1',
         name: '1',
         description: 'description1',
         image: ImageData(),
       ),
       Brand(
-        id: 'id2',
+        'id2',
         name: '2',
         description: 'description2',
         image: ImageData(),

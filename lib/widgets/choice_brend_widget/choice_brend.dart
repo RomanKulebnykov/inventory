@@ -1,6 +1,6 @@
-import 'package:domain_models/domain_models.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:products_catalog/products_catalog.dart';
 
 class ChoiceBrend extends StatelessWidget {
   const ChoiceBrend({

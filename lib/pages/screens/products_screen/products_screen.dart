@@ -45,13 +45,12 @@ class ProductsScreen extends StatelessWidget {
           builder: (context) {
             return ChangeNotifierProvider<EditProductController>(
               create: (context) => EditProductController(
-                manager: Di.getIt(),
-                // onProductSave: (product) {
-                //   // ProductsProvider.read(context)
-                //   //     .saveProduct(newProduct: product);
-                //   ProductsBloc.addEvent(context, SaveProductEvent(product));
-                // },
-              ),
+                  // onProductSave: (product) {
+                  //   // ProductsProvider.read(context)
+                  //   //     .saveProduct(newProduct: product);
+                  //   ProductsBloc.addEvent(context, SaveProductEvent(product));
+                  // },
+                  ),
               child: const EditProductPage(),
             );
           },

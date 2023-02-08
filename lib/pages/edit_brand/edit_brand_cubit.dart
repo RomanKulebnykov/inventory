@@ -1,9 +1,9 @@
-import 'package:domain_models/domain_models.dart';
 import 'package:equatable/equatable.dart';
-import 'package:file_helpers/file_helpers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:products_catalog/products_catalog.dart';
+import 'package:shared_kernel/shared_kernel.dart';
 import 'package:uuid/uuid.dart';
 
 part 'edit_brand_state.dart';
@@ -47,7 +47,7 @@ class EditBrandCubit extends Cubit<EditBrandState> {
 
   Future<void> saveBrend() async {
     final newBrend = Brand(
-      id: state.id,
+      state.id,
       name: state.name.text,
       description: state.description.text,
       image: state.image,

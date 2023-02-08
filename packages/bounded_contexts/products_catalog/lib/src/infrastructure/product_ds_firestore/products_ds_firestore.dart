@@ -1,15 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:products_catalog/products_catalog.dart';
+import 'package:products_catalog/src/infrastructure/product_ds_firestore/product_factory.dart';
 import 'package:products_catalog/src/infrastructure/product_ds_firestore/product_model.dart';
+import 'package:products_catalog/src/infrastructure/product_filter.dart';
+import 'package:shared_kernel/shared_kernel.dart';
 
-class ProductDataSourceFirestore {
+class ProductDataSourceFirestore extends IDataSource<Product, ProductFilter> {
   /// -------------------------------------------------------------- Constructor
   ProductDataSourceFirestore({
     required this.getProductCollectionPath,
+    required this.storage,
   });
 
   /// --------------------------------------------------------------- Properties
   final CollectionReference<Map<String, dynamic>> Function()
       getProductCollectionPath;
+
+  final FirebaseStorage storage;
+
+  @override
+  Future<Product?> getById(String id) async {
+    final productSnap = await productsConverter.doc(id).get();
+    final productModel = productSnap.data();
+    ImageData? image;
+    if (productModel == null) return null;
+    if (productModel.imagePath != null) {
+      ///TODO: GetImageData
+      image = ImageData();
+    }
+    return ProductFactory.create(model: productModel, image: image);
+  }
+
+  @override
+  Future<List<Product>> list(ProductFilter filter) {
+    // TODO: implement list
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> remove(String id) {
+    // TODO: implement remove
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> save(Product entity) {
+    // TODO: implement save
+    throw UnimplementedError();
+  }
 
   /// --------------------------------------------------------------- getProduct
   Future<ProductModel> getProduct(String id) async {

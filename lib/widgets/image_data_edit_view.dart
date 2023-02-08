@@ -1,8 +1,8 @@
-import 'package:file_helpers/file_helpers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory/utils/file_manager.dart';
 import 'package:inventory/widgets/image_data_view.dart';
+import 'package:shared_kernel/shared_kernel.dart';
 
 class ImageDataEditView extends StatelessWidget {
   const ImageDataEditView({

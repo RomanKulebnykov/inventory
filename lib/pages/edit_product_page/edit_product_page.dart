@@ -1,4 +1,3 @@
-import 'package:data_storage_remote/data_storage_remote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_cubit.dart';
@@ -29,12 +28,7 @@ class EditProductPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ///TODO: TEST
-                  ElevatedButton(
-                      onPressed: () {
-                        DataStorageRemote remote = Di.getIt();
-                        remote.getFileByName('aaa');
-                      },
-                      child: const Text('Test')),
+                  ElevatedButton(onPressed: () {}, child: const Text('Test')),
 
                   /// ----------------------------------------------------- HEAD
                   _buildHeadSection(context, controller),
@@ -199,8 +193,8 @@ class EditProductPage extends StatelessWidget {
                   builder: (context) {
                     return BlocProvider(
                       create: (context) => EditBrandCubit(
-                        newBrendDidAdd: controller.setBrand,
-                      ),
+                          // newBrendDidAdd: controller.setBrand,
+                          ),
                       child: const EditBrandDialog(),
                     );
                   },

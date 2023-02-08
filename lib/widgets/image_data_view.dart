@@ -1,5 +1,5 @@
-import 'package:file_helpers/file_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_kernel/shared_kernel.dart';
 
 class ImageDataView extends StatelessWidget {
   const ImageDataView({

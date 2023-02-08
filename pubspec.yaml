@@ -53,26 +53,14 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   cupertino_icons: ^1.0.2
 
-  domain_models:
-    path: packages/domain_models
-
-  file_helpers:
-    path: packages/file_helpers
+  shared_kernel:
+    path: packages/shared_kernel
 
   inventory_manager:
     path: packages/inventory_manager
 
-  products_manager:
-    path: packages/products_manager
-
-  data_storage_repository:
-    path: packages/data_storage_repository
-
-  data_storage_remote:
-    path: packages/data_storage_remote
-
-  data_storage_local:
-    path: packages/data_storage_local
+  products_catalog:
+    path: packages/bounded_contexts/products_catalog
 
 dev_dependencies:
   flutter_test:
