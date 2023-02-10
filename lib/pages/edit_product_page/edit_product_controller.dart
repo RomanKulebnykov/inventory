@@ -83,15 +83,15 @@ class EditProductController extends ChangeNotifier {
   late final ImageData _image;
   ImageData get image => _image.copyWith();
 
-  void setProductImage(PlatformFile newImage) async {
-    _image.replace(newImage.name, newImage.bytes!);
-    notifyListeners();
-  }
-
-  void deleteProductImage() async {
-    _image.remove();
-    notifyListeners();
-  }
+  // void setProductImage(PlatformFile newImage) async {
+  //   _image.replace(newImage.name, newImage.bytes!);
+  //   notifyListeners();
+  // }
+  //
+  // void deleteProductImage() async {
+  //   _image.remove();
+  //   notifyListeners();
+  // }
 
   /// -------------------------------------------------------------- saveProduct
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

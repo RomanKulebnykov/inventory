@@ -42,8 +42,9 @@ class EditProductPage extends StatelessWidget {
                     children: [
                       ImageDataEditView(
                         image: controller.image,
-                        onImageChange: controller.setProductImage,
-                        onImageRemoved: controller.deleteProductImage,
+                        onImageChange:
+                            (newImage) {}, //controller.setProductImage,
+                        onImageRemoved: () {}, //controller.deleteProductImage,
                       ),
                       const Spacer(flex: 3),
                       _buildLeftSection(controller),

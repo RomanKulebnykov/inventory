@@ -23,13 +23,12 @@ class ProductDataSourceFirestore extends IDataSource<Product, ProductFilter> {
   Future<Product?> getById(String id) async {
     final productSnap = await productsConverter.doc(id).get();
     final productModel = productSnap.data();
-    ImageData? image;
+    ImageData image;
     if (productModel == null) return null;
     if (productModel.imagePath != null) {
       ///TODO: GetImageData
-      image = ImageData();
     }
-    return ProductFactory.create(model: productModel, image: image);
+    return ProductFactory.create(model: productModel, image: ImageData());
   }
 
   @override

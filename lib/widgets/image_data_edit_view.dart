@@ -22,7 +22,7 @@ class ImageDataEditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSetImage = image?.data != null;
+    final bool isSetImage = image?.bytes != null;
     final buttonColor = Theme.of(context).colorScheme.primary;
     return Stack(
       children: [

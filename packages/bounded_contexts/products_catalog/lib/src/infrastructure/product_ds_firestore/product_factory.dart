@@ -6,7 +6,7 @@ import 'product_model.dart';
 class ProductFactory {
   static Product create({
     required ProductModel model,
-    ImageData? image,
+    required ImageData image,
   }) {
     return Product(
       model.id,
@@ -19,7 +19,7 @@ class ProductFactory {
       description: model.description,
       barCode: model.barCode,
       brandId: model.brendId,
-      image: image ?? ImageData(),
+      image: image,
     );
   }
 }

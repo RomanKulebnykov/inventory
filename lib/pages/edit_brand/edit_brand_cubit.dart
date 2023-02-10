@@ -8,6 +8,13 @@ import 'package:uuid/uuid.dart';
 
 part 'edit_brand_state.dart';
 
+enum ImageStatus {
+  empty,
+  normal,
+  removed,
+  updated;
+}
+
 class EditBrandCubit extends Cubit<EditBrandState> {
   /// --------------------------------------------------- Helper Instance Getter
   factory EditBrandCubit.of(BuildContext context) {
@@ -23,7 +30,7 @@ class EditBrandCubit extends Cubit<EditBrandState> {
                   id: const Uuid().v4(),
                   name: TextEditingController(),
                   description: TextEditingController(),
-                  image: ImageData(),
+                  image: const ImageData(status: ImageStatus.empty),
                 )
               : EditBrandState(
                   id: editBrand.id,
@@ -39,13 +46,16 @@ class EditBrandCubit extends Cubit<EditBrandState> {
   final BrandsRepository repository;
 
   void updateImage(PlatformFile newImage) async {
-    final updImage = state.image..replace(newImage.name, newImage.bytes!);
-    emit(state.copyWith(image: updImage.copyWith(), snackBarMessage: null));
+    final updImage = ImageData(
+      status: ImageStatus.updated,
+      bytes: newImage.bytes!,
+    );
+    emit(state.copyWith(image: updImage, snackBarMessage: null));
   }
 
   void deleteImage() async {
-    final updImage = state.image..remove();
-    emit(state.copyWith(image: updImage.copyWith(), snackBarMessage: null));
+    final updImage = ImageData(status: ImageStatus.removed);
+    emit(state.copyWith(image: updImage, snackBarMessage: null));
   }
 
   Future<void> saveBrend() async {

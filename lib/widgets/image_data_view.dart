@@ -16,9 +16,9 @@ class ImageDataView extends StatelessWidget {
   final BoxFit? fit;
   @override
   Widget build(BuildContext context) {
-    if (imageData?.data != null) {
+    if (imageData?.bytes != null) {
       return Image.memory(
-        imageData!.data!,
+        imageData!.bytes!,
         height: height,
         width: width,
         fit: fit,

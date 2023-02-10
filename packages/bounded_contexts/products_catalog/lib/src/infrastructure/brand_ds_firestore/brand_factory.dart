@@ -12,4 +12,13 @@ class BrandFactory {
       image: image,
     );
   }
+
+  static BrandModel convertToModel(Brand brand, bool hasStoredLogoImage) {
+    return BrandModel(
+      id: brand.id,
+      name: brand.name,
+      description: brand.description,
+      hasStoredLogoImage: hasStoredLogoImage,
+    );
+  }
 }
