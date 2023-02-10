@@ -5,17 +5,23 @@ class EditBrandState extends Equatable {
   final String id;
   final TextEditingController name;
   final TextEditingController description;
-  final ImageData image;
+  final ImageData? _image;
+
+  final UpdateImageParam updateImageParam;
+
+  ImageData? get image => _image;
 
   final String? snackBarMessage;
 
-  const EditBrandState({
+  EditBrandState({
     required this.id,
     required this.name,
     required this.description,
-    required this.image,
+    ImageData? image,
+    UpdateImageParam? updateImageParam,
     this.snackBarMessage,
-  });
+  })  : _image = image,
+        updateImageParam = updateImageParam ?? UpdateImageParamNone();
 
   void close() {
     name.dispose();
@@ -28,6 +34,7 @@ class EditBrandState extends Equatable {
   EditBrandState copyWith({
     String? id,
     ImageData? image,
+    UpdateImageParam? updateImageParam,
     String? snackBarMessage,
   }) {
     return EditBrandState(
@@ -35,7 +42,8 @@ class EditBrandState extends Equatable {
       name: name,
       description: description,
       image: image ?? this.image,
-      snackBarMessage: snackBarMessage ?? this.snackBarMessage,
+      updateImageParam: updateImageParam ?? this.updateImageParam,
+      snackBarMessage: snackBarMessage,
     );
   }
 }

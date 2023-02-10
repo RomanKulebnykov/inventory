@@ -1,19 +1,65 @@
 import 'dart:typed_data';
 
-// class UpdateImageParam {
-//   UpdateImageParam(this.name);
-//   final String name;
-// }
-//
-// class UpdateImageParamDelete extends UpdateImageParam {
-//   UpdateImageParamDelete(super.name);
-// }
-//
-// class UpdateImageParamReplace extends UpdateImageParam {
-//   UpdateImageParamReplace(super.name, this.bytes);
-//   final Uint8List bytes;
-// }
+import 'package:equatable/equatable.dart';
 
+/// =========================================================== UpdateImageParam
+abstract class UpdateImageParam {}
+
+class UpdateImageParamNone extends UpdateImageParam {}
+
+class UpdateImageParamDelete extends UpdateImageParam {}
+
+class UpdateImageParamReplace extends UpdateImageParam {
+  UpdateImageParamReplace(this.bytes);
+  final Uint8List bytes;
+}
+
+/// ================================================================ ImageStatus
+enum ImageStatus {
+  normal,
+  removed,
+  updated;
+}
+
+/// ============================================================== EditImageData
+class EditImageData extends ImageData with EquatableMixin {
+  EditImageData() : updateImageParam = UpdateImageParamNone();
+  UpdateImageParam updateImageParam;
+
+  void replace(Uint8List bytes) =>
+      updateImageParam = UpdateImageParamReplace(bytes);
+
+  void remove() {
+    if (super.bytes != null || super.imageURL != null) {
+      updateImageParam = UpdateImageParamDelete();
+    } else {
+      updateImageParam = UpdateImageParamNone();
+    }
+  }
+
+  ImageStatus get status {
+    if (updateImageParam is UpdateImageParamNone) return ImageStatus.normal;
+    if (updateImageParam is UpdateImageParamDelete) return ImageStatus.removed;
+    if (updateImageParam is UpdateImageParamReplace) return ImageStatus.updated;
+    throw UnimplementedError();
+  }
+
+  @override
+  Uint8List? get bytes {
+    if (updateImageParam is UpdateImageParamReplace) {
+      return (updateImageParam as UpdateImageParamReplace).bytes;
+    }
+    if (updateImageParam is UpdateImageParamDelete) {
+      return null;
+    }
+    return super.bytes;
+  }
+
+  @override
+  List<Object?> get props => [updateImageParam];
+}
+
+/// ================================================================== ImageData
 class ImageData {
   final Uint8List? bytes;
   final String? imageURL;
@@ -21,7 +67,7 @@ class ImageData {
   const ImageData({
     this.bytes,
     this.imageURL,
-  });
+  }) : assert(bytes != null || imageURL != null);
 
   ImageData copyWith({
     Uint8List? bytes,
@@ -32,56 +78,4 @@ class ImageData {
       imageURL: imageURL ?? this.imageURL,
     );
   }
-
-  // UpdateImageParam? updateImageParam;
-  //
-  // Uint8List? get data {
-  //   if (updateImageParam != null) {
-  //     if (updateImageParam is UpdateImageParamReplace) {
-  //       return (updateImageParam as UpdateImageParamReplace).bytes;
-  //     } else {
-  //       return null;
-  //     }
-  //   } else {
-  //     return _bytes;
-  //   }
-  // }
-  //
-  // void replace(String name, Uint8List bytes) {
-  //   updateImageParam = UpdateImageParamReplace(name, bytes);
-  // }
-  //
-  // void remove() {
-  //   if (name != null) {
-  //     updateImageParam = UpdateImageParamDelete(name!);
-  //   } else {
-  //     updateImageParam = null;
-  //   }
-  // }
-  //
-  // ImageData({
-  //   this.name,
-  //   Uint8List? bytes,
-  //   this.imagePath,
-  //   this.updateImageParam,
-  // }) : _bytes = bytes;
-  //
-  // ImageData copyWith({
-  //   String? name,
-  //   Uint8List? bytes,
-  //   String? imagePath,
-  //   UpdateImageParam? updateImageParam,
-  // }) {
-  //   return ImageData(
-  //     name: name ?? this.name,
-  //     bytes: bytes ?? _bytes,
-  //     imagePath: imagePath ?? this.imagePath,
-  //     updateImageParam: updateImageParam ?? this.updateImageParam,
-  //   );
-  // }
-
-  // @override
-  // String toString() {
-  //   return 'ImageData{name: $name, _bytes: ${_bytes?.length}, imagePath: $imagePath, updateImageParam: $updateImageParam}';
-  // }
 }

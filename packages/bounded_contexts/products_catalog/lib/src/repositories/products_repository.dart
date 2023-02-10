@@ -6,8 +6,8 @@ import '../infrastructure/product_filter.dart';
 class ProductsRepository extends IRepository<Product, ProductFilter> {
   ProductsRepository({
     required super.policies,
-    required super.local,
-    required super.remote,
+    // required super.local,
+    // required super.remote,
   });
 
   @override
@@ -39,4 +39,12 @@ class ProductsRepository extends IRepository<Product, ProductFilter> {
     // TODO: implement stream
     throw UnimplementedError();
   }
+
+  @override
+  // TODO: implement local
+  IDataSource<Product, ProductFilter> get local => throw UnimplementedError();
+
+  @override
+  // TODO: implement remote
+  IDataSource<Product, ProductFilter> get remote => throw UnimplementedError();
 }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +9,6 @@ import 'package:shared_kernel/shared_kernel.dart';
 import 'package:uuid/uuid.dart';
 
 part 'edit_brand_state.dart';
-
-enum ImageStatus {
-  empty,
-  normal,
-  removed,
-  updated;
-}
 
 class EditBrandCubit extends Cubit<EditBrandState> {
   /// --------------------------------------------------- Helper Instance Getter
@@ -30,7 +25,7 @@ class EditBrandCubit extends Cubit<EditBrandState> {
                   id: const Uuid().v4(),
                   name: TextEditingController(),
                   description: TextEditingController(),
-                  image: const ImageData(status: ImageStatus.empty),
+                  image: null,
                 )
               : EditBrandState(
                   id: editBrand.id,
@@ -46,16 +41,17 @@ class EditBrandCubit extends Cubit<EditBrandState> {
   final BrandsRepository repository;
 
   void updateImage(PlatformFile newImage) async {
-    final updImage = ImageData(
-      status: ImageStatus.updated,
-      bytes: newImage.bytes!,
-    );
-    emit(state.copyWith(image: updImage, snackBarMessage: null));
+    emit(state.copyWith(
+      updateImageParam: UpdateImageParamReplace(newImage.bytes!),
+      snackBarMessage: null,
+    ));
   }
 
   void deleteImage() async {
-    final updImage = ImageData(status: ImageStatus.removed);
-    emit(state.copyWith(image: updImage, snackBarMessage: null));
+    emit(state.copyWith(
+      updateImageParam: ,
+      snackBarMessage: null,
+    ));
   }
 
   Future<void> saveBrend() async {

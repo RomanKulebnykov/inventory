@@ -3,7 +3,7 @@ import 'package:shared_kernel/shared_kernel.dart';
 class Brand extends IAggregateRoot {
   final String name;
   final String description;
-  final ImageData image;
+  final ImageData? image;
   Brand(
     super.id, {
     required this.name,

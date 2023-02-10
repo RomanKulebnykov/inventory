@@ -1,13 +1,24 @@
+import 'package:products_catalog/src/i_brand_data_source.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
 import '../../products_catalog.dart';
 
 class BrandsRepository extends IRepository<Brand, BrandFilter> {
   BrandsRepository({
+    required IBrandDataSource local,
+    required IBrandDataSource remote,
     required super.policies,
-    required super.local,
-    required super.remote,
-  });
+  })  : _local = local,
+        _remote = remote;
+
+  final IBrandDataSource _local;
+  final IBrandDataSource _remote;
+
+  @override
+  IBrandDataSource get local => _local;
+
+  @override
+  IBrandDataSource get remote => _remote;
 
   @override
   Future<Brand> getById(String id) {
@@ -28,7 +39,7 @@ class BrandsRepository extends IRepository<Brand, BrandFilter> {
   }
 
   @override
-  Future<bool> save(Brand entity) async {
+  Future<bool> save(Brand entity, {ImageStatus? imageStatus}) async {
     remote.save(entity);
     return false;
   }

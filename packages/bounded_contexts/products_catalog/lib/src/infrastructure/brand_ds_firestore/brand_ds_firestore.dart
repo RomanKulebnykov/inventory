@@ -4,6 +4,7 @@ import 'package:products_catalog/products_catalog.dart';
 import 'package:products_catalog/src/infrastructure/brand_ds_firestore/brand_factory.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
+import '../../i_brand_data_source.dart';
 import 'brand_model.dart';
 
 /// ============================================ BrandDataSourceFirestoreHelpers
@@ -23,21 +24,33 @@ extension BrandDataSourceFirestoreHelpers on BrandDataSourceFirestore {
   }
 
   /// ------------------------------------------------------------ _getImageData
-  Future<ImageData> _getImageData(String id, bool hasStoredImage) async {
-    ImageData imageData;
-    if (hasStoredImage) {
-      final logoRef = _getLogoPath(id);
-      final logoUrl = await _getLogoURL(logoRef);
-      imageData = ImageData(status: ImageStatus.normal, imageURL: logoUrl);
-    } else {
-      imageData = ImageData(status: ImageStatus.empty);
-    }
+  Future<ImageData?> _getImageData(String id) async {
+    final logoRef = _getLogoPath(id);
+    final logoUrl = await _getLogoURL(logoRef);
+    final imageData = ImageData(imageURL: logoUrl);
+
     return imageData;
+  }
+
+  Future<bool> _updateImage(
+    String id,
+    ImageData image,
+    ImageStatus imageStatus,
+  ) async {
+    switch (imageStatus) {
+      case ImageStatus.removed:
+        await _getLogoPath(id).delete();
+        break;
+      case ImageStatus.updated:
+        await _getLogoPath(id).putData(image.bytes!);
+        break;
+    }
+    return true;
   }
 }
 
 /// =================================================== BrandDataSourceFirestore
-class BrandDataSourceFirestore extends IDataSource<Brand, BrandFilter> {
+class BrandDataSourceFirestore extends IBrandDataSource {
   /// -------------------------------------------------------------- Constructor
 
   BrandDataSourceFirestore({
@@ -56,32 +69,25 @@ class BrandDataSourceFirestore extends IDataSource<Brand, BrandFilter> {
   Future<Brand?> getById(String id) async {
     final brandSnap = await brandConverter.doc(id).get();
     final brandModel = brandSnap.data();
-    if (brandModel == null) return null;
 
-    final ImageData imageData = await _getImageData(
-      brandModel.id,
-      brandModel.hasStoredLogoImage,
-    );
+    if (brandModel == null) {
+      return null;
+    }
+    ImageData? imageData;
+    if (brandModel.hasStoredLogoImage) {
+      imageData = await _getImageData(brandModel.id);
+    }
+
     return BrandFactory.create(model: brandModel, image: imageData);
-  }
-
-  Future<bool> _updateImage(String id, ImageData image) async {
-    if (image.status == ImageStatus.removed) {
-      await _getLogoPath(id).delete();
-      return true;
-    }
-    if (image.status == ImageStatus.updated && image.bytes != null) {
-      await _getLogoPath(id).putData(image.bytes!);
-      return true;
-    }
-    return false;
   }
 
   /// --------------------------------------------------------------------- save
   @override
-  Future<bool> save(Brand entity) async {
-    await _updateImage(entity.id, entity.image);
-    final brandModel = BrandFactory.convertToModel(entity);
+  Future<bool> save(Brand entity, {ImageStatus? imageStatus}) async {
+    if (imageStatus != null) {
+      await _updateImage(entity.id, entity.image!, imageStatus);
+    }
+    final brandModel = BrandFactory.convertToModel(entity, false);
     await brandConverter.doc(entity.id).set(brandModel);
     return true;
   }

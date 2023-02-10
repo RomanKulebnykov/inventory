@@ -4,7 +4,7 @@ import 'package:shared_kernel/shared_kernel.dart';
 import '../../../products_catalog.dart';
 
 class BrandFactory {
-  static Brand create({required BrandModel model, required ImageData image}) {
+  static Brand create({required BrandModel model, ImageData? image}) {
     return Brand(
       model.id,
       name: model.name,

@@ -21,14 +21,14 @@ abstract class IEntityFilter {
 abstract class IRepository<T extends IAggregateRoot, F extends IEntityFilter> {
   IRepository({
     required this.policies,
-    required this.local,
-    required this.remote,
+    // required this.local,
+    // required this.remote,
   });
 
   final FetchPolicies policies;
 
-  final IDataSource<T, F> local;
-  final IDataSource<T, F> remote;
+  IDataSource<T, F> get local;
+  IDataSource<T, F> get remote;
 
   Stream<T> stream(F filter);
   Future<List<T>> list(F filter);
