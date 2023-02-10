@@ -30,7 +30,7 @@ class EditBrandDialog extends StatelessWidget {
                         width: 200,
                         height: 150,
                         child: ImageDataEditView(
-                          image: state.image,
+                          image: state.editImageData.imageData,
                           onImageChange: EditBrandCubit.of(context).updateImage,
                           onImageRemoved:
                               EditBrandCubit.of(context).deleteImage,

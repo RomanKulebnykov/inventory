@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -25,14 +23,14 @@ class EditBrandCubit extends Cubit<EditBrandState> {
                   id: const Uuid().v4(),
                   name: TextEditingController(),
                   description: TextEditingController(),
-                  image: null,
+                  editImageData: EditImageData.fromImageData(null),
                 )
               : EditBrandState(
                   id: editBrand.id,
                   name: TextEditingController(text: editBrand.name),
                   description:
                       TextEditingController(text: editBrand.description),
-                  image: editBrand.image,
+                  editImageData: EditImageData.fromImageData(editBrand.image),
                 ),
         );
 
@@ -41,17 +39,13 @@ class EditBrandCubit extends Cubit<EditBrandState> {
   final BrandsRepository repository;
 
   void updateImage(PlatformFile newImage) async {
-    emit(state.copyWith(
-      updateImageParam: UpdateImageParamReplace(newImage.bytes!),
-      snackBarMessage: null,
-    ));
+    state.editImageData.replace(newImage.bytes!);
+    emit(state.copyWith());
   }
 
   void deleteImage() async {
-    emit(state.copyWith(
-      updateImageParam: ,
-      snackBarMessage: null,
-    ));
+    state.editImageData.remove();
+    emit(state.copyWith());
   }
 
   Future<void> saveBrend() async {
@@ -59,9 +53,13 @@ class EditBrandCubit extends Cubit<EditBrandState> {
       state.id,
       name: state.name.text,
       description: state.description.text,
-      image: state.image,
+      image: state.editImageData.imageData,
     );
-    final result = await repository.save(newBrend);
+    final result = await repository.save(
+      newBrend,
+      imageStatus: state.editImageData.status,
+    );
+
     final String message;
     if (result == true) {
       message = 'OK';

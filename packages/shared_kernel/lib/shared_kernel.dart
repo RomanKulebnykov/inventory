@@ -8,4 +8,5 @@ export 'src/i_repository.dart';
 export 'src/i_value_object.dart';
 export 'src/domain_events_processor.dart';
 
-export 'src/models/image_data.dart';
+export 'src/models/image/image_data.dart';
+export 'src/models/image/edit_image_data.dart';

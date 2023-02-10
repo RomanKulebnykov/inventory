@@ -44,6 +44,8 @@ extension BrandDataSourceFirestoreHelpers on BrandDataSourceFirestore {
       case ImageStatus.updated:
         await _getLogoPath(id).putData(image.bytes!);
         break;
+      case ImageStatus.normal:
+        break;
     }
     return true;
   }
@@ -84,7 +86,7 @@ class BrandDataSourceFirestore extends IBrandDataSource {
   /// --------------------------------------------------------------------- save
   @override
   Future<bool> save(Brand entity, {ImageStatus? imageStatus}) async {
-    if (imageStatus != null) {
+    if (imageStatus != null && imageStatus != ImageStatus.normal) {
       await _updateImage(entity.id, entity.image!, imageStatus);
     }
     final brandModel = BrandFactory.convertToModel(entity, false);
