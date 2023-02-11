@@ -17,13 +17,13 @@ class BrandDataSourceMemoryCache extends IBrandDataSource {
   }
 
   @override
-  Future<bool> remove(String id) {
+  Future<bool> remove(String id, {ImageData? removedImage}) {
     // TODO: implement remove
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> save(Brand entity, {ImageStatus? imageStatus}) {
+  Future<bool> save(Brand entity, {ImageUpdateParam? updateParam}) {
     // TODO: implement save
     throw UnimplementedError();
   }

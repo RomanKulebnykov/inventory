@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_storage_firebase/file_storage_firebase.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:products_catalog/src/infrastructure/brand_ds_firestore/brand_factory.dart';
@@ -9,15 +10,6 @@ import 'brand_model.dart';
 
 /// ============================================ BrandDataSourceFirestoreHelpers
 extension BrandDataSourceFirestoreHelpers on BrandDataSourceFirestore {
-  /// -------------------------------------------------------------- _getLogoURL
-  Future<String?> _getLogoURL(Reference ref) async {
-    try {
-      return await ref.getDownloadURL();
-    } catch (e) {
-      return null;
-    }
-  }
-
   /// ------------------------------------------------------------- _getLogoPath
   Reference _getLogoPath(String brendId) {
     return getStorageFilesPath().child(brendId).child('logo.jpg');
@@ -25,29 +17,13 @@ extension BrandDataSourceFirestoreHelpers on BrandDataSourceFirestore {
 
   /// ------------------------------------------------------------ _getImageData
   Future<ImageData?> _getImageData(String id) async {
-    final logoRef = _getLogoPath(id);
-    final logoUrl = await _getLogoURL(logoRef);
-    final imageData = ImageData(imageURL: logoUrl);
-
-    return imageData;
-  }
-
-  Future<bool> _updateImage(
-    String id,
-    ImageData image,
-    ImageStatus imageStatus,
-  ) async {
-    switch (imageStatus) {
-      case ImageStatus.removed:
-        await _getLogoPath(id).delete();
-        break;
-      case ImageStatus.updated:
-        await _getLogoPath(id).putData(image.bytes!);
-        break;
-      case ImageStatus.normal:
-        break;
+    try {
+      final logoRef = _getLogoPath(id);
+      final logoUrl = await FileStorageFirebase.getFileURL(logoRef);
+      return ImageData(imageURL: logoUrl);
+    } catch (e) {
+      return null;
     }
-    return true;
   }
 }
 
@@ -85,27 +61,46 @@ class BrandDataSourceFirestore extends IBrandDataSource {
 
   /// --------------------------------------------------------------------- save
   @override
-  Future<bool> save(Brand entity, {ImageStatus? imageStatus}) async {
-    if (imageStatus != null && imageStatus != ImageStatus.normal) {
-      await _updateImage(entity.id, entity.image!, imageStatus);
+  Future<bool> save(Brand entity, {ImageUpdateParam? updateParam}) async {
+    bool hasLogo = entity.image?.imageURL != null;
+    if (updateParam is ImageUpdateParamReplace) {
+      await FileStorageFirebase.saveFile(
+        _getLogoPath(entity.id),
+        updateParam.bytes,
+      );
+      hasLogo = true;
+    } else if (updateParam is ImageUpdateParamDelete) {
+      await FileStorageFirebase.deleteFile(_getLogoPath(entity.id));
+      hasLogo = false;
     }
-    final brandModel = BrandFactory.convertToModel(entity, false);
+
+    final brandModel = BrandFactory.convertToModel(entity, hasLogo);
     await brandConverter.doc(entity.id).set(brandModel);
     return true;
   }
 
   /// --------------------------------------------------------------------- list
   @override
-  Future<List<Brand>> list(BrandFilter filter) {
-    // TODO: implement list
-    throw UnimplementedError();
+  Future<List<Brand>> list(BrandFilter filter) async {
+    final brands = <Brand>[];
+    final snap = await brandConverter.get();
+    for (final doc in snap.docs) {
+      final brandModel = doc.data();
+      ImageData? imageData;
+      if (brandModel.hasStoredLogoImage) {
+        imageData = await _getImageData(brandModel.id);
+      }
+      brands.add(BrandFactory.create(model: brandModel, image: imageData));
+    }
+    return brands;
   }
 
   /// ------------------------------------------------------------------- remove
   @override
-  Future<bool> remove(String id) {
-    // TODO: implement remove
-    throw UnimplementedError();
+  Future<bool> remove(String id) async {
+    await FileStorageFirebase.deleteFile(_getLogoPath(id));
+    await brandConverter.doc(id).delete();
+    return true;
   }
 
   /// ----------------------------------------------------------- brandConverter

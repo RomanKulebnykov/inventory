@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:shared_kernel/shared_kernel.dart';
@@ -23,7 +22,7 @@ class EditProductController extends ChangeNotifier {
       // _brand = editProduct.brend;
     } else {
       id = const Uuid().v4();
-      _image = ImageData();
+      _image = ImageData(imageURL: '');
       title = TextEditingController();
       code = TextEditingController();
       article = TextEditingController();
@@ -68,13 +67,13 @@ class EditProductController extends ChangeNotifier {
         'id1',
         name: '1',
         description: 'description1',
-        image: ImageData(),
+        image: ImageData(imageURL: ''),
       ),
       Brand(
         'id2',
         name: '2',
         description: 'description2',
-        image: ImageData(),
+        image: ImageData(imageURL: ''),
       ),
     ];
   }

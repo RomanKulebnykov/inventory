@@ -4,5 +4,8 @@ import '../products_catalog.dart';
 
 abstract class IBrandDataSource extends IDataSource<Brand, BrandFilter> {
   @override
-  Future<bool> save(Brand entity, {ImageStatus? imageStatus});
+  Future<bool> save(Brand entity, {ImageUpdateParam? updateParam});
+
+  @override
+  Future<bool> remove(String id);
 }

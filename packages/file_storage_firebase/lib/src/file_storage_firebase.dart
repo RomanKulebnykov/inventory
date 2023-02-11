@@ -10,13 +10,45 @@ enum ImageFormat {
 class FileStorageFirebaseException implements Exception {}
 
 class FileStorageFirebase {
-  Future<String?> saveImage({
-    required Reference reference,
-    required Uint8List data,
-  }) async {
-    // final jpgImage = _convertToJpg(data);
-    // if (jpgImage == null) return null;
-    // await reference.putData(jpgImage);
-    // return reference.fullPath;
+  /// --------------------------------------------------------------- getFileURL
+  static Future<String?> getFileURL(Reference ref) async {
+    try {
+      return await ref.getDownloadURL();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// ------------------------------------------------------------- fileIsExists
+  static Future<FullMetadata?> fileIsExists(Reference reference) async {
+    try {
+      final metadata = await reference.getMetadata();
+      return metadata;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// --------------------------------------------------------------- deleteFile
+  static Future<bool> deleteFile(Reference reference) async {
+    try {
+      await reference.delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// ----------------------------------------------------------------- saveFile
+  static Future<bool> saveFile(
+    Reference reference,
+    Uint8List bytes,
+  ) async {
+    try {
+      await reference.putData(bytes);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

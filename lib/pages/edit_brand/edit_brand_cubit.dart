@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +29,15 @@ class EditBrandCubit extends Cubit<EditBrandState> {
                 )
               : EditBrandState(
                   id: editBrand.id,
-                  name: TextEditingController(text: editBrand.name),
-                  description:
-                      TextEditingController(text: editBrand.description),
-                  editImageData: EditImageData.fromImageData(editBrand.image),
+                  name: TextEditingController(
+                    text: editBrand.name,
+                  ),
+                  description: TextEditingController(
+                    text: editBrand.description,
+                  ),
+                  editImageData: EditImageData.fromImageData(
+                    editBrand.image,
+                  ),
                 ),
         );
 
@@ -38,36 +45,39 @@ class EditBrandCubit extends Cubit<EditBrandState> {
 
   final BrandsRepository repository;
 
+  /// -------------------------------------------------------------- updateImage
   void updateImage(PlatformFile newImage) async {
-    state.editImageData.replace(newImage.bytes!);
+    state.replaceImage(newImage.bytes!);
     emit(state.copyWith());
   }
 
+  /// -------------------------------------------------------------- deleteImage
   void deleteImage() async {
-    state.editImageData.remove();
+    state.removeImage();
     emit(state.copyWith());
   }
 
+  /// ---------------------------------------------------------------- saveBrend
   Future<void> saveBrend() async {
-    final newBrend = Brand(
-      state.id,
-      name: state.name.text,
-      description: state.description.text,
-      image: state.editImageData.imageData,
-    );
+    final savedBrend = state.getBrandFromState();
     final result = await repository.save(
-      newBrend,
-      imageStatus: state.editImageData.status,
+      savedBrend,
+      updateParam: state.editImageData.updateParam,
     );
+    if (result == true && newBrendDidAdd != null) newBrendDidAdd!(savedBrend);
+    emit(state.copyWith(snackBarMessage: _saveMessage(result)));
+  }
 
-    final String message;
+  Future<void> deleteBrend() async {
+    repository.remove(state.id, removedImage: state.editImageData.imageData);
+  }
+
+  String _saveMessage(bool result) {
     if (result == true) {
-      message = 'OK';
-      if (newBrendDidAdd != null) newBrendDidAdd!(newBrend);
+      return 'OK';
     } else {
-      message = 'Error';
+      return 'Error';
     }
-    emit(state.copyWith(snackBarMessage: message));
   }
 
   @override

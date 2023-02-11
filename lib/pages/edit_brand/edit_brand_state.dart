@@ -17,6 +17,23 @@ class EditBrandState extends Equatable {
     this.snackBarMessage,
   });
 
+  void replaceImage(Uint8List bytes) {
+    editImageData.replace(bytes);
+  }
+
+  void removeImage() {
+    editImageData.remove();
+  }
+
+  Brand getBrandFromState() {
+    return Brand(
+      id,
+      name: name.text,
+      description: description.text,
+      image: editImageData.imageData,
+    );
+  }
+
   void close() {
     name.dispose();
     description.dispose();

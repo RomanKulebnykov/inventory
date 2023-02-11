@@ -33,15 +33,13 @@ class BrandsRepository extends IRepository<Brand, BrandFilter> {
   }
 
   @override
-  Future<bool> remove(String id) {
-    // TODO: implement remove
-    throw UnimplementedError();
+  Future<bool> remove(String id, {ImageData? removedImage}) {
+    return _remote.remove(id);
   }
 
   @override
-  Future<bool> save(Brand entity, {ImageStatus? imageStatus}) async {
-    remote.save(entity);
-    return false;
+  Future<bool> save(Brand entity, {ImageUpdateParam? updateParam}) async {
+    return _remote.save(entity, updateParam: updateParam);
   }
 
   @override

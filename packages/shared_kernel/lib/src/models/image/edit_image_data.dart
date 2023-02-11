@@ -5,81 +5,82 @@ import 'package:equatable/equatable.dart';
 import '../../../shared_kernel.dart';
 
 /// ================================================================ ImageStatus
-enum ImageStatus {
-  normal,
-  removed,
-  updated;
-}
+// enum ImageStatus {
+//   normal,
+//   removed,
+//   updated;
+// }
 
 /// ============================================================== EditImageData
 class EditImageData with EquatableMixin {
   EditImageData.fromImageData(ImageData? imageData)
       : _bytes = imageData?.bytes,
         _imageURL = imageData?.imageURL,
-        _updateImageParam = _UpdateParamNone();
+        _imageUpdateParam = ImageUpdateParamNone();
 
   final Uint8List? _bytes;
   final String? _imageURL;
-  _UpdateParam _updateImageParam;
+  ImageUpdateParam _imageUpdateParam;
 
   void replace(Uint8List bytes) =>
-      _updateImageParam = _UpdateParamReplace(bytes);
+      _imageUpdateParam = ImageUpdateParamReplace(bytes);
 
   void remove() {
     if (_bytes != null || _imageURL != null) {
-      _updateImageParam = _UpdateParamDelete();
+      _imageUpdateParam = ImageUpdateParamDelete();
     } else {
-      _updateImageParam = _UpdateParamNone();
+      _imageUpdateParam = ImageUpdateParamNone();
     }
   }
 
+  ImageUpdateParam get updateParam => _imageUpdateParam;
   ImageData? get imageData {
-    switch (status) {
-      case ImageStatus.normal:
-        return ImageData(bytes: _bytes, imageURL: _imageURL);
-      case ImageStatus.removed:
-        return null;
-      case ImageStatus.updated:
-        return ImageData(
-          bytes: (_updateImageParam as _UpdateParamReplace).bytes,
-          imageURL: _imageURL,
-        );
+    if (_imageUpdateParam is ImageUpdateParamNone) {
+      return ImageData(bytes: _bytes, imageURL: _imageURL);
     }
+    if (_imageUpdateParam is ImageUpdateParamReplace) {
+      ImageData(
+        bytes: (_imageUpdateParam as ImageUpdateParamReplace).bytes,
+        imageURL: _imageURL,
+      );
+    }
+    return null;
   }
 
-  ImageStatus get status {
-    if (_updateImageParam is _UpdateParamNone) return ImageStatus.normal;
-    if (_updateImageParam is _UpdateParamDelete) return ImageStatus.removed;
-    if (_updateImageParam is _UpdateParamReplace) return ImageStatus.updated;
-    throw UnimplementedError();
-  }
+  // ImageStatus get status {
+  //   if (_updateImageParam is ImageUpdateParamNone) return ImageStatus.normal;
+  //   if (_updateImageParam is ImageUpdateParamDelete) return ImageStatus.removed;
+  //   if (_updateImageParam is ImageUpdateParamReplace)
+  //     return ImageStatus.updated;
+  //   throw UnimplementedError();
+  // }
 
   Uint8List? get bytes {
-    if (_updateImageParam is _UpdateParamReplace) {
-      return (_updateImageParam as _UpdateParamReplace).bytes;
+    if (_imageUpdateParam is ImageUpdateParamReplace) {
+      return (_imageUpdateParam as ImageUpdateParamReplace).bytes;
     }
-    if (_updateImageParam is _UpdateParamDelete) {
+    if (_imageUpdateParam is ImageUpdateParamDelete) {
       return null;
     }
     return _bytes;
   }
 
   @override
-  List<Object?> get props => [_updateImageParam];
+  List<Object?> get props => [_imageUpdateParam];
 }
 
 /// ================================================================ UpdateParam
-abstract class _UpdateParam extends Equatable {
+abstract class ImageUpdateParam extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class _UpdateParamNone extends _UpdateParam {}
+class ImageUpdateParamNone extends ImageUpdateParam {}
 
-class _UpdateParamDelete extends _UpdateParam {}
+class ImageUpdateParamDelete extends ImageUpdateParam {}
 
-class _UpdateParamReplace extends _UpdateParam {
-  _UpdateParamReplace(this.bytes);
+class ImageUpdateParamReplace extends ImageUpdateParam {
+  ImageUpdateParamReplace(this.bytes);
   final Uint8List bytes;
 
   @override

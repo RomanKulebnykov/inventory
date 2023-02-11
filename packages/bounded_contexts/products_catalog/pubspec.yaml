@@ -17,6 +17,9 @@ dependencies:
   image_processor:
     path: ../../image_processor
 
+  file_storage_firebase:
+    path: ../../file_storage_firebase
+
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
