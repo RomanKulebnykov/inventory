@@ -2,46 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_cubit.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_dialog.dart';
-import 'package:provider/provider.dart';
+import 'package:inventory/pages/edit_product_page/edit_product_cubit.dart';
+import 'package:inventory/widgets/app_text_form_field.dart';
 
 import '../../di.dart';
 import '../../utils/theme.dart';
 import '../../widgets/choice_brend_widget/choice_brend.dart';
-import 'edit_product_controller.dart';
 import '../../utils/formatters.dart';
 import '../../widgets/widgets.dart';
 import '../../widgets/image_data_edit_view.dart';
 
 class EditProductPage extends StatelessWidget {
   const EditProductPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<EditProductController>(
-      builder: (context, controller, child) {
-        return Scaffold(
-          key: controller.scaffoldKey,
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: controller.formKey,
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: BlocConsumer<EditProductCubit, EditProductState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            return Form(
+              key: state.formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ///TODO: TEST
-                  ElevatedButton(onPressed: () {}, child: const Text('Test')),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Test'),
+                  ),
 
                   /// ----------------------------------------------------- HEAD
                   Row(
                     children: [
                       Expanded(
-                        child: TextFormField(
-                          controller: controller.title,
-                          decoration: InputDecoration(
-                            label: const Text('ProductName'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                        child: AppTextFormField(
+                          controller: state.title,
+                          label: 'ProductName',
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -68,8 +69,9 @@ class EditProductPage extends StatelessWidget {
                           SizedBox(
                             width: 150,
                             child: ChoiceBrend(
-                              brands: controller.getAvailableBrends(),
-                              onSelect: controller.setBrand,
+                              brands: EditProductCubit.of(context)
+                                  .getAvailableBrends(),
+                              onSelect: EditProductCubit.of(context).setBrand,
                             ),
                           ),
                         ],
@@ -85,7 +87,7 @@ class EditProductPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ImageDataEditView(
-                        image: controller.image,
+                        image: state.imageData,
                         onImageChange: (newImage) {},
                         onImageRemoved: () {},
                       ),
@@ -102,34 +104,19 @@ class EditProductPage extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              TextFormField(
-                                controller: controller.code,
-                                decoration: InputDecoration(
-                                  label: const Text('Code'),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
+                              AppTextFormField(
+                                controller: state.code,
+                                label: 'Code',
                               ),
                               const SizedBox(height: 16),
-                              TextFormField(
-                                controller: controller.article,
-                                decoration: InputDecoration(
-                                  label: const Text('Articles'),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
+                              AppTextFormField(
+                                label: 'Articles',
+                                controller: state.article,
                               ),
                               const SizedBox(height: 16),
-                              TextFormField(
-                                controller: controller.barCode,
-                                decoration: InputDecoration(
-                                  label: const Text('Bar Code'),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
+                              AppTextFormField(
+                                controller: state.barCode,
+                                label: 'Bar Code',
                               ),
                             ],
                           ),
@@ -137,7 +124,7 @@ class EditProductPage extends StatelessWidget {
                       ),
                       const Spacer(),
 
-                      /// ----------------------------------------- LEFT SECTION
+                      /// ---------------------------------------- RIGHT SECTION
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: ConstrainedBox(
@@ -148,25 +135,15 @@ class EditProductPage extends StatelessWidget {
                           child: Column(
                             // mainAxisSize: MainAxisSize.min,
                             children: [
-                              TextFormField(
-                                controller: controller.entryPrice,
-                                decoration: InputDecoration(
-                                  label: const Text('Entry price'),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
+                              AppTextFormField(
+                                controller: state.entryPrice,
+                                label: 'Entry price',
                                 inputFormatters: [TextInputCurrencyFormatter()],
                               ),
                               const SizedBox(height: 16),
-                              TextFormField(
-                                controller: controller.sellingPrice,
-                                decoration: InputDecoration(
-                                  label: const Text('Selling price'),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
+                              AppTextFormField(
+                                controller: state.sellingPrice,
+                                label: 'Selling price',
                                 inputFormatters: [TextInputCurrencyFormatter()],
                               ),
                             ],
@@ -192,15 +169,15 @@ class EditProductPage extends StatelessWidget {
                   const Spacer(),
                   SubmitControlsRow(
                     submitStr: 'Add Product',
-                    onSubmit: controller.saveProduct,
+                    onSubmit: EditProductCubit.of(context).saveProduct,
                     onCancel: () {},
                   ),
                 ],
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }
