@@ -14,6 +14,7 @@ class ImageDataView extends StatelessWidget {
   final double? width;
   final double? height;
   final BoxFit? fit;
+
   @override
   Widget build(BuildContext context) {
     if (imageData?.bytes != null) {
@@ -23,13 +24,13 @@ class ImageDataView extends StatelessWidget {
         width: width,
         fit: fit,
       );
-      // } else if (imageData?.imageUrl != null) {
-      //   return Image.network(
-      //     imageData!.imageUrl!,
-      //     height: height,
-      //     width: width,
-      //     fit: fit,
-      //   );
+    } else if (imageData?.imageURL != null) {
+      return Image.network(
+        imageData!.imageURL!,
+        height: height,
+        width: width,
+        fit: fit,
+      );
     } else {
       return Placeholder(
         fallbackWidth: width ?? double.infinity,

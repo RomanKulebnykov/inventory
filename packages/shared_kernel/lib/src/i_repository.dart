@@ -32,7 +32,7 @@ abstract class IRepository<T extends IAggregateRoot, F extends IEntityFilter> {
 
   Stream<T> stream(F filter);
   Future<List<T>> list(F filter);
-  Future<T> getById(String id);
+  Future<T?> getById(String id);
   Future<bool> save(T entity);
   Future<bool> remove(String id);
 }

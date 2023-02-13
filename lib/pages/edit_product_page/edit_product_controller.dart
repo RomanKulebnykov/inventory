@@ -5,12 +5,14 @@ import 'package:uuid/uuid.dart';
 
 class EditProductController extends ChangeNotifier {
   EditProductController({
-    // required this.onProductSave,
+    required ProductsRepository productsRepository,
+    required BrandsRepository brandsRepository,
     Product? editProduct,
-  }) {
+  })  : _productsRepository = productsRepository,
+        _brandsRepository = brandsRepository {
     if (editProduct != null) {
       id = editProduct.id;
-      _image = editProduct.image.copyWith();
+      _image = editProduct.image?.copyWith();
       title = TextEditingController(text: editProduct.title);
       code = TextEditingController(text: editProduct.code);
       article = TextEditingController(text: editProduct.articles.join(','));
@@ -22,7 +24,7 @@ class EditProductController extends ChangeNotifier {
       // _brand = editProduct.brend;
     } else {
       id = const Uuid().v4();
-      _image = ImageData(imageURL: '');
+      _image = null;
       title = TextEditingController();
       code = TextEditingController();
       article = TextEditingController();
@@ -35,13 +37,10 @@ class EditProductController extends ChangeNotifier {
     }
   }
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final ProductsRepository _productsRepository;
+  final BrandsRepository _brandsRepository;
 
-  void _showMessage(String text) {
-    ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(
-      SnackBar(content: Text(text), showCloseIcon: true),
-    );
-  }
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   late final String id;
   late final TextEditingController title;
@@ -61,26 +60,19 @@ class EditProductController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Brand> getAvailableBrends() {
-    return [
-      Brand(
-        'id1',
-        name: '1',
-        description: 'description1',
-        image: ImageData(imageURL: ''),
-      ),
-      Brand(
-        'id2',
-        name: '2',
-        description: 'description2',
-        image: ImageData(imageURL: ''),
-      ),
-    ];
+  void _showMessage(String text) {
+    ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(
+      SnackBar(content: Text(text), showCloseIcon: true),
+    );
+  }
+
+  Future<List<Brand>> getAvailableBrends() async {
+    return await _brandsRepository.list(BrandFilter());
   }
 
   /// ------------------------------------------------------------ Product Image
-  late final ImageData _image;
-  ImageData get image => _image.copyWith();
+  late ImageData? _image;
+  ImageData? get image => _image?.copyWith();
 
   // void setProductImage(PlatformFile newImage) async {
   //   _image.replace(newImage.name, newImage.bytes!);
@@ -107,6 +99,7 @@ class EditProductController extends ChangeNotifier {
       description: description.text,
       barCode: barCode.text,
       // brend: _brand,
+      brandId: _brand?.id,
       lastUpdate: DateTime.now().toUtc(),
     );
     _showMessage('Add product: ${savedProduct.title}');

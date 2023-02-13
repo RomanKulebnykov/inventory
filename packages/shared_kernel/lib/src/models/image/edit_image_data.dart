@@ -4,13 +4,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../shared_kernel.dart';
 
-/// ================================================================ ImageStatus
-// enum ImageStatus {
-//   normal,
-//   removed,
-//   updated;
-// }
-
 /// ============================================================== EditImageData
 class EditImageData with EquatableMixin {
   EditImageData.fromImageData(ImageData? imageData)
@@ -34,9 +27,14 @@ class EditImageData with EquatableMixin {
   }
 
   ImageUpdateParam get updateParam => _imageUpdateParam;
+
   ImageData? get imageData {
     if (_imageUpdateParam is ImageUpdateParamNone) {
-      return ImageData(bytes: _bytes, imageURL: _imageURL);
+      if (_bytes != null || _imageURL != null) {
+        return ImageData(bytes: _bytes, imageURL: _imageURL);
+      } else {
+        return null;
+      }
     }
     if (_imageUpdateParam is ImageUpdateParamReplace) {
       ImageData(
@@ -46,14 +44,6 @@ class EditImageData with EquatableMixin {
     }
     return null;
   }
-
-  // ImageStatus get status {
-  //   if (_updateImageParam is ImageUpdateParamNone) return ImageStatus.normal;
-  //   if (_updateImageParam is ImageUpdateParamDelete) return ImageStatus.removed;
-  //   if (_updateImageParam is ImageUpdateParamReplace)
-  //     return ImageStatus.updated;
-  //   throw UnimplementedError();
-  // }
 
   Uint8List? get bytes {
     if (_imageUpdateParam is ImageUpdateParamReplace) {

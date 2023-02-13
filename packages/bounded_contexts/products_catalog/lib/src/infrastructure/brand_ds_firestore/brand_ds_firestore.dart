@@ -79,11 +79,22 @@ class BrandDataSourceFirestore extends IBrandDataSource {
     return true;
   }
 
+  Query<BrandModel> _queryFromFilter(BrandFilter filter) {
+    /// Limit
+    var query = brandConverter.limit(filter.limit);
+
+    /// Name Starts
+    if (filter.nameStarts != null) {
+      query = query.where('name', isGreaterThan: filter.nameStarts);
+    }
+    return query;
+  }
+
   /// --------------------------------------------------------------------- list
   @override
   Future<List<Brand>> list(BrandFilter filter) async {
     final brands = <Brand>[];
-    final snap = await brandConverter.get();
+    final snap = await _queryFromFilter(filter).get();
     for (final doc in snap.docs) {
       final brandModel = doc.data();
       ImageData? imageData;

@@ -10,7 +10,7 @@ class Product extends IAggregateRoot {
   final DateTime lastUpdate;
   final String? barCode;
   final String? brandId;
-  final ImageData image;
+  final ImageData? image;
 
   const Product(
     super.id, {

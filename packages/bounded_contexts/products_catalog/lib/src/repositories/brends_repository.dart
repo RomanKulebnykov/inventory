@@ -21,19 +21,17 @@ class BrandsRepository extends IRepository<Brand, BrandFilter> {
   IBrandDataSource get remote => _remote;
 
   @override
-  Future<Brand> getById(String id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<Brand?> getById(String id) async {
+    return _remote.getById(id);
   }
 
   @override
   Future<List<Brand>> list(BrandFilter filter) {
-    // TODO: implement list
-    throw UnimplementedError();
+    return _remote.list(filter);
   }
 
   @override
-  Future<bool> remove(String id, {ImageData? removedImage}) {
+  Future<bool> remove(String id) {
     return _remote.remove(id);
   }
 

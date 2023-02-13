@@ -69,7 +69,7 @@ class EditBrandCubit extends Cubit<EditBrandState> {
   }
 
   Future<void> deleteBrend() async {
-    repository.remove(state.id, removedImage: state.editImageData.imageData);
+    repository.remove(state.id);
   }
 
   String _saveMessage(bool result) {

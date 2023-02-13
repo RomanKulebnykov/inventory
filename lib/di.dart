@@ -35,6 +35,8 @@ class Di {
     ///#########################################################################
     /// Products Catalog ///////////////////////////////////////////////////////
     ///#########################################################################
+
+    /// ------------------------------------------------------- BrandsRepository
     final brandLocal = BrandDataSourceMemoryCache();
     final brandRemote = BrandDataSourceFirestore(
       getStorageFilesPath: () => fbStorage.ref('username'),
@@ -51,6 +53,13 @@ class Di {
     );
 
     getIt.registerLazySingleton<BrandsRepository>(() => brandRepository);
+
+    /// ----------------------------------------------------- ProductsRepository
+    final productRepository = ProductsRepository(
+      policies: FetchPolicies.remoteOnly,
+    );
+
+    getIt.registerLazySingleton<ProductsRepository>(() => productRepository);
 
     ///#########################################################################
     /// Inventory Manager //////////////////////////////////////////////////////
