@@ -1,34 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:products_catalog/products_catalog.dart';
-import 'package:products_catalog/src/infrastructure/product_ds_firestore/product_factory.dart';
-import 'package:products_catalog/src/infrastructure/product_ds_firestore/product_model.dart';
-import 'package:products_catalog/src/infrastructure/product_filter.dart';
+import 'package:products_catalog/src/product/i_product_data_source.dart';
+
+import 'package:products_catalog/src/product/product_filter.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
-class ProductDataSourceFirestore extends IDataSource<Product, ProductFilter> {
+import '../product_entity/product.dart';
+import 'product_model.dart';
+
+class ProductDataSourceFirestore extends IProductDataSource {
   /// -------------------------------------------------------------- Constructor
   ProductDataSourceFirestore({
     required this.getProductCollectionPath,
-    required this.storage,
+    required this.getStorageFilesPath,
   });
 
   /// --------------------------------------------------------------- Properties
   final CollectionReference<Map<String, dynamic>> Function()
       getProductCollectionPath;
 
-  final FirebaseStorage storage;
+  final Reference Function() getStorageFilesPath;
 
   @override
-  Future<Product?> getById(String id) async {
-    final productSnap = await productsConverter.doc(id).get();
-    final productModel = productSnap.data();
-    ImageData image;
-    if (productModel == null) return null;
-    if (productModel.imagePath != null) {
-      ///TODO: GetImageData
-    }
-    return ProductFactory.create(model: productModel, image: ImageData());
+  Future<Product?> getById(String id) {
+    // TODO: implement getById
+    throw UnimplementedError();
   }
 
   @override
@@ -44,31 +40,9 @@ class ProductDataSourceFirestore extends IDataSource<Product, ProductFilter> {
   }
 
   @override
-  Future<bool> save(Product entity) {
+  Future<bool> save(Product entity, {ImageUpdateParam? updateParam}) {
     // TODO: implement save
     throw UnimplementedError();
-  }
-
-  /// --------------------------------------------------------------- getProduct
-  Future<ProductModel> getProduct(String id) async {
-    final snap = await productsConverter.doc(id).get();
-    return snap.data()!;
-  }
-
-  /// --------------------------------------------------------------- getProduct
-  Future<List<ProductModel>> getProducts() async {
-    final snapshot = await productsConverter.get();
-    return snapshot.docs.map((e) => e.data()).toList();
-  }
-
-  /// --------------------------------------------------------------- addProduct
-  Future<void> saveProduct(ProductModel product) async {
-    await productsConverter.doc(product.id).set(product);
-  }
-
-  /// ------------------------------------------------------------ deleteProduct
-  Future<void> deleteProduct(String productId) async {
-    await productsConverter.doc(productId).delete();
   }
 
   /// -------------------------------------------------------- productsConverter

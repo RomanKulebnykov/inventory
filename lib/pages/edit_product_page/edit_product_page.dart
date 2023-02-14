@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory/pages/edit_brand/edit_brand_cubit.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_dialog.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_vm.dart';
 import 'package:inventory/pages/edit_product_page/edit_product_vm.dart';
@@ -20,27 +18,28 @@ class EditProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<EditProductVM>(
-      builder: (context, controller, child) {
+      builder: (context, viewModel, child) {
         return Scaffold(
+          key: viewModel.scaffoldKey,
           body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
-                key: controller.formKey,
+                key: viewModel.formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ///TODO: TEST
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Test'),
-                    ),
+                    // ///TODO: TEST
+                    // ElevatedButton(
+                    //   onPressed: () {},
+                    //   child: const Text('Test'),
+                    // ),
 
                     /// --------------------------------------------------- HEAD
                     Row(
                       children: [
                         Expanded(
                           child: AppTextFormField(
-                            controller: controller.title,
+                            controller: viewModel.title,
                             label: 'ProductName',
                           ),
                         ),
@@ -68,8 +67,9 @@ class EditProductPage extends StatelessWidget {
                             SizedBox(
                               width: 150,
                               child: ChoiceBrend(
-                                brands: controller.getAvailableBrends(),
-                                onSelect: controller.setBrand,
+                                asyncItems: viewModel.getAvailableBrends,
+                                selected: viewModel.brand,
+                                onSelect: viewModel.setBrand,
                               ),
                             ),
                           ],
@@ -85,9 +85,9 @@ class EditProductPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ImageDataEditView(
-                          image: controller.image,
-                          onImageChange: (newImage) {},
-                          onImageRemoved: () {},
+                          image: viewModel.image,
+                          onImageChange: viewModel.setProductImage,
+                          onImageRemoved: viewModel.deleteProductImage,
                         ),
                         const Spacer(flex: 3),
 
@@ -103,17 +103,17 @@ class EditProductPage extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 AppTextFormField(
-                                  controller: controller.code,
+                                  controller: viewModel.code,
                                   label: 'Code',
                                 ),
                                 const SizedBox(height: 16),
                                 AppTextFormField(
                                   label: 'Articles',
-                                  controller: controller.article,
+                                  controller: viewModel.article,
                                 ),
                                 const SizedBox(height: 16),
                                 AppTextFormField(
-                                  controller: controller.barCode,
+                                  controller: viewModel.barCode,
                                   label: 'Bar Code',
                                 ),
                               ],
@@ -134,7 +134,7 @@ class EditProductPage extends StatelessWidget {
                               // mainAxisSize: MainAxisSize.min,
                               children: [
                                 AppTextFormField(
-                                  controller: controller.entryPrice,
+                                  controller: viewModel.entryPrice,
                                   label: 'Entry price',
                                   inputFormatters: [
                                     TextInputCurrencyFormatter()
@@ -142,7 +142,7 @@ class EditProductPage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 16),
                                 AppTextFormField(
-                                  controller: controller.sellingPrice,
+                                  controller: viewModel.sellingPrice,
                                   label: 'Selling price',
                                   inputFormatters: [
                                     TextInputCurrencyFormatter()
@@ -172,7 +172,7 @@ class EditProductPage extends StatelessWidget {
                     SubmitControlsRow(
                       submitStr: 'Add Product',
                       onSubmit: () {
-                        controller.saveProduct();
+                        viewModel.saveProduct();
                       },
                       onCancel: () => Navigator.of(context).pop(),
                     ),

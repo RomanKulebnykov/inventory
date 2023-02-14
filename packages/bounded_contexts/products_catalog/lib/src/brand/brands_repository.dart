@@ -1,7 +1,8 @@
-import 'package:products_catalog/src/i_brand_data_source.dart';
+import 'package:products_catalog/src/brand/i_brand_data_source.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
 import '../../products_catalog.dart';
+import 'brand_entity/brand.dart';
 
 class BrandsRepository extends IRepository<Brand, BrandFilter> {
   BrandsRepository({

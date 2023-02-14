@@ -1,6 +1,6 @@
-import 'package:products_catalog/src/entities/product/product.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
+import '../product_entity/product.dart';
 import 'product_model.dart';
 
 class ProductFactory {

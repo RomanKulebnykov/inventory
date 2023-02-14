@@ -1,7 +1,7 @@
-import 'package:products_catalog/src/infrastructure/brand_ds_firestore/brand_model.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
-import '../../../products_catalog.dart';
+import '../brand_entity/brand.dart';
+import 'brand_model.dart';
 
 class BrandFactory {
   static Brand create({required BrandModel model, ImageData? image}) {

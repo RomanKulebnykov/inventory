@@ -1,7 +1,7 @@
-import 'package:products_catalog/products_catalog.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
-import '../infrastructure/product_filter.dart';
+import 'product_entity/product.dart';
+import 'product_filter.dart';
 
 class ProductsRepository extends IRepository<Product, ProductFilter> {
   ProductsRepository({

@@ -14,7 +14,7 @@ class EditProductVM extends ChangeNotifier {
         _brandsRepository = brandsRepository {
     if (editProduct != null) {
       id = editProduct.id;
-      editImageData = EditImageData.fromImageData(editProduct.image);
+      _editImageData = EditImageData.fromImageData(editProduct.image);
       title = TextEditingController(text: editProduct.title);
       code = TextEditingController(text: editProduct.code);
       article = TextEditingController(text: editProduct.articles.join(','));
@@ -26,7 +26,7 @@ class EditProductVM extends ChangeNotifier {
       _brandId = editProduct.brandId;
     } else {
       id = const Uuid().v4();
-      editImageData = EditImageData.fromImageData(null);
+      _editImageData = EditImageData.fromImageData(null);
       title = TextEditingController();
       code = TextEditingController();
       article = TextEditingController();
@@ -67,28 +67,29 @@ class EditProductVM extends ChangeNotifier {
       ? _brandsRepository.getById(_brandId!)
       : Future.value(null);
 
-  Future<List<Brand>> getAvailableBrends() async {
+  Future<List<Brand>> getAvailableBrends(String searchText) async {
     return await _brandsRepository.list(BrandFilter());
   }
 
   /// ------------------------------------------------------------ Product Image
-  late final EditImageData editImageData;
-  ImageData? get image => editImageData.imageData;
-
-  void setProductImage(PlatformFile newImage) async {
-    // _image.replace(newImage.name, newImage.bytes!);
-    notifyListeners();
+  late final EditImageData _editImageData;
+  ImageData? get image => _editImageData.imageData;
+  void setProductImage(PlatformFile file) async {
+    if (file.bytes != null) {
+      _editImageData.replace(file.bytes!);
+      notifyListeners();
+    }
   }
 
   void deleteProductImage() async {
-    // _image.remove();
+    _editImageData.remove();
     notifyListeners();
   }
 
   void saveProduct() {
     final savedProduct = Product(
       id,
-      image: editImageData.imageData,
+      image: _editImageData.imageData,
       title: title.text,
       code: code.text,
       articles: article.text.replaceAll(' ', '').split(','),
@@ -105,7 +106,11 @@ class EditProductVM extends ChangeNotifier {
   /// ----------------------------------------------------------- Private Method
   void _showMessage(String text) {
     ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(
-      SnackBar(content: Text(text), showCloseIcon: true),
+      SnackBar(
+        content: Text(text),
+        showCloseIcon: true,
+        closeIconColor: Colors.red,
+      ),
     );
   }
 

@@ -48,7 +48,8 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          title: 'Inventory Manager Demo',
+          title: 'Inventory Manager',
+          debugShowCheckedModeBanner: false,
           theme: appTheme.getTheme,
           builder: (context, child) {
             return MediaQuery(

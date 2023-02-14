@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_storage_firebase/file_storage_firebase.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:products_catalog/products_catalog.dart';
-import 'package:products_catalog/src/infrastructure/brand_ds_firestore/brand_factory.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
-import '../../i_brand_data_source.dart';
+import '../brand_entity/brand.dart';
+import '../i_brand_data_source.dart';
+import 'brand_factory.dart';
 import 'brand_model.dart';
 
 /// ============================================ BrandDataSourceFirestoreHelpers
