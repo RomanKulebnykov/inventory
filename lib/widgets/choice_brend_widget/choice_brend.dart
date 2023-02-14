@@ -13,22 +13,52 @@ class ChoiceBrend extends StatelessWidget {
 
   final Future<List<Brand>> brands;
   final Function(Brand? brand) onSelect;
+
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<Brand>(
       itemAsString: (item) => item.name,
       asyncItems: (text) => brands,
       onChanged: onSelect,
+      dropdownBuilder: (context, selectedItem) {
+        if (selectedItem == null) return Container();
+        return _buildSnowCurrent(selectedItem, context);
+      },
       popupProps: PopupProps.menu(
         itemBuilder: (context, item, isSelected) {
-          return Row(
-            children: [
-              ImageDataView(imageData: item.image, height: 30, width: 15),
-              Text(item.name),
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _buildInlinePopupItem(item, context),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildSnowCurrent(Brand brand, BuildContext context) {
+    return brand.image != null
+        ? ImageDataView(imageData: brand.image, height: 30, width: 60)
+        : Text(
+            brand.name.toUpperCase(),
+            style: Theme.of(context).textTheme.labelLarge,
+          );
+  }
+
+  Widget _buildInlinePopupItem(Brand brand, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        ImageDataView(imageData: brand.image, height: 30, width: 60),
+        Text(
+          brand.name.toUpperCase(),
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.edit),
+          color: Colors.amber,
+        ),
+      ],
     );
   }
 }

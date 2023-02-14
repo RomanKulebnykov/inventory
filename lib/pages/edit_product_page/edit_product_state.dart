@@ -10,7 +10,7 @@ abstract class EditProductState extends Equatable {
     required this.sellingPrice,
     required this.description,
     required this.barCode,
-    this.brand,
+    this.brandId,
     required this.editImageData,
   });
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -24,8 +24,7 @@ abstract class EditProductState extends Equatable {
   final TextEditingController description;
   final TextEditingController barCode;
 
-  final Brand? brand;
-
+  final String? brandId;
   final EditImageData editImageData;
   @override
   List<Object?> get props => [];
@@ -34,25 +33,38 @@ abstract class EditProductState extends Equatable {
 class EditProductStateLoading extends EditProductState {
   final String loadingMessage;
 
-  EditProductStateLoading(this.loadingMessage);
+  EditProductStateLoading(
+    this.loadingMessage, {
+    required super.id,
+    required super.title,
+    required super.code,
+    required super.article,
+    required super.entryPrice,
+    required super.sellingPrice,
+    required super.description,
+    required super.barCode,
+    required super.editImageData,
+  });
+
   @override
   List<Object?> get props => [super.props, loadingMessage];
 }
 
 class EditProductStateSuccess extends EditProductState {
   EditProductStateSuccess({
-    required this.id,
-    required this.title,
-    required this.code,
-    required this.article,
-    required this.entryPrice,
-    required this.sellingPrice,
-    required this.description,
-    required this.barCode,
+    required super.id,
+    required super.title,
+    required super.code,
+    required super.article,
+    required super.entryPrice,
+    required super.sellingPrice,
+    required super.description,
+    required super.barCode,
+    required super.editImageData,
     this.brand,
-    required this.editImageData,
   });
 
+  final Brand? brand;
   ImageData? get imageData => editImageData.imageData;
 
   Product getProductFromState() {
@@ -73,15 +85,5 @@ class EditProductStateSuccess extends EditProductState {
   }
 
   @override
-  List<Object?> get props => [
-        super.props,
-        id,
-        title,
-        code,
-        article,
-        entryPrice,
-        sellingPrice,
-        description,
-        barCode,
-      ];
+  List<Object?> get props => [super.props, brand];
 }

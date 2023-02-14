@@ -1,10 +1,12 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 import 'package:uuid/uuid.dart';
 
-class EditProductController extends ChangeNotifier {
-  EditProductController({
+class EditProductVM extends ChangeNotifier {
+  EditProductVM({
+    required this.onProductSave,
     required ProductsRepository productsRepository,
     required BrandsRepository brandsRepository,
     Product? editProduct,
@@ -12,7 +14,7 @@ class EditProductController extends ChangeNotifier {
         _brandsRepository = brandsRepository {
     if (editProduct != null) {
       id = editProduct.id;
-      _image = editProduct.image?.copyWith();
+      editImageData = EditImageData.fromImageData(editProduct.image);
       title = TextEditingController(text: editProduct.title);
       code = TextEditingController(text: editProduct.code);
       article = TextEditingController(text: editProduct.articles.join(','));
@@ -21,10 +23,10 @@ class EditProductController extends ChangeNotifier {
       description = TextEditingController(text: editProduct.description);
       barCode = TextEditingController(text: editProduct.barCode);
 
-      // _brand = editProduct.brend;
+      _brandId = editProduct.brandId;
     } else {
       id = const Uuid().v4();
-      _image = null;
+      editImageData = EditImageData.fromImageData(null);
       title = TextEditingController();
       code = TextEditingController();
       article = TextEditingController();
@@ -33,13 +35,15 @@ class EditProductController extends ChangeNotifier {
       description = TextEditingController();
       barCode = TextEditingController();
 
-      _brand = null;
+      _brandId = null;
     }
   }
 
   final ProductsRepository _productsRepository;
   final BrandsRepository _brandsRepository;
 
+  final void Function(Product product) onProductSave;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   late final String id;
@@ -52,45 +56,39 @@ class EditProductController extends ChangeNotifier {
   late final TextEditingController barCode;
 
   /// ------------------------------------------------------------ Product Brand
-  late Brand? _brand;
-  Brand? get brand => _brand?.copyWith();
+  String? _brandId;
 
   void setBrand(Brand? selectedBrand) {
-    _brand = selectedBrand;
+    _brandId = selectedBrand?.id;
     notifyListeners();
   }
 
-  void _showMessage(String text) {
-    ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(
-      SnackBar(content: Text(text), showCloseIcon: true),
-    );
-  }
+  Future<Brand?> get brand => _brandId != null
+      ? _brandsRepository.getById(_brandId!)
+      : Future.value(null);
 
   Future<List<Brand>> getAvailableBrends() async {
     return await _brandsRepository.list(BrandFilter());
   }
 
   /// ------------------------------------------------------------ Product Image
-  late ImageData? _image;
-  ImageData? get image => _image?.copyWith();
+  late final EditImageData editImageData;
+  ImageData? get image => editImageData.imageData;
 
-  // void setProductImage(PlatformFile newImage) async {
-  //   _image.replace(newImage.name, newImage.bytes!);
-  //   notifyListeners();
-  // }
-  //
-  // void deleteProductImage() async {
-  //   _image.remove();
-  //   notifyListeners();
-  // }
+  void setProductImage(PlatformFile newImage) async {
+    // _image.replace(newImage.name, newImage.bytes!);
+    notifyListeners();
+  }
 
-  /// -------------------------------------------------------------- saveProduct
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  // final void Function(Product product) onProductSave;
+  void deleteProductImage() async {
+    // _image.remove();
+    notifyListeners();
+  }
+
   void saveProduct() {
     final savedProduct = Product(
       id,
-      image: _image,
+      image: editImageData.imageData,
       title: title.text,
       code: code.text,
       articles: article.text.replaceAll(' ', '').split(','),
@@ -98,13 +96,17 @@ class EditProductController extends ChangeNotifier {
       sellingPrice: double.parse(sellingPrice.text),
       description: description.text,
       barCode: barCode.text,
-      // brend: _brand,
-      brandId: _brand?.id,
+      brandId: _brandId,
       lastUpdate: DateTime.now().toUtc(),
     );
     _showMessage('Add product: ${savedProduct.title}');
-    // manager.saveProduct(savedProduct);
-    // onProductSave(savedProduct);
+  }
+
+  /// ----------------------------------------------------------- Private Method
+  void _showMessage(String text) {
+    ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(
+      SnackBar(content: Text(text), showCloseIcon: true),
+    );
   }
 
   /// ------------------------------------------------------------------ dispose

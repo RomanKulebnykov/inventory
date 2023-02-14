@@ -28,18 +28,22 @@ class EditImageData with EquatableMixin {
 
   ImageUpdateParam get updateParam => _imageUpdateParam;
 
+  ImageData? get initialImageData {
+    if (_bytes != null || _imageURL != null) {
+      return ImageData(bytes: _bytes, imageURL: _imageURL);
+    } else {
+      return null;
+    }
+  }
+
   ImageData? get imageData {
     if (_imageUpdateParam is ImageUpdateParamNone) {
-      if (_bytes != null || _imageURL != null) {
-        return ImageData(bytes: _bytes, imageURL: _imageURL);
-      } else {
-        return null;
-      }
+      return initialImageData;
     }
     if (_imageUpdateParam is ImageUpdateParamReplace) {
-      ImageData(
+      return ImageData(
         bytes: (_imageUpdateParam as ImageUpdateParamReplace).bytes,
-        imageURL: _imageURL,
+        imageURL: null,
       );
     }
     return null;

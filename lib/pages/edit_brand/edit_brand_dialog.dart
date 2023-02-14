@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_cubit.dart';
+import 'package:inventory/pages/edit_brand/edit_brand_vm.dart';
 import 'package:inventory/widgets/submit_controls_row.dart';
+import 'package:provider/provider.dart';
 
+import '../../widgets/app_text_form_field.dart';
 import '../../widgets/image_data_edit_view.dart';
 
 class EditBrandDialog extends StatelessWidget {
@@ -13,68 +15,57 @@ class EditBrandDialog extends StatelessWidget {
     return SimpleDialog(
       children: [
         Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BlocConsumer<EditBrandCubit, EditBrandState>(
-              listener: (context, state) {
-                if (state.snackBarMessage != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.snackBarMessage!)),
-                  );
-                }
-              },
-              builder: (context, state) {
-                return Form(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        height: 150,
-                        child: ImageDataEditView(
-                          image: state.editImageData.imageData,
-                          onImageChange: EditBrandCubit.of(context).updateImage,
-                          onImageRemoved:
-                              EditBrandCubit.of(context).deleteImage,
+          padding: const EdgeInsets.all(8.0),
+          child: Consumer<EditBrandVM>(
+            builder: (context, viewModel, child) {
+              return Form(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 150,
+                      child: ImageDataEditView(
+                        image: viewModel.imageData,
+                        onImageChange: viewModel.replaceImage,
+                        onImageRemoved: viewModel.removeImage,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    AppTextFormField(
+                      controller: viewModel.name,
+                      label: 'Name',
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: viewModel.description,
+                      minLines: 3,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        label: const Text('Description'),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: state.name,
-                        decoration: InputDecoration(
-                          label: const Text('Name'),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
+                    ),
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: SubmitControlsRow(
+                        submitStr: 'Save Brend',
+                        onSubmit: () {
+                          viewModel.saveBrand();
+                        },
+                        onCancel: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
-                      const SizedBox(height: 8),
-                      TextFormField(
-                        controller: state.description,
-                        minLines: 3,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          label: const Text('Description'),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            )),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: SubmitControlsRow(
-            submitStr: 'Save Brend',
-            onSubmit: () {
-              EditBrandCubit.of(context).saveBrend();
-            },
-            onCancel: () {
-              Navigator.of(context).pop();
+                    ),
+                  ],
+                ),
+              );
             },
           ),
-        ),
+        )
       ],
     );
   }

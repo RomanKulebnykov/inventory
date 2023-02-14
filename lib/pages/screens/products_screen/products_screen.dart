@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory/pages/edit_product_page/edit_product_cubit.dart';
+import 'package:products_catalog/products_catalog.dart';
+import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../utils/device.dart';
 import '../../../widgets/widgets.dart';
 
+import '../../edit_product_page/edit_product_vm.dart';
 import '../../edit_product_page/edit_product_page.dart';
 import 'widgets/product_list.dart';
 
@@ -42,11 +45,11 @@ class ProductsScreen extends StatelessWidget {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
-            return BlocProvider<EditProductCubit>(
-              create: (context) => EditProductCubit(
+            return ChangeNotifierProvider<EditProductVM>(
+              create: (context) => EditProductVM(
                 productsRepository: Di.getIt(),
                 brandsRepository: Di.getIt(),
-                onSave: (product) {},
+                onProductSave: (Product product) {},
               ),
               child: const EditProductPage(),
             );
