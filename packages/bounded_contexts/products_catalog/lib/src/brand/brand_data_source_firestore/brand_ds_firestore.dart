@@ -4,7 +4,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:shared_kernel/shared_kernel.dart';
 
-import '../brand_entity/brand.dart';
 import '../i_brand_data_source.dart';
 import 'brand_factory.dart';
 import 'brand_model.dart';

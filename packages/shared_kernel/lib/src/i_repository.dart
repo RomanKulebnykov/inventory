@@ -18,17 +18,18 @@ abstract class IEntityFilter {
   // bool isSatisfiedBy(T candidate);
 }
 
-abstract class IRepository<T extends IAggregateRoot, F extends IEntityFilter> {
+abstract class IRepository<T extends IAggregateRoot, F extends IEntityFilter,
+    D extends IDataSource<T, F>> {
   IRepository({
     required this.policies,
-    // required this.local,
-    // required this.remote,
+    required this.local,
+    required this.remote,
   });
 
   final FetchPolicies policies;
 
-  IDataSource<T, F> get local;
-  IDataSource<T, F> get remote;
+  D local;
+  D remote;
 
   Stream<T> stream(F filter);
   Future<List<T>> list(F filter);

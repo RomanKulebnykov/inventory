@@ -9,7 +9,7 @@ class ProductModel {
   final DateTime lastUpdate;
   final String? barCode;
   final String? brendId;
-  final String? imagePath;
+  final bool hasStoredLogoImage;
 
   const ProductModel({
     required this.id,
@@ -21,8 +21,8 @@ class ProductModel {
     required this.lastUpdate,
     this.description,
     this.barCode,
-    this.imagePath,
     this.brendId,
+    this.hasStoredLogoImage = false,
   });
 }
 

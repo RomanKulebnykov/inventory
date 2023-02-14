@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_kernel/shared_kernel.dart';
 
 enum ImageFormat {
   jpg,

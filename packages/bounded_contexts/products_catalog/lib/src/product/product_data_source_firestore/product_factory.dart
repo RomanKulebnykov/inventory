@@ -4,10 +4,8 @@ import '../product_entity/product.dart';
 import 'product_model.dart';
 
 class ProductFactory {
-  static Product create({
-    required ProductModel model,
-    required ImageData image,
-  }) {
+  ProductFactory._internal();
+  static Product create({required ProductModel model, ImageData? image}) {
     return Product(
       model.id,
       title: model.title,
@@ -20,6 +18,22 @@ class ProductFactory {
       barCode: model.barCode,
       brandId: model.brendId,
       image: image,
+    );
+  }
+
+  static ProductModel convertToModel(Product product, bool hasStoredLogoImage) {
+    return ProductModel(
+      id: product.id,
+      title: product.title,
+      description: product.description,
+      code: product.code,
+      articles: product.articles,
+      entryPrice: product.entryPrice,
+      sellingPrice: product.entryPrice,
+      barCode: product.barCode,
+      brendId: product.brandId,
+      lastUpdate: product.lastUpdate,
+      hasStoredLogoImage: hasStoredLogoImage,
     );
   }
 }

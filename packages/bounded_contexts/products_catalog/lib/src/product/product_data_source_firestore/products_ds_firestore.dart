@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_storage_firebase/file_storage_firebase.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:products_catalog/src/product/i_product_data_source.dart';
+import 'package:products_catalog/src/product/product_data_source_firestore/product_factory.dart';
 
 import 'package:products_catalog/src/product/product_filter.dart';
 import 'package:shared_kernel/shared_kernel.dart';
@@ -21,10 +23,34 @@ class ProductDataSourceFirestore extends IProductDataSource {
 
   final Reference Function() getStorageFilesPath;
 
+  /// ------------------------------------------------------------- _getLogoPath
+  Reference _getLogoPath(String productId) {
+    return getStorageFilesPath().child(productId).child('logo.jpg');
+  }
+
+  /// ------------------------------------------------------------ _getImageData
+  Future<ImageData?> _getImageData(String id) async {
+    try {
+      final logoRef = _getLogoPath(id);
+      final logoUrl = await FileStorageFirebase.getFileURL(logoRef);
+      return ImageData(imageURL: logoUrl);
+    } catch (e) {
+      return null;
+    }
+  }
+
   @override
-  Future<Product?> getById(String id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<Product?> getById(String id) async {
+    final productSnap = await productsConverter.doc(id).get();
+    final productModel = productSnap.data();
+    if (productModel == null) return null;
+
+    ImageData? imageData;
+    if (productModel.hasStoredLogoImage) {
+      imageData = await _getImageData(productModel.id);
+    }
+
+    return ProductFactory.create(model: productModel, image: imageData);
   }
 
   @override
@@ -40,9 +66,22 @@ class ProductDataSourceFirestore extends IProductDataSource {
   }
 
   @override
-  Future<bool> save(Product entity, {ImageUpdateParam? updateParam}) {
-    // TODO: implement save
-    throw UnimplementedError();
+  Future<bool> save(Product entity, {ImageUpdateParam? updateParam}) async {
+    bool hasLogo = entity.image?.imageURL != null;
+    if (updateParam is ImageUpdateParamReplace) {
+      await FileStorageFirebase.saveFile(
+        _getLogoPath(entity.id),
+        updateParam.bytes,
+      );
+      hasLogo = true;
+    } else if (updateParam is ImageUpdateParamDelete) {
+      await FileStorageFirebase.deleteFile(_getLogoPath(entity.id));
+      hasLogo = false;
+    }
+
+    final productModel = ProductFactory.convertToModel(entity, hasLogo);
+    await productsConverter.doc(entity.id).set(productModel);
+    return true;
   }
 
   /// -------------------------------------------------------- productsConverter
@@ -57,10 +96,10 @@ class ProductDataSourceFirestore extends IProductDataSource {
           entryPrice: double.parse(snapshot['entryPrice'].toString()),
           sellingPrice: double.parse(snapshot['sellingPrice'].toString()),
           barCode: snapshot['barCode'] as String,
-          imagePath: snapshot['imagePath'] as String,
           lastUpdate: snapshot['imagePath'].toDate(),
           description: snapshot['description'] as String,
           brendId: snapshot['brendId'] as String?,
+          hasStoredLogoImage: ['hasStoredLogoImage'] as bool,
         );
       },
       toFirestore: (product, options) {
@@ -72,10 +111,10 @@ class ProductDataSourceFirestore extends IProductDataSource {
           'entryPrice': product.entryPrice,
           'sellingPrice': product.sellingPrice,
           'barCode': product.barCode,
-          'imagePath': product.imagePath,
           'lastUpdate': product.lastUpdate,
           'description': product.description,
           'brendId': product.brendId,
+          'hasStoredLogoImage': product.hasStoredLogoImage,
         };
       },
     );

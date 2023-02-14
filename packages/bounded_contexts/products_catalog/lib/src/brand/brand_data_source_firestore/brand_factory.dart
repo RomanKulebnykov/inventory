@@ -4,6 +4,7 @@ import '../brand_entity/brand.dart';
 import 'brand_model.dart';
 
 class BrandFactory {
+  BrandFactory._internal();
   static Brand create({required BrandModel model, ImageData? image}) {
     return Brand(
       model.id,
