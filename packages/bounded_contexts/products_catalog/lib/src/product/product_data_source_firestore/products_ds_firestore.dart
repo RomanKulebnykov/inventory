@@ -53,16 +53,38 @@ class ProductDataSourceFirestore extends IProductDataSource {
     return ProductFactory.create(model: productModel, image: imageData);
   }
 
-  @override
-  Future<List<Product>> list(ProductFilter filter) {
-    // TODO: implement list
-    throw UnimplementedError();
+  Query<ProductModel> _queryFromFilter(ProductFilter filter) {
+    /// Limit
+    var query = productsConverter.limit(filter.limit);
+
+    /// Name Starts
+    if (filter.nameStarts != null) {
+      query = query.where('name', isGreaterThan: filter.nameStarts);
+    }
+    return query;
   }
 
   @override
-  Future<bool> remove(String id) {
-    // TODO: implement remove
-    throw UnimplementedError();
+  Future<List<Product>> list(ProductFilter filter) async {
+    final products = <Product>[];
+    final snap = await _queryFromFilter(filter).get();
+    for (final doc in snap.docs) {
+      final productModel = doc.data();
+      ImageData? imageData;
+      if (productModel.hasStoredLogoImage) {
+        imageData = await _getImageData(productModel.id);
+      }
+      products
+          .add(ProductFactory.create(model: productModel, image: imageData));
+    }
+    return products;
+  }
+
+  @override
+  Future<bool> remove(String id) async {
+    await FileStorageFirebase.deleteFile(_getLogoPath(id));
+    await productsConverter.doc(id).delete();
+    return true;
   }
 
   @override

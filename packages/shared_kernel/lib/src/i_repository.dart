@@ -14,8 +14,14 @@ abstract class IDataSource<T extends IAggregateRoot, F extends IEntityFilter> {
 }
 
 abstract class IEntityFilter {
-  // List<FilterCondition> get conditions;
-  // bool isSatisfiedBy(T candidate);
+  final int limit;
+
+  final String? nameStarts;
+
+  IEntityFilter({
+    this.limit = 10,
+    this.nameStarts,
+  });
 }
 
 abstract class IRepository<T extends IAggregateRoot, F extends IEntityFilter,
