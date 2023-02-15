@@ -69,7 +69,7 @@ class BrandDataSourceFirestore extends IBrandDataSource {
         updateParam.bytes,
       );
       hasLogo = true;
-    } else if (updateParam is ImageUpdateParamDelete) {
+    } else if (updateParam is ImageUpdateParamRemove) {
       await FileStorageFirebase.deleteFile(_getLogoPath(entity.id));
       hasLogo = false;
     }
