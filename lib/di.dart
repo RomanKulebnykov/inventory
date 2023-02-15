@@ -29,10 +29,6 @@ class Di {
     getIt.registerLazySingleton(() => fbStorage);
 
     ///#########################################################################
-    /// Storage ////////////////////////////////////////////////////////////////
-    ///#########################################################################
-
-    ///#########################################################################
     /// Products Catalog ///////////////////////////////////////////////////////
     ///#########################################################################
 
@@ -55,8 +51,19 @@ class Di {
     getIt.registerLazySingleton<BrandsRepository>(() => brandRepository);
 
     /// ----------------------------------------------------- ProductsRepository
+    final productLocal = ProductDataSourceMemoryCache();
+    final productRemote = ProductDataSourceFirestore(
+      getStorageFilesPath: () => fbStorage.ref('username').child('products'),
+      getProductCollectionPath: () => firestore
+          .collection('username')
+          .doc('productsCatalog')
+          .collection('products'),
+    );
+
     final productRepository = ProductsRepository(
       policies: FetchPolicies.remoteOnly,
+      remote: productRemote,
+      local: productLocal,
     );
 
     getIt.registerLazySingleton<ProductsRepository>(() => productRepository);

@@ -20,7 +20,7 @@ class EditImageData with EquatableMixin {
 
   void remove() {
     if (_bytes != null || _imageURL != null) {
-      _imageUpdateParam = ImageUpdateParamDelete();
+      _imageUpdateParam = ImageUpdateParamRemove();
     } else {
       _imageUpdateParam = ImageUpdateParamNone();
     }
@@ -53,7 +53,7 @@ class EditImageData with EquatableMixin {
     if (_imageUpdateParam is ImageUpdateParamReplace) {
       return (_imageUpdateParam as ImageUpdateParamReplace).bytes;
     }
-    if (_imageUpdateParam is ImageUpdateParamDelete) {
+    if (_imageUpdateParam is ImageUpdateParamRemove) {
       return null;
     }
     return _bytes;
@@ -71,7 +71,7 @@ abstract class ImageUpdateParam extends Equatable {
 
 class ImageUpdateParamNone extends ImageUpdateParam {}
 
-class ImageUpdateParamDelete extends ImageUpdateParam {}
+class ImageUpdateParamRemove extends ImageUpdateParam {}
 
 class ImageUpdateParamReplace extends ImageUpdateParam {
   ImageUpdateParamReplace(this.bytes);
