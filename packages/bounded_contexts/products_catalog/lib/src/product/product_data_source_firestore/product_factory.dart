@@ -29,7 +29,7 @@ class ProductFactory {
       code: product.code,
       articles: product.articles,
       entryPrice: product.entryPrice,
-      sellingPrice: product.entryPrice,
+      sellingPrice: product.sellingPrice,
       barCode: product.barCode,
       brendId: product.brandId,
       lastUpdate: product.lastUpdate,

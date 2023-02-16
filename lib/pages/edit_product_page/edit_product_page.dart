@@ -160,6 +160,7 @@ class EditProductPage extends StatelessWidget {
                     TextFormField(
                       minLines: 3,
                       maxLines: 3,
+                      controller: viewModel.description,
                       decoration: InputDecoration(
                         label: const Text('Description'),
                         border: OutlineInputBorder(
@@ -173,6 +174,7 @@ class EditProductPage extends StatelessWidget {
                       submitStr: 'Add Product',
                       onSubmit: () {
                         viewModel.saveProduct();
+                        // if (context.mounted) Navigator.of(context).pop();
                       },
                       onCancel: () => Navigator.of(context).pop(),
                     ),

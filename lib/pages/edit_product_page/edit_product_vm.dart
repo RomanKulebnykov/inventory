@@ -86,7 +86,7 @@ class EditProductVM extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveProduct() {
+  Future<void> saveProduct() async {
     final savedProduct = Product(
       id,
       image: _editImageData.imageData,
@@ -100,6 +100,11 @@ class EditProductVM extends ChangeNotifier {
       brandId: _brandId,
       lastUpdate: DateTime.now().toUtc(),
     );
+    await _productsRepository.save(
+      savedProduct,
+      updateParam: _editImageData.updateParam,
+    );
+
     _showMessage('Add product: ${savedProduct.title}');
   }
 

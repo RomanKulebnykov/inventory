@@ -52,8 +52,11 @@ class EditBrandDialog extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: SubmitControlsRow(
                         submitStr: 'Save Brend',
-                        onSubmit: () {
-                          viewModel.saveBrand();
+                        onSubmit: () async {
+                          await viewModel.saveBrand();
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
                         },
                         onCancel: () {
                           Navigator.of(context).pop();

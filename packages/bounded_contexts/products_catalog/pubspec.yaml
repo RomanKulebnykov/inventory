@@ -7,8 +7,11 @@ environment:
   sdk: '>=2.19.0 <3.0.0'
 
 dependencies:
-  firebase_core: ^2.4.1
-  cloud_firestore: ^4.3.1
+  flutter:
+    sdk: flutter
+
+  firebase_core: 2.4.1
+  cloud_firestore: 4.3.1
   firebase_storage: ^11.0.10
 
   shared_kernel:
@@ -21,8 +24,11 @@ dependencies:
     path: ../../file_storage_firebase
 
 dev_dependencies:
-  lints: ^2.0.0
-  test: ^1.21.1
+  flutter_test:
+    sdk: flutter
+
+  test: ^1.21.0
+  flutter_lints: ^2.0.0
 
   fake_cloud_firestore: ^2.3.0+3
   firebase_storage_mocks: ^0.6.0+1

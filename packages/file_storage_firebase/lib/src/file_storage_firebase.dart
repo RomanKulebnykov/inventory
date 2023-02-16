@@ -52,4 +52,20 @@ class FileStorageFirebase {
       return false;
     }
   }
+
+  static Future<bool> updateImageInStorage({
+    required Reference path,
+    ImageData? imageData,
+    ImageUpdateParam? updateParam,
+  }) async {
+    bool hasLogo = imageData?.imageURL != null;
+    if (updateParam is ImageUpdateParamReplace) {
+      await FileStorageFirebase.saveFile(path, updateParam.bytes);
+      hasLogo = true;
+    } else if (updateParam is ImageUpdateParamRemove) {
+      await FileStorageFirebase.deleteFile(path);
+      hasLogo = false;
+    }
+    return hasLogo;
+  }
 }
