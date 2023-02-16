@@ -14,30 +14,14 @@ class ProductDataSourceFirestore extends IProductDataSource {
   /// -------------------------------------------------------------- Constructor
   ProductDataSourceFirestore({
     required this.getProductCollectionPath,
-    required this.getStorageFilesPath,
-  });
+    required Reference Function() getStorageFilesPath,
+  }) : fileStorage = FileStorageFirebase(getStorageFilesPath);
 
   /// --------------------------------------------------------------- Properties
   final CollectionReference<Map<String, dynamic>> Function()
       getProductCollectionPath;
 
-  final Reference Function() getStorageFilesPath;
-
-  /// ------------------------------------------------------------- _getLogoPath
-  Reference _getLogoPath(String productId) {
-    return getStorageFilesPath().child(productId).child('logo.jpg');
-  }
-
-  /// ------------------------------------------------------------ _getImageData
-  Future<ImageData?> _getImageData(String id) async {
-    try {
-      final logoRef = _getLogoPath(id);
-      final logoUrl = await FileStorageFirebase.getFileURL(logoRef);
-      return ImageData(imageURL: logoUrl);
-    } catch (e) {
-      return null;
-    }
-  }
+  final FileStorageFirebase fileStorage;
 
   @override
   Future<Product?> getById(String id) async {
@@ -47,7 +31,7 @@ class ProductDataSourceFirestore extends IProductDataSource {
 
     ImageData? imageData;
     if (productModel.hasStoredLogoImage) {
-      imageData = await _getImageData(productModel.id);
+      imageData = await fileStorage.getLogoImage(id);
     }
 
     return ProductFactory.create(model: productModel, image: imageData);
@@ -72,7 +56,7 @@ class ProductDataSourceFirestore extends IProductDataSource {
       final productModel = doc.data();
       ImageData? imageData;
       if (productModel.hasStoredLogoImage) {
-        imageData = await _getImageData(productModel.id);
+        imageData = await fileStorage.getLogoImage(productModel.id);
       }
       products
           .add(ProductFactory.create(model: productModel, image: imageData));
@@ -82,24 +66,20 @@ class ProductDataSourceFirestore extends IProductDataSource {
 
   @override
   Future<bool> remove(String id) async {
-    await FileStorageFirebase.deleteFile(_getLogoPath(id));
+    await fileStorage.updateLogoImage(
+      entityId: id,
+      updateParam: ImageUpdateParamRemove(),
+    );
     await productsConverter.doc(id).delete();
     return true;
   }
 
   @override
   Future<bool> save(Product entity, {ImageUpdateParam? updateParam}) async {
-    bool hasLogo = entity.image?.imageURL != null;
-    if (updateParam is ImageUpdateParamReplace) {
-      await FileStorageFirebase.saveFile(
-        _getLogoPath(entity.id),
-        updateParam.bytes,
-      );
-      hasLogo = true;
-    } else if (updateParam is ImageUpdateParamRemove) {
-      await FileStorageFirebase.deleteFile(_getLogoPath(entity.id));
-      hasLogo = false;
-    }
+    bool hasLogo = await fileStorage.updateLogoImage(
+      entityId: entity.id,
+      updateParam: updateParam,
+    );
 
     final productModel = ProductFactory.convertToModel(entity, hasLogo);
     await productsConverter.doc(entity.id).set(productModel);

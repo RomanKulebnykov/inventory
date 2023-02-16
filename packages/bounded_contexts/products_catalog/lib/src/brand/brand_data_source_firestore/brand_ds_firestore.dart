@@ -8,39 +8,20 @@ import '../i_brand_data_source.dart';
 import 'brand_factory.dart';
 import 'brand_model.dart';
 
-/// ============================================ BrandDataSourceFirestoreHelpers
-extension BrandDataSourceFirestoreHelpers on BrandDataSourceFirestore {
-  /// ------------------------------------------------------------- _getLogoPath
-  Reference _getLogoPath(String brendId) {
-    return getStorageFilesPath().child(brendId).child('logo.jpg');
-  }
-
-  /// ------------------------------------------------------------ _getImageData
-  Future<ImageData?> _getImageData(String id) async {
-    try {
-      final logoRef = _getLogoPath(id);
-      final logoUrl = await FileStorageFirebase.getFileURL(logoRef);
-      return ImageData(imageURL: logoUrl);
-    } catch (e) {
-      return null;
-    }
-  }
-}
-
 /// =================================================== BrandDataSourceFirestore
 class BrandDataSourceFirestore extends IBrandDataSource {
   /// -------------------------------------------------------------- Constructor
 
   BrandDataSourceFirestore({
     required this.getBrendsCollectionPath,
-    required this.getStorageFilesPath,
-  });
+    required Reference Function() getStorageFilesPath,
+  }) : fileStorage = FileStorageFirebase(getStorageFilesPath);
 
   /// --------------------------------------------------------------- Properties
   final CollectionReference<Map<String, dynamic>> Function()
       getBrendsCollectionPath;
 
-  final Reference Function() getStorageFilesPath;
+  final FileStorageFirebase fileStorage;
 
   /// ------------------------------------------------------------------ getById
   @override
@@ -53,26 +34,18 @@ class BrandDataSourceFirestore extends IBrandDataSource {
     }
     ImageData? imageData;
     if (brandModel.hasStoredLogoImage) {
-      imageData = await _getImageData(brandModel.id);
+      imageData = await fileStorage.getLogoImage(brandModel.id);
     }
-
     return BrandFactory.create(model: brandModel, image: imageData);
   }
 
   /// --------------------------------------------------------------------- save
   @override
   Future<bool> save(Brand entity, {ImageUpdateParam? updateParam}) async {
-    bool hasLogo = entity.image?.imageURL != null;
-    if (updateParam is ImageUpdateParamReplace) {
-      await FileStorageFirebase.saveFile(
-        _getLogoPath(entity.id),
-        updateParam.bytes,
-      );
-      hasLogo = true;
-    } else if (updateParam is ImageUpdateParamRemove) {
-      await FileStorageFirebase.deleteFile(_getLogoPath(entity.id));
-      hasLogo = false;
-    }
+    bool hasLogo = await fileStorage.updateLogoImage(
+      entityId: entity.id,
+      updateParam: updateParam,
+    );
 
     final brandModel = BrandFactory.convertToModel(entity, hasLogo);
     await brandConverter.doc(entity.id).set(brandModel);
@@ -99,7 +72,7 @@ class BrandDataSourceFirestore extends IBrandDataSource {
       final brandModel = doc.data();
       ImageData? imageData;
       if (brandModel.hasStoredLogoImage) {
-        imageData = await _getImageData(brandModel.id);
+        imageData = await fileStorage.getLogoImage(brandModel.id);
       }
       brands.add(BrandFactory.create(model: brandModel, image: imageData));
     }
@@ -109,7 +82,10 @@ class BrandDataSourceFirestore extends IBrandDataSource {
   /// ------------------------------------------------------------------- remove
   @override
   Future<bool> remove(String id) async {
-    await FileStorageFirebase.deleteFile(_getLogoPath(id));
+    await fileStorage.updateLogoImage(
+      entityId: id,
+      updateParam: ImageUpdateParamRemove(),
+    );
     await brandConverter.doc(id).delete();
     return true;
   }
