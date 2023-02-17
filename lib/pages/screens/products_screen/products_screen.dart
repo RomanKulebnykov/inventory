@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../../blocs/products_catalog_bloc/products_catalog_bloc.dart';
 import '../../../di.dart';
-import '../../../utils/device.dart';
 import '../../../widgets/widgets.dart';
 
 import '../../edit_product_page/edit_product_vm.dart';
@@ -20,7 +19,36 @@ class ProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ProductsCatalogBloc, ProductsCatalogState>(
       listener: (context, state) {
-        // TODO: implement listener
+        print(state);
+        if (state is ProductsCatalogEditProduct) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return ChangeNotifierProvider<EditProductVM>(
+                  create: (context) => EditProductVM(
+                    productsRepository: Di.getIt(),
+                    brandsRepository: Di.getIt(),
+                    onProductSave: (Product product) {
+                      ProductsCatalogBloc.addEvent(
+                        context,
+                        ProductsCatalogReloadProductsEvent(),
+                      );
+                      Navigator.of(context).pop();
+                    },
+                    onEditCancelled: () {
+                      ProductsCatalogBloc.addEvent(
+                        context,
+                        ProductsCatalogReloadProductsEvent(),
+                      );
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  child: const EditProductPage(),
+                );
+              },
+            ),
+          );
+        }
       },
       builder: (context, state) {
         return Column(
@@ -28,7 +56,12 @@ class ProductsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListMenu(
-                onAddNewPress: () => _openAddNewProductDialog(context),
+                onAddNewPress: () {
+                  ProductsCatalogBloc.addEvent(
+                    context,
+                    ProductsCatalogAddNewProductEvent(),
+                  );
+                },
               ),
             ),
             Builder(builder: (context) {
@@ -44,32 +77,5 @@ class ProductsScreen extends StatelessWidget {
         );
       },
     );
-  }
-
-  _openAddNewProductDialog(BuildContext context) {
-    if (Device.of(context).deviceType == DeviceType.phone) {
-      showModalBottomSheet(
-        context: context,
-        isDismissible: false,
-        builder: (context) {
-          return const EditProductPage();
-        },
-      );
-    } else {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return ChangeNotifierProvider<EditProductVM>(
-              create: (context) => EditProductVM(
-                productsRepository: Di.getIt(),
-                brandsRepository: Di.getIt(),
-                onProductSave: (Product product) {},
-              ),
-              child: const EditProductPage(),
-            );
-          },
-        ),
-      );
-    }
   }
 }
