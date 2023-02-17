@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 class EditProductVM extends ChangeNotifier {
   EditProductVM({
     required this.onProductSave,
+    required this.onEditCancelled,
     required ProductsRepository productsRepository,
     required BrandsRepository brandsRepository,
     Product? editProduct,
@@ -43,6 +44,7 @@ class EditProductVM extends ChangeNotifier {
   final BrandsRepository _brandsRepository;
 
   final void Function(Product product) onProductSave;
+  final void Function() onEditCancelled;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -86,6 +88,10 @@ class EditProductVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editCancelled() {
+    onEditCancelled();
+  }
+
   Future<void> saveProduct() async {
     final savedProduct = Product(
       id,
@@ -100,11 +106,11 @@ class EditProductVM extends ChangeNotifier {
       brandId: _brandId,
       lastUpdate: DateTime.now().toUtc(),
     );
-    await _productsRepository.save(
-      savedProduct,
-      updateParam: _editImageData.updateParam,
-    );
-
+    // await _productsRepository.save(
+    //   savedProduct,
+    //   updateParam: _editImageData.updateParam,
+    // );
+    onProductSave(savedProduct);
     _showMessage('Add product: ${savedProduct.title}');
   }
 

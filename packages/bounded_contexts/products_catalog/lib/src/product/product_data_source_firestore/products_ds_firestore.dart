@@ -58,8 +58,9 @@ class ProductDataSourceFirestore extends IProductDataSource {
       if (productModel.hasStoredLogoImage) {
         imageData = await fileStorage.getLogoImage(productModel.id);
       }
-      products
-          .add(ProductFactory.create(model: productModel, image: imageData));
+      products.add(
+        ProductFactory.create(model: productModel, image: imageData),
+      );
     }
     return products;
   }
@@ -98,10 +99,10 @@ class ProductDataSourceFirestore extends IProductDataSource {
           entryPrice: double.parse(snapshot['entryPrice'].toString()),
           sellingPrice: double.parse(snapshot['sellingPrice'].toString()),
           barCode: snapshot['barCode'] as String,
-          lastUpdate: snapshot['imagePath'].toDate(),
+          lastUpdate: snapshot['lastUpdate'].toDate(),
           description: snapshot['description'] as String,
           brendId: snapshot['brendId'] as String?,
-          hasStoredLogoImage: ['hasStoredLogoImage'] as bool,
+          hasStoredLogoImage: snapshot['hasStoredLogoImage'] as bool,
         );
       },
       toFirestore: (product, options) {

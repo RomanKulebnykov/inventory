@@ -172,11 +172,8 @@ class EditProductPage extends StatelessWidget {
                     const Spacer(),
                     SubmitControlsRow(
                       submitStr: 'Add Product',
-                      onSubmit: () {
-                        viewModel.saveProduct();
-                        // if (context.mounted) Navigator.of(context).pop();
-                      },
-                      onCancel: () => Navigator.of(context).pop(),
+                      onSubmit: viewModel.saveProduct,
+                      onCancel: viewModel.editCancelled,
                     ),
                   ],
                 ),

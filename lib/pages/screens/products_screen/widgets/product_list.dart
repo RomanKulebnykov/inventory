@@ -13,14 +13,12 @@ class ProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 0,
+      itemCount: products.length,
       itemBuilder: (context, index) {
-        // final product = products.items[index];
+        final product = products[index];
         return ListTile(
-          title: Text('product.title'),
-          trailing: Text(
-            AppFormatter.currencyFormatter(0),
-          ),
+          title: Text(product.title),
+          trailing: Text(AppFormatter.currencyFormatter(0)),
           subtitle: const ProductStatsRow(),
         );
       },

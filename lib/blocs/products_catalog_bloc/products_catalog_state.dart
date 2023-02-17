@@ -12,6 +12,10 @@ class ProductsCatalogLoad extends ProductsCatalogState {}
 
 class ProductsCatalogShowProducts extends ProductsCatalogState {
   const ProductsCatalogShowProducts({required this.productsList});
-
   final List<Product> productsList;
+}
+
+class ProductsCatalogEditProduct extends ProductsCatalogState {
+  const ProductsCatalogEditProduct({this.editedProduct});
+  final Product? editedProduct;
 }
