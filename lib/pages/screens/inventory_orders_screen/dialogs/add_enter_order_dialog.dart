@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../providers/edit_product_order_controller.dart';
 import '../../../../providers/product_orders_provider.dart';
-import '../../../../providers/products_provider.dart';
 import '../../../../utils/formatters.dart';
 import '../../../../widgets/widgets.dart';
 
@@ -49,10 +48,10 @@ class AddEnterOrderDialog extends StatelessWidget {
                           orderItems: controller.orderItems,
                           onItemUpdated: controller.updateOrderItem,
                         ),
-                        ProductSearch(
-                          items: ProductsProvider.watch(context).items,
-                          onFind: controller.addOrderItem,
-                        ),
+                        // ProductSearch(
+                        //   items: ProductsProvider.watch(context).items,
+                        //   onFind: controller.addOrderItem,
+                        // ),
                       ],
                     ),
                   ),

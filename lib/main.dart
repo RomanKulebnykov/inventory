@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory/blocs/navigation/navigation_bloc.dart';
-import 'package:inventory/blocs/products/products_bloc.dart';
+import 'package:inventory/blocs/products_catalog_bloc/products_catalog_bloc.dart';
 import 'package:inventory/utils/device.dart';
 import 'package:inventory/utils/theme.dart';
 import 'package:inventory_manager/inventory_manager.dart';
@@ -12,7 +12,6 @@ import 'package:window_manager/window_manager.dart';
 import 'di.dart';
 import 'pages/home_page.dart';
 import 'providers/product_orders_provider.dart';
-import 'providers/products_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,13 +32,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => NavigationBloc()),
-        BlocProvider(create: (context) => ProductsBloc()),
+        BlocProvider(create: (context) => ProductsCatalogBloc(Di.getIt())),
       ],
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider<ProductsProvider>(
-            create: (context) => ProductsProvider(),
-          ),
           ChangeNotifierProvider<ProductOrdersProvider<OrderInventoryEnter>>(
             create: (context) => ProductOrdersProvider(Di.getIt()),
           ),

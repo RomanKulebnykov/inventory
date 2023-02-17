@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory/pages/edit_product_page/edit_product_cubit.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:provider/provider.dart';
 
+import '../../../blocs/products_catalog_bloc/products_catalog_bloc.dart';
 import '../../../di.dart';
 import '../../../utils/device.dart';
 import '../../../widgets/widgets.dart';
@@ -17,18 +17,25 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListMenu(
-            onAddNewPress: () => _openAddNewProductDialog(context),
-          ),
-        ),
-        const Expanded(
-          child: ProductList(),
-        ),
-      ],
+    return BlocConsumer<ProductsCatalogBloc, ProductsCatalogState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListMenu(
+                onAddNewPress: () => _openAddNewProductDialog(context),
+              ),
+            ),
+            const Expanded(
+              child: ProductList(),
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inventory/pages/edit_brand/edit_brand_cubit.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_vm.dart';
 import 'package:inventory/widgets/submit_controls_row.dart';
 import 'package:provider/provider.dart';

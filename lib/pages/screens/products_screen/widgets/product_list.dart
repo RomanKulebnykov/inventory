@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:products_catalog/products_catalog.dart';
 
-import '../../../../providers/products_provider.dart';
 import '../../../../utils/formatters.dart';
 
 class ProductList extends StatelessWidget {
-  const ProductList({Key? key}) : super(key: key);
+  const ProductList({
+    Key? key,
+    required this.products,
+  }) : super(key: key);
 
+  final List<Product> products;
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProductsProvider>(
-      builder: (context, products, child) {
-        return ListView.builder(
-          itemCount: products.count,
-          itemBuilder: (context, index) {
-            final product = products.items[index];
-            return ListTile(
-              title: Text(product.title),
-              trailing: Text(
-                AppFormatter.currencyFormatter(product.entryPrice),
-              ),
-              subtitle: const ProductStatsRow(),
-            );
-          },
+    return ListView.builder(
+      itemCount: 0,
+      itemBuilder: (context, index) {
+        // final product = products.items[index];
+        return ListTile(
+          title: Text('product.title'),
+          trailing: Text(
+            AppFormatter.currencyFormatter(0),
+          ),
+          subtitle: const ProductStatsRow(),
         );
       },
     );
