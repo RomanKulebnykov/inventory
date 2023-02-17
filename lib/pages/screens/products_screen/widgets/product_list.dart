@@ -35,7 +35,7 @@ class ProductStatsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: const [
-        Text('Amount: 0'),
+        Text('Amount: 1'),
         SizedBox(width: 8),
         Text('Reserve: 0'),
         SizedBox(width: 8),
