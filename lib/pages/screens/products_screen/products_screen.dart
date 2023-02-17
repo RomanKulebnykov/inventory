@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:provider/provider.dart';
 
@@ -30,9 +31,15 @@ class ProductsScreen extends StatelessWidget {
                 onAddNewPress: () => _openAddNewProductDialog(context),
               ),
             ),
-            const Expanded(
-              child: ProductList(),
-            ),
+            Builder(builder: (context) {
+              if (state is ProductsCatalogShowProducts) {
+                return Expanded(
+                  child: ProductList(products: state.productsList),
+                );
+              } else {
+                return const Center(child: SpinKitWave(color: Colors.blue));
+              }
+            }),
           ],
         );
       },

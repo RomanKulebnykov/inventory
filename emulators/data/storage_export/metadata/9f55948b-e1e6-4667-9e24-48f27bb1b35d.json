@@ -1,0 +1,19 @@
+{
+  "name": "username/products/f8ff0423-70ae-4c68-b1d5-e6407111efe0/logo.jpg",
+  "bucket": "inventory-b52ef.appspot.com",
+  "metageneration": 1,
+  "generation": 1676539491795,
+  "contentType": "application/octet-stream",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "c0c13f04-f09f-412e-93c7-0933b1fec9a0"
+  ],
+  "etag": "kpOEysSuQJWVfyLi4t/38bs9LeQ",
+  "customMetadata": {},
+  "timeCreated": "2023-02-16T09:24:51.795Z",
+  "updated": "2023-02-16T09:24:51.795Z",
+  "size": 102635,
+  "md5Hash": "9Gms0CbUZtisDr+S3xpmYA==",
+  "crc32c": "722607571"
+}

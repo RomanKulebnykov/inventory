@@ -1,0 +1,89 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "inventory",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "inventory (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "inventory (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "dart_guard",
+            "cwd": "packages/dart_guard",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "file_storage_firebase",
+            "cwd": "packages/file_storage_firebase",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "file_storage_firebase (profile mode)",
+            "cwd": "packages/file_storage_firebase",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "file_storage_firebase (release mode)",
+            "cwd": "packages/file_storage_firebase",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "image_processor",
+            "cwd": "packages/image_processor",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "inventory_manager",
+            "cwd": "packages/inventory_manager",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "shared_kernel",
+            "cwd": "packages/shared_kernel",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "products_catalog",
+            "cwd": "packages/bounded_contexts/products_catalog",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "products_catalog (profile mode)",
+            "cwd": "packages/bounded_contexts/products_catalog",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "products_catalog (release mode)",
+            "cwd": "packages/bounded_contexts/products_catalog",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
