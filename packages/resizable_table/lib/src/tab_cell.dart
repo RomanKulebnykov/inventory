@@ -8,9 +8,9 @@ class TabCell {
 class TabCellView extends StatelessWidget {
   const TabCellView({
     Key? key,
-    this.width = 100,
+    required this.width,
     required this.text,
-    this.isShow = true,
+    required this.isShow,
   }) : super(key: key);
 
   final double textElementPadding = 8;

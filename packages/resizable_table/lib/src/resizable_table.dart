@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resizable_table/src/head_menu.dart';
 
 import '../resizable_table.dart';
 import 'resizable_table_view_model.dart';
@@ -12,11 +11,14 @@ class ResizableTable extends StatelessWidget {
     required this.columns,
     required this.rows,
     this.withDividers = true,
+    this.persistance,
   });
 
   final List<TabHeadCell> columns;
   final List<TabRow> rows;
   final bool withDividers;
+  final ResizableTablePersistance? persistance;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ResizableTableViewModel>(
@@ -24,6 +26,7 @@ class ResizableTable extends StatelessWidget {
         columns,
         rows,
         withDivider: withDividers,
+        persistance: persistance,
       ),
       child: const _ResizableTableView(),
     );

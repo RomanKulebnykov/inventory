@@ -4,3 +4,4 @@ export 'src/resizable_table.dart';
 export 'src/tab_head_cell.dart';
 export 'src/tab_cell.dart';
 export 'src/tab_row.dart';
+export 'src/resizable_table_persistance.dart';

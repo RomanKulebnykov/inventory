@@ -67,7 +67,10 @@ class ProductsScreen extends StatelessWidget {
             Builder(builder: (context) {
               if (state is ProductsCatalogShowProducts) {
                 return Expanded(
-                  child: ProductList(products: state.productsList),
+                  child: ProductList(
+                    products: state.productsList,
+                    persistance: state.resizableTablePersistance,
+                  ),
                 );
               } else {
                 return const Center(child: SpinKitWave(color: Colors.blue));

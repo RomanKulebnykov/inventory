@@ -5,60 +5,87 @@ import 'package:resizable_table/src/tab_head_row.dart';
 import '../resizable_table.dart';
 
 class ResizableTableViewModel extends ChangeNotifier {
-  ResizableTableViewModel(this._columns, this._rows, {this.withDivider = true});
+  ResizableTableViewModel(
+    this._headCells,
+    this._rows, {
+    this.persistance,
+    this.withDivider = true,
+  }) {
+    initSizes();
+  }
 
-  final List<TabHeadCell> _columns;
+  Future<void> initSizes() async {
+    for (var headCell in _headCells) {
+      final state = await persistance?.loadState(name: headCell.text);
+      if (state != null) {
+        headCell.isShow = state.isShow;
+        headCell.width = state.width;
+      }
+    }
+    notifyListeners();
+  }
+
+  final List<TabHeadCell> _headCells;
   final List<TabRow> _rows;
   final bool withDivider;
+  final ResizableTablePersistance? persistance;
 
-  int get columnLength => _columns.length;
+  int get columnLength => _headCells.length;
   int get rowLength => _rows.length;
 
   Widget get menu => Visibility(
         visible: showControlsElement,
-        child: HeadMenu(columns: _columns, onChange: onShowColumnChange),
+        child: HeadMenu(columns: _headCells, onChange: onShowColumnChange),
       );
 
-  List<TabRowView> get rowViews {
-    return [
-      for (final row in _rows)
-        TabRowView(
-          hasDivider: true,
-          cells: List<TabCellView>.generate(row.cells.length, (index) {
-            return TabCellView(
-              text: row.cells[index].text,
-              width: _columns[index].width,
-              isShow: _columns[index].isShow,
-            );
-          }),
-        )
-    ];
-  }
+  List<TabRowView> get rowViews => [
+        for (final row in _rows)
+          TabRowView(
+            hasDivider: true,
+            cells: List<TabCellView>.generate(row.cells.length, (index) {
+              return TabCellView(
+                text: row.cells[index].text,
+                width: _headCells[index].width,
+                isShow: _headCells[index].isShow,
+              );
+            }),
+          )
+      ];
 
-  TabHeadRowView get headRowView {
-    return TabHeadRowView(
-      cells: List<TabHeadCellView>.generate(
-        columnLength,
-        (index) {
-          final column = _columns[index];
-          return TabHeadCellView(
-            text: column.text,
-            isEnable: column.isShow,
-            onWidthUpdate: (newWidth) => onColumnWidthChange(index, newWidth),
-            isSHowDragElement: showControlsElement,
-          );
-        },
-      ),
-    );
-  }
+  TabHeadRowView get headRowView => TabHeadRowView(
+        cells: List<TabHeadCellView>.generate(
+          columnLength,
+          (index) {
+            final column = _headCells[index];
+            return TabHeadCellView(
+              text: column.text,
+              isEnable: column.isShow,
+              isSHowDragElement: showControlsElement,
+              onWidthUpdate: (newWidth) => onColumnWidthUpdate(index, newWidth),
+              onWidthUpdateFinish: () => onColumnWidthUpdateFinish(column),
+            );
+          },
+        ),
+      );
 
   void onShowColumnChange(TabHeadCell column, bool value) {
     column.isShow = value;
+    persistance?.saveState(
+      name: column.text,
+      state: ResizableState(column.width, value),
+    );
     notifyListeners();
   }
 
-  void onColumnWidthChange(int index, double width) {
-    _columns[index].width = width;
+  void onColumnWidthUpdateFinish(TabHeadCell headCell) {
+    persistance?.saveState(
+      name: headCell.text,
+      state: ResizableState(headCell.width, headCell.isShow),
+    );
+  }
+
+  void onColumnWidthUpdate(int index, double width) {
+    _headCells[index].width = width;
     notifyListeners();
   }
 

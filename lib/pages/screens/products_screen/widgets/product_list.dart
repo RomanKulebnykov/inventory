@@ -9,12 +9,16 @@ class ProductList extends StatelessWidget {
   const ProductList({
     Key? key,
     required this.products,
+    required this.persistance,
   }) : super(key: key);
 
   final List<Product> products;
+  final ResizableTablePersistance persistance;
   @override
   Widget build(BuildContext context) {
     return ResizableTable(
+      persistance: persistance,
+      withDividers: true,
       columns: [
         TabHeadCell(text: 'head1'),
         TabHeadCell(text: 'head2'),

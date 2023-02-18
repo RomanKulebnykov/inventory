@@ -11,8 +11,12 @@ class ProductsCatalogInitial extends ProductsCatalogState {}
 class ProductsCatalogLoad extends ProductsCatalogState {}
 
 class ProductsCatalogShowProducts extends ProductsCatalogState {
-  const ProductsCatalogShowProducts({required this.productsList});
+  const ProductsCatalogShowProducts({
+    required this.productsList,
+    required this.resizableTablePersistance,
+  });
   final List<Product> productsList;
+  final ResizableTablePersistance resizableTablePersistance;
 }
 
 class ProductsCatalogEditProduct extends ProductsCatalogState {
