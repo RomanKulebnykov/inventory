@@ -1,6 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:products_catalog/products_catalog.dart';
-
+import 'package:resizable_table/resizable_table.dart';
 import '../../../../utils/formatters.dart';
 
 class ProductList extends StatelessWidget {
@@ -12,16 +14,39 @@ class ProductList extends StatelessWidget {
   final List<Product> products;
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        final product = products[index];
-        return ListTile(
-          title: Text(product.title),
-          trailing: Text(AppFormatter.currencyFormatter(0)),
-          subtitle: const ProductStatsRow(),
-        );
-      },
+    return ResizableTable(
+      columns: [
+        TabHeadCell(text: 'head1'),
+        TabHeadCell(text: 'head2'),
+        TabHeadCell(text: 'head3'),
+      ],
+      rows: [
+        TabRow(cells: [
+          TabCell(text: 'v1f1'),
+          TabCell(text: 'v1f2'),
+          TabCell(text: 'v1f3'),
+        ]),
+        TabRow(cells: [
+          TabCell(text: 'v2f1'),
+          TabCell(text: 'v2f2'),
+          TabCell(text: 'v2f3')
+        ]),
+        TabRow(cells: [
+          TabCell(text: 'v3f1'),
+          TabCell(text: 'v3f2'),
+          TabCell(text: 'v3f3')
+        ]),
+        TabRow(cells: [
+          TabCell(text: 'v4f1'),
+          TabCell(text: 'v4f2'),
+          TabCell(text: 'v4f3')
+        ]),
+        TabRow(cells: [
+          TabCell(text: 'v5f1'),
+          TabCell(text: 'v5f2'),
+          TabCell(text: 'v5f3')
+        ]),
+      ],
     );
   }
 }

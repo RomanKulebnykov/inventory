@@ -62,6 +62,9 @@ dependencies:
   products_catalog:
     path: packages/bounded_contexts/products_catalog
 
+  resizable_table:
+    path: packages/resizable_table
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
