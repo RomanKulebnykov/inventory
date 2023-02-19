@@ -11,11 +11,13 @@ class TabCellView extends StatelessWidget {
     required this.width,
     required this.element,
     required this.isShow,
+    required this.height,
   }) : super(key: key);
 
-  final double textElementPadding = 8;
+  final double elementPadding = 8;
   final bool isShow;
   final double width;
+  final double height;
   final Widget element;
 
   @override
@@ -23,11 +25,14 @@ class TabCellView extends StatelessWidget {
     if (!isShow) return Container();
     return SizedBox(
       width: width,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: textElementPadding),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: element,
+      child: SizedBox(
+        height: height,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: elementPadding),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: element,
+          ),
         ),
       ),
     );

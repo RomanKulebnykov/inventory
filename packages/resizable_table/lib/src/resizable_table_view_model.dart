@@ -8,13 +8,14 @@ class ResizableTableViewModel extends ChangeNotifier {
   ResizableTableViewModel(
     this._headCells,
     this._rows, {
+    required this.rowHeight,
     this.persistance,
     this.withDivider = true,
   }) {
-    initSizes();
+    loadStates();
   }
 
-  Future<void> initSizes() async {
+  Future<void> loadStates() async {
     for (var headCell in _headCells) {
       if (headCell.fixedWidth != null) continue;
       final state = await persistance?.loadState(name: headCell.idLabel);
@@ -29,6 +30,7 @@ class ResizableTableViewModel extends ChangeNotifier {
   final List<TabHeadCell> _headCells;
   final List<TabRow> _rows;
   final bool withDivider;
+  final double rowHeight;
   final ResizableTablePersistance? persistance;
 
   int get columnLength => _headCells.length;
@@ -47,6 +49,7 @@ class ResizableTableViewModel extends ChangeNotifier {
               return TabCellView(
                 element: row.cells[index].element,
                 width: _headCells[index].width,
+                height: rowHeight,
                 isShow: _headCells[index].isShow,
               );
             }),

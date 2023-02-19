@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'tab_cell.dart';
 
@@ -19,8 +21,12 @@ class TabRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Row(children: cells),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: cells,
+        ),
         if (hasDivider) const Divider(),
       ],
     );

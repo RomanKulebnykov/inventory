@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventory/utils/formatters.dart';
+import 'package:inventory/widgets/image_data_view.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:resizable_table/resizable_table.dart';
 
@@ -18,17 +19,19 @@ class ProductList extends StatelessWidget {
       persistance: persistance,
       withDividers: true,
       columns: [
+        TabHeadCell(text: 'Image', idLabel: 'image', fixedWidth: 60),
         TabHeadCell(text: 'Code', idLabel: 'code'),
         TabHeadCell(text: 'Article', idLabel: 'article'),
         TabHeadCell(text: 'Title', idLabel: 'title'),
         TabHeadCell(text: 'Entry Price', idLabel: 'entryPrice'),
         TabHeadCell(text: 'Selling Price', idLabel: 'sellingPrice'),
-        // TabHeadCell(text: 'Last Update', idLabel: 'lastUpdate'),
+        TabHeadCell(text: 'Last Update', idLabel: 'lastUpdate'),
       ],
       rows: [
         for (final product in products)
           TabRow(
             cells: [
+              TabCell(element: ImageDataView(imageData: product.image)),
               TabCell(element: Text(product.code)),
               TabCell(element: Text(product.articles.join(','))),
               TabCell(element: Text(product.title)),
@@ -40,10 +43,10 @@ class ProductList extends StatelessWidget {
                 element:
                     Text(AppFormatter.currencyFormatter(product.sellingPrice)),
               ),
-              // TabCell(
-              //   element:
-              //       Text(AppFormatter.dateFormat.format(product.lastUpdate)),
-              // ),
+              TabCell(
+                element:
+                    Text(AppFormatter.dateFormat.format(product.lastUpdate)),
+              ),
             ],
           )
       ],

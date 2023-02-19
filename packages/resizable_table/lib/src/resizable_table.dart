@@ -12,11 +12,13 @@ class ResizableTable extends StatelessWidget {
     required this.rows,
     this.withDividers = true,
     this.persistance,
+    this.rowHeight = 15,
   }) : assert(rows.every((element) => element.cells.length == columns.length));
 
   final List<TabHeadCell> columns;
   final List<TabRow> rows;
   final bool withDividers;
+  final double rowHeight;
   final ResizableTablePersistance? persistance;
 
   @override
@@ -25,6 +27,7 @@ class ResizableTable extends StatelessWidget {
       create: (context) => ResizableTableViewModel(
         columns,
         rows,
+        rowHeight: rowHeight,
         withDivider: withDividers,
         persistance: persistance,
       ),
@@ -41,31 +44,38 @@ class _ResizableTableView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ResizableTableViewModel>(
       builder: (context, viewModel, child) {
-        return Column(
-          children: [
-            MouseRegion(
-              onEnter: (event) => viewModel.setShowControlElements(true),
-              onExit: (event) => viewModel.setShowControlElements(false),
-              child: Row(
-                children: [
-                  viewModel.headRowView,
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: viewModel.menu,
-                  ),
-                ],
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MouseRegion(
+                onEnter: (event) => viewModel.setShowControlElements(true),
+                onExit: (event) => viewModel.setShowControlElements(false),
+                child: Row(
+                  children: [
+                    viewModel.headRowView,
+                    // const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: viewModel.menu,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            if (viewModel.withDivider) const Divider(),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: viewModel.rowLength,
-              itemBuilder: (context, index) {
-                return viewModel.rowViews[index];
-              },
-            ),
-          ],
+              if (viewModel.withDivider) const Divider(),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: viewModel.rowLength,
+                  itemBuilder: (context, index) {
+                    return viewModel.rowViews[index];
+                  },
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
