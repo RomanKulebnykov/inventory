@@ -11,7 +11,7 @@ class ResizableTable extends StatelessWidget {
     required this.columns,
     required this.rows,
     this.persistance,
-    this.isSelectable = true,
+    this.isCheckable = true,
     this.withDividers = true,
     this.rowHeight = 15,
   }) : assert(rows.every((element) => element.cells.length == columns.length));
@@ -20,7 +20,7 @@ class ResizableTable extends StatelessWidget {
   final List<TabRow> rows;
   final ResizableTablePersistance? persistance;
   final bool withDividers;
-  final bool isSelectable;
+  final bool isCheckable;
   final double rowHeight;
 
   @override
@@ -31,7 +31,7 @@ class ResizableTable extends StatelessWidget {
         rows: rows,
         rowHeight: rowHeight,
         withDivider: withDividers,
-        isCheckable: isSelectable,
+        isCheckable: isCheckable,
         persistance: persistance,
       ),
       child: const _ResizableTableView(),

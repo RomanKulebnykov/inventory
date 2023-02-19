@@ -12,25 +12,39 @@ class ResizableTableViewModel extends ChangeNotifier {
     required this.rowHeight,
     required this.isCheckable,
     this.withDivider = true,
-  })  : _rows = rows,
-        _headCells = headCells {
-    loadStates();
+  }) {
+    initializeStates(headCells, rows);
   }
 
-  Future<void> loadStates() async {
-    for (var headCell in _headCells) {
-      if (headCell.fixedWidth != null) continue;
+  Future<void> initializeStates(
+    List<TabHeadCell> headCells,
+    List<TabRow> rows,
+  ) async {
+    final updatedHeadCells = <TabHeadCell>[];
+    for (var headCell in headCells) {
+      // if (headCell.fixedWidth != null) continue;
       final state = await persistance?.loadState(name: headCell.idLabel);
       if (state != null) {
         headCell.isShow = state.isShow;
         headCell.width = state.width;
+        updatedHeadCells.add(
+          TabHeadCell(
+              idLabel: headCell.idLabel,
+              element: headCell.element,
+              isShow: state.isShow,
+              width: state.width),
+        );
+      } else {
+        updatedHeadCells.add(headCell);
       }
     }
+    _headCells = updatedHeadCells;
+    _rows = rows;
     notifyListeners();
   }
 
-  final List<TabHeadCell> _headCells;
-  final List<TabRow> _rows;
+  List<TabHeadCell> _headCells = [];
+  List<TabRow> _rows = [];
   final ResizableTablePersistance? persistance;
 
   final bool withDivider;
@@ -42,65 +56,47 @@ class ResizableTableViewModel extends ChangeNotifier {
 
   Widget get menu => Visibility(
         visible: showControlsElement,
-        child: HeadMenu(columns: _headCells, onChange: onShowColumnChange),
+        child: HeadMenu(
+            columns: _headCells
+                .where((element) => element.showInMenu == true)
+                .toList(),
+            onChange: onShowColumnChange),
       );
 
   TabHeadRowView get headRowView => TabHeadRowView(
-        cells: [..._generateHeadCells()],
+        cells: List<TabHeadCellView>.generate(
+          columnLength,
+          (index) {
+            final headCell = _headCells[index];
+            return TabHeadCellView(
+              minWidth: headCell.minWidth,
+              maxWidth: headCell.maxWidth,
+              width: headCell.width,
+              element: headCell.element,
+              isEnable: headCell.isShow,
+              isSHowDragElement:
+                  headCell.fixedWidth == null && showControlsElement,
+              onWidthUpdate: (newWidth) => onColumnWidthUpdate(index, newWidth),
+              onWidthUpdateFinish: () => onColumnWidthUpdateFinish(headCell),
+            );
+          },
+        ),
       );
 
   List<TabRowView> get rowViews => [
         for (final row in _rows)
           TabRowView(
             hasDivider: true,
-            cells: [
-              // _generateCheckedCell((value) {}),
-              ..._generateRowCells(row)
-            ],
+            cells: List<TabCellView>.generate(row.cells.length, (index) {
+              return TabCellView(
+                element: row.cells[index].element,
+                width: _headCells[index].width,
+                height: rowHeight,
+                isShow: _headCells[index].isShow,
+              );
+            }),
           )
       ];
-
-  TabCellView _generateCheckedCell(Function(bool? value) onChange) {
-    return TabCellView(
-      width: 50,
-      element: Checkbox(
-        value: false,
-        onChanged: onChange,
-      ),
-      isShow: true,
-      height: rowHeight,
-    );
-  }
-
-  List<TabCellView> _generateRowCells(TabRow row) {
-    return List<TabCellView>.generate(row.cells.length, (index) {
-      return TabCellView(
-        element: row.cells[index].element,
-        width: _headCells[index].width,
-        height: rowHeight,
-        isShow: _headCells[index].isShow,
-      );
-    });
-  }
-
-  List<TabHeadCellView> _generateHeadCells() {
-    return List<TabHeadCellView>.generate(
-      columnLength,
-      (index) {
-        final headCell = _headCells[index];
-        return TabHeadCellView(
-          minWidth: headCell.minWidth,
-          maxWidth: headCell.maxWidth,
-          width: headCell.width,
-          element: headCell.element,
-          isEnable: headCell.isShow,
-          isSHowDragElement: headCell.fixedWidth == null && showControlsElement,
-          onWidthUpdate: (newWidth) => onColumnWidthUpdate(index, newWidth),
-          onWidthUpdateFinish: () => onColumnWidthUpdateFinish(headCell),
-        );
-      },
-    );
-  }
 
   /// ------------------------------------------------------- onShowColumnChange
   void onShowColumnChange(TabHeadCell column, bool value) {

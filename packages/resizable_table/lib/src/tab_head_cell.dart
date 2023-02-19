@@ -6,12 +6,14 @@ class TabHeadCell {
   final double minWidth;
   final double maxWidth;
   final double? fixedWidth;
+  final bool showInMenu;
   bool isShow;
   double width;
 
   TabHeadCell({
     required this.idLabel,
     required this.element,
+    this.showInMenu = true,
     this.isShow = true,
     this.minWidth = 50,
     this.maxWidth = 200,
