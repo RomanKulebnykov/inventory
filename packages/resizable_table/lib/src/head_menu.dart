@@ -23,7 +23,7 @@ class HeadMenu extends StatelessWidget {
               child: StatefulBuilder(
                 builder: (context, setState) {
                   return CheckboxListTile(
-                    title: Text(column.text),
+                    title: column.element,
                     value: isChecked,
                     onChanged: (val) {
                       onChange(column, val!);

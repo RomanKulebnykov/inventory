@@ -19,13 +19,35 @@ class ProductList extends StatelessWidget {
       persistance: persistance,
       withDividers: true,
       columns: [
-        TabHeadCell(text: 'Image', idLabel: 'image', fixedWidth: 60),
-        TabHeadCell(text: 'Code', idLabel: 'code'),
-        TabHeadCell(text: 'Article', idLabel: 'article'),
-        TabHeadCell(text: 'Title', idLabel: 'title'),
-        TabHeadCell(text: 'Entry Price', idLabel: 'entryPrice'),
-        TabHeadCell(text: 'Selling Price', idLabel: 'sellingPrice'),
-        TabHeadCell(text: 'Last Update', idLabel: 'lastUpdate'),
+        TabHeadCell(
+          element: Container(),
+          idLabel: 'image',
+          fixedWidth: 60,
+        ),
+        TabHeadCell(
+          element: const Text('Code', overflow: TextOverflow.ellipsis),
+          idLabel: 'code',
+        ),
+        TabHeadCell(
+          element: const Text('Article', overflow: TextOverflow.ellipsis),
+          idLabel: 'article',
+        ),
+        TabHeadCell(
+          element: const Text('Title', overflow: TextOverflow.ellipsis),
+          idLabel: 'title',
+        ),
+        TabHeadCell(
+          element: const Text('Entry Price', overflow: TextOverflow.ellipsis),
+          idLabel: 'entryPrice',
+        ),
+        TabHeadCell(
+          element: const Text('Selling Price', overflow: TextOverflow.ellipsis),
+          idLabel: 'sellingPrice',
+        ),
+        TabHeadCell(
+          element: const Text('Last Update', overflow: TextOverflow.ellipsis),
+          idLabel: 'lastUpdate',
+        ),
       ],
       rows: [
         for (final product in products)

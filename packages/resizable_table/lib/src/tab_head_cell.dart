@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TabHeadCell {
   final String idLabel;
-  final String text;
+  final Widget element;
   final double minWidth;
   final double maxWidth;
   final double? fixedWidth;
@@ -11,7 +11,7 @@ class TabHeadCell {
 
   TabHeadCell({
     required this.idLabel,
-    required this.text,
+    required this.element,
     this.isShow = true,
     this.minWidth = 50,
     this.maxWidth = 200,
@@ -36,7 +36,7 @@ class TabHeadCell {
 class TabHeadCellView extends StatefulWidget {
   const TabHeadCellView({
     Key? key,
-    required this.text,
+    required this.element,
     required this.width,
     required this.minWidth,
     required this.maxWidth,
@@ -47,7 +47,7 @@ class TabHeadCellView extends StatefulWidget {
     this.onWidthUpdate,
   }) : super(key: key);
 
-  final String text;
+  final Widget element;
   final double width;
   final double minWidth;
   final double maxWidth;
@@ -87,10 +87,7 @@ class _TabHeadCellViewState extends State<TabHeadCellView> {
             Flexible(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: widget.textPadding),
-                child: Text(
-                  widget.text,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: widget.element,
               ),
             ),
             MouseRegion(
