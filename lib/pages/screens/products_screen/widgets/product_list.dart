@@ -13,16 +13,32 @@ class ProductList extends StatelessWidget {
 
   final List<Product> products;
   final ResizableTablePersistance? persistance;
+
   @override
   Widget build(BuildContext context) {
+    bool isChecked = false;
     return ResizableTable(
       persistance: persistance,
       withDividers: true,
       columns: [
         TabHeadCell(
-          element: Container(),
+          element: StatefulBuilder(
+            builder: (context, setState) {
+              return Checkbox(
+                value: isChecked,
+                onChanged: (value) => setState(() => isChecked = value!),
+              );
+            },
+          ),
+          idLabel: 'check',
+          fixedWidth: 60,
+          showInMenu: false,
+        ),
+        TabHeadCell(
+          element: const Text('Image', overflow: TextOverflow.ellipsis),
           idLabel: 'image',
           fixedWidth: 60,
+          showInMenu: false,
         ),
         TabHeadCell(
           element: const Text('Code', overflow: TextOverflow.ellipsis),
@@ -53,6 +69,7 @@ class ProductList extends StatelessWidget {
         for (final product in products)
           TabRow(
             cells: [
+              TabCell(element: Checkbox(value: false, onChanged: (value) {})),
               TabCell(element: ImageDataView(imageData: product.image)),
               TabCell(element: Text(product.code)),
               TabCell(element: Text(product.articles.join(','))),
