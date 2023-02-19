@@ -16,7 +16,8 @@ class ResizableTableViewModel extends ChangeNotifier {
 
   Future<void> initSizes() async {
     for (var headCell in _headCells) {
-      final state = await persistance?.loadState(name: headCell.text);
+      if (headCell.fixedWidth != null) continue;
+      final state = await persistance?.loadState(name: headCell.idLabel);
       if (state != null) {
         headCell.isShow = state.isShow;
         headCell.width = state.width;
@@ -44,7 +45,7 @@ class ResizableTableViewModel extends ChangeNotifier {
             hasDivider: true,
             cells: List<TabCellView>.generate(row.cells.length, (index) {
               return TabCellView(
-                text: row.cells[index].text,
+                element: row.cells[index].element,
                 width: _headCells[index].width,
                 isShow: _headCells[index].isShow,
               );
@@ -56,13 +57,17 @@ class ResizableTableViewModel extends ChangeNotifier {
         cells: List<TabHeadCellView>.generate(
           columnLength,
           (index) {
-            final column = _headCells[index];
+            final headCell = _headCells[index];
             return TabHeadCellView(
-              text: column.text,
-              isEnable: column.isShow,
-              isSHowDragElement: showControlsElement,
+              minWidth: headCell.minWidth,
+              maxWidth: headCell.maxWidth,
+              width: headCell.width,
+              text: headCell.text,
+              isEnable: headCell.isShow,
+              isSHowDragElement:
+                  headCell.fixedWidth == null && showControlsElement,
               onWidthUpdate: (newWidth) => onColumnWidthUpdate(index, newWidth),
-              onWidthUpdateFinish: () => onColumnWidthUpdateFinish(column),
+              onWidthUpdateFinish: () => onColumnWidthUpdateFinish(headCell),
             );
           },
         ),
@@ -71,7 +76,7 @@ class ResizableTableViewModel extends ChangeNotifier {
   void onShowColumnChange(TabHeadCell column, bool value) {
     column.isShow = value;
     persistance?.saveState(
-      name: column.text,
+      name: column.idLabel,
       state: ResizableState(column.width, value),
     );
     notifyListeners();
@@ -79,7 +84,7 @@ class ResizableTableViewModel extends ChangeNotifier {
 
   void onColumnWidthUpdateFinish(TabHeadCell headCell) {
     persistance?.saveState(
-      name: headCell.text,
+      name: headCell.idLabel,
       state: ResizableState(headCell.width, headCell.isShow),
     );
   }

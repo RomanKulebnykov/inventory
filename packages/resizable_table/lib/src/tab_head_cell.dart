@@ -1,36 +1,61 @@
 import 'package:flutter/material.dart';
 
 class TabHeadCell {
+  final String idLabel;
   final String text;
+  final double minWidth;
+  final double maxWidth;
+  final double? fixedWidth;
   bool isShow;
   double width;
 
-  TabHeadCell({required this.text, this.isShow = true, this.width = 100});
+  TabHeadCell({
+    required this.idLabel,
+    required this.text,
+    this.isShow = true,
+    this.minWidth = 50,
+    this.maxWidth = 200,
+    this.fixedWidth,
+    double? width,
+  }) : width = fixedWidth ?? correctWidth(width, minWidth, maxWidth);
+
+  static double correctWidth(double? prefferedW, double minW, double maxW) {
+    if (prefferedW != null) {
+      if (prefferedW < maxW && prefferedW > minW) {
+        return prefferedW;
+      } else if (prefferedW > maxW) {
+        return maxW;
+      } else if (prefferedW < minW) {
+        return minW;
+      }
+    }
+    return (minW + maxW) / 2;
+  }
 }
 
 class TabHeadCellView extends StatefulWidget {
   const TabHeadCellView({
     Key? key,
     required this.text,
-    this.initialWidth = 100,
-    this.minWidth = 50,
-    this.maxWidth = 200,
-    this.onWidthUpdate,
+    required this.width,
+    required this.minWidth,
+    required this.maxWidth,
     this.isSHowDragElement = true,
-    this.onWidthUpdateFinish,
     this.textPadding = 8,
     required this.isEnable,
+    this.onWidthUpdateFinish,
+    this.onWidthUpdate,
   }) : super(key: key);
 
-  final bool isEnable;
   final String text;
-  final double textPadding;
-  final double? initialWidth;
+  final double width;
   final double minWidth;
   final double maxWidth;
+  final bool isSHowDragElement;
+  final double textPadding;
+  final bool isEnable;
   final void Function(double newWidth)? onWidthUpdate;
   final void Function()? onWidthUpdateFinish;
-  final bool isSHowDragElement;
 
   @override
   State<TabHeadCellView> createState() => _TabHeadCellViewState();
@@ -40,7 +65,7 @@ class _TabHeadCellViewState extends State<TabHeadCellView> {
   @override
   void initState() {
     super.initState();
-    width = widget.initialWidth ?? (widget.maxWidth + widget.minWidth) / 2;
+    width = widget.width;
   }
 
   late double width;

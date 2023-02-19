@@ -69,7 +69,7 @@ class ProductsScreen extends StatelessWidget {
                 return Expanded(
                   child: ProductList(
                     products: state.productsList,
-                    persistance: state.resizableTablePersistance,
+                    // persistance: state.resizableTablePersistance,
                   ),
                 );
               } else {

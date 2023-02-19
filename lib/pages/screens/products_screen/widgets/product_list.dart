@@ -1,55 +1,51 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:inventory/utils/formatters.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:resizable_table/resizable_table.dart';
-import '../../../../utils/formatters.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({
     Key? key,
     required this.products,
-    required this.persistance,
+    this.persistance,
   }) : super(key: key);
 
   final List<Product> products;
-  final ResizableTablePersistance persistance;
+  final ResizableTablePersistance? persistance;
   @override
   Widget build(BuildContext context) {
     return ResizableTable(
       persistance: persistance,
       withDividers: true,
       columns: [
-        TabHeadCell(text: 'head1'),
-        TabHeadCell(text: 'head2'),
-        TabHeadCell(text: 'head3'),
+        TabHeadCell(text: 'Code', idLabel: 'code'),
+        TabHeadCell(text: 'Article', idLabel: 'article'),
+        TabHeadCell(text: 'Title', idLabel: 'title'),
+        TabHeadCell(text: 'Entry Price', idLabel: 'entryPrice'),
+        TabHeadCell(text: 'Selling Price', idLabel: 'sellingPrice'),
+        // TabHeadCell(text: 'Last Update', idLabel: 'lastUpdate'),
       ],
       rows: [
-        TabRow(cells: [
-          TabCell(text: 'v1f1'),
-          TabCell(text: 'v1f2'),
-          TabCell(text: 'v1f3'),
-        ]),
-        TabRow(cells: [
-          TabCell(text: 'v2f1'),
-          TabCell(text: 'v2f2'),
-          TabCell(text: 'v2f3')
-        ]),
-        TabRow(cells: [
-          TabCell(text: 'v3f1'),
-          TabCell(text: 'v3f2'),
-          TabCell(text: 'v3f3')
-        ]),
-        TabRow(cells: [
-          TabCell(text: 'v4f1'),
-          TabCell(text: 'v4f2'),
-          TabCell(text: 'v4f3')
-        ]),
-        TabRow(cells: [
-          TabCell(text: 'v5f1'),
-          TabCell(text: 'v5f2'),
-          TabCell(text: 'v5f3')
-        ]),
+        for (final product in products)
+          TabRow(
+            cells: [
+              TabCell(element: Text(product.code)),
+              TabCell(element: Text(product.articles.join(','))),
+              TabCell(element: Text(product.title)),
+              TabCell(
+                element:
+                    Text(AppFormatter.currencyFormatter(product.entryPrice)),
+              ),
+              TabCell(
+                element:
+                    Text(AppFormatter.currencyFormatter(product.sellingPrice)),
+              ),
+              // TabCell(
+              //   element:
+              //       Text(AppFormatter.dateFormat.format(product.lastUpdate)),
+              // ),
+            ],
+          )
       ],
     );
   }

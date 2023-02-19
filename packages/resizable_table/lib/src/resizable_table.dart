@@ -6,13 +6,13 @@ import 'resizable_table_view_model.dart';
 
 /// ResizableTable
 class ResizableTable extends StatelessWidget {
-  const ResizableTable({
+  ResizableTable({
     super.key,
     required this.columns,
     required this.rows,
     this.withDividers = true,
     this.persistance,
-  });
+  }) : assert(rows.every((element) => element.cells.length == columns.length));
 
   final List<TabHeadCell> columns;
   final List<TabRow> rows;

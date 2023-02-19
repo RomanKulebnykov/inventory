@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 class TabCell {
-  TabCell({required this.text});
-  final String text;
+  TabCell({required this.element});
+  final Widget element;
 }
 
 class TabCellView extends StatelessWidget {
   const TabCellView({
     Key? key,
     required this.width,
-    required this.text,
+    required this.element,
     required this.isShow,
   }) : super(key: key);
 
   final double textElementPadding = 8;
   final bool isShow;
   final double width;
-  final String text;
+  final Widget element;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class TabCellView extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: textElementPadding),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Text(text),
+          child: element,
         ),
       ),
     );
