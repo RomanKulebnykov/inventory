@@ -31,13 +31,13 @@ class ProductList extends StatelessWidget {
             },
           ),
           idLabel: 'check',
-          fixedWidth: 60,
+          fixedWidth: 52,
           showInMenu: false,
         ),
         TabHeadCell(
           element: const Text('Image', overflow: TextOverflow.ellipsis),
           idLabel: 'image',
-          fixedWidth: 60,
+          fixedWidth: 50,
           showInMenu: false,
         ),
         TabHeadCell(

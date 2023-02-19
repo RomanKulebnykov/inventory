@@ -69,13 +69,12 @@ class ResizableTableViewModel extends ChangeNotifier {
           (index) {
             final headCell = _headCells[index];
             return TabHeadCellView(
-              minWidth: headCell.minWidth,
-              maxWidth: headCell.maxWidth,
+              minWidth: headCell.fixedWidth ?? headCell.minWidth,
+              maxWidth: headCell.fixedWidth ?? headCell.maxWidth,
               width: headCell.width,
               element: headCell.element,
               isEnable: headCell.isShow,
-              isSHowDragElement:
-                  headCell.fixedWidth == null && showControlsElement,
+              isSHowDragElement: showControlsElement,
               onWidthUpdate: (newWidth) => onColumnWidthUpdate(index, newWidth),
               onWidthUpdateFinish: () => onColumnWidthUpdateFinish(headCell),
             );
