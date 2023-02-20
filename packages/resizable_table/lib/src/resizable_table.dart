@@ -69,12 +69,16 @@ class _ResizableTableView extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (viewModel.withDivider) const Divider(),
                 Expanded(
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     physics: const BouncingScrollPhysics(),
-                    child: Column(children: viewModel.rowViews),
+                    child: IntrinsicWidth(
+                      child: Column(children: [
+                        if (viewModel.withDivider) const Divider(),
+                        ...viewModel.rowViews,
+                      ]),
+                    ),
                   ),
                 ),
               ],
