@@ -32,13 +32,13 @@ class ProductList extends StatelessWidget {
           ),
           idLabel: 'check',
           fixedWidth: 52,
-          showInMenu: false,
+          isPinned: true,
         ),
         TabHeadCell(
           element: const Text('Image', overflow: TextOverflow.ellipsis),
           idLabel: 'image',
           fixedWidth: 50,
-          showInMenu: false,
+          isPinned: true,
         ),
         TabHeadCell(
           element: const Text('Code', overflow: TextOverflow.ellipsis),

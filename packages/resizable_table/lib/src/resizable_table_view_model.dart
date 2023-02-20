@@ -16,6 +16,7 @@ class ResizableTableViewModel extends ChangeNotifier {
     initializeStates(headCells, rows);
   }
 
+  /// --------------------------------------------------------- initializeStates
   Future<void> initializeStates(
     List<TabHeadCell> headCells,
     List<TabRow> rows,
@@ -43,37 +44,43 @@ class ResizableTableViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<TabHeadCell> _headCells = [];
-  List<TabRow> _rows = [];
+  /// =================================================================== FIELDS
   final ResizableTablePersistance? persistance;
-
   final bool withDivider;
   final double rowHeight;
   final bool isCheckable;
 
+  List<TabHeadCell> _headCells = [];
+  List<TabRow> _rows = [];
+
+  /// ============================================================= VIEW GETTERS
   int get columnLength => _headCells.length;
   int get rowLength => _rows.length;
 
+  /// --------------------------------------------------------------------- menu
   Widget get menu => Visibility(
         visible: showControlsElement,
         child: HeadMenu(
             columns: _headCells
-                .where((element) => element.showInMenu == true)
+                .where((element) => element.isPinned == false)
                 .toList(),
             onChange: onShowColumnChange),
       );
 
+  /// -------------------------------------------------------------- headRowView
   TabHeadRowView get headRowView => TabHeadRowView(
         cells: List<TabHeadCellView>.generate(
           columnLength,
           (index) {
             final headCell = _headCells[index];
             return TabHeadCellView(
+              key: ValueKey(headCell.idLabel),
               minWidth: headCell.fixedWidth ?? headCell.minWidth,
               maxWidth: headCell.fixedWidth ?? headCell.maxWidth,
               width: headCell.width,
               element: headCell.element,
               isEnable: headCell.isShow,
+              isPinned: headCell.isPinned,
               isSHowDragElement: showControlsElement,
               onWidthUpdate: (newWidth) => onColumnWidthUpdate(index, newWidth),
               onWidthUpdateFinish: () => onColumnWidthUpdateFinish(headCell),
@@ -82,6 +89,7 @@ class ResizableTableViewModel extends ChangeNotifier {
         ),
       );
 
+  /// ----------------------------------------------------------------- rowViews
   List<TabRowView> get rowViews => [
         for (final row in _rows)
           TabRowView(
@@ -96,6 +104,14 @@ class ResizableTableViewModel extends ChangeNotifier {
             }),
           )
       ];
+
+  /// ---------------------------------------------------------------- onReorder
+
+  void onReorder(int oldIndex, int newIndex) {
+    //
+    print('old $oldIndex -> new $newIndex');
+    notifyListeners();
+  }
 
   /// ------------------------------------------------------- onShowColumnChange
   void onShowColumnChange(TabHeadCell column, bool value) {

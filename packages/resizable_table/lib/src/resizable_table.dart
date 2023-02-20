@@ -60,11 +60,6 @@ class _ResizableTableView extends StatelessWidget {
                   onExit: (event) => viewModel.setShowControlElements(false),
                   child: Row(
                     children: [
-                      // Checkbox(
-                      //   value: false,
-                      //   onChanged: (value) {},
-                      //   materialTapTargetSize: MaterialTapTargetSize.padded,
-                      // ),
                       viewModel.headRowView,
                       // const Spacer(),
                       Padding(

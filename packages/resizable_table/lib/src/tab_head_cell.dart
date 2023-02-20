@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
+/// ================================================================ TabHeadCell
 class TabHeadCell {
   final String idLabel;
   final Widget element;
   final double minWidth;
   final double maxWidth;
   final double? fixedWidth;
-  final bool showInMenu;
+  final bool isPinned;
   bool isShow;
   double width;
 
   TabHeadCell({
     required this.idLabel,
     required this.element,
-    this.showInMenu = true,
+    this.isPinned = false,
     this.isShow = true,
     this.minWidth = 50,
     this.maxWidth = 200,
@@ -35,6 +36,7 @@ class TabHeadCell {
   }
 }
 
+/// ============================================================ TabHeadCellView
 class TabHeadCellView extends StatefulWidget {
   const TabHeadCellView({
     Key? key,
@@ -45,6 +47,7 @@ class TabHeadCellView extends StatefulWidget {
     this.isSHowDragElement = true,
     this.textPadding = 8,
     required this.isEnable,
+    required this.isPinned,
     this.onWidthUpdateFinish,
     this.onWidthUpdate,
   }) : super(key: key);
@@ -56,6 +59,7 @@ class TabHeadCellView extends StatefulWidget {
   final bool isSHowDragElement;
   final double textPadding;
   final bool isEnable;
+  final bool isPinned;
   final void Function(double newWidth)? onWidthUpdate;
   final void Function()? onWidthUpdateFinish;
 
