@@ -13,7 +13,7 @@ class ResizableTable extends StatelessWidget {
     this.persistance,
     this.isCheckable = true,
     this.withDividers = true,
-    this.rowHeight = 15,
+    this.rowHeight = 20,
   }) : assert(rows.every((element) => element.cells.length == columns.length));
 
   final List<TabHeadCell> columns;

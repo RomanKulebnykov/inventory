@@ -11,7 +11,7 @@ class ResizableTableViewModel extends ChangeNotifier {
     this.persistance,
     required this.rowHeight,
     required this.isCheckable,
-    this.withDivider = true,
+    required this.withDivider,
   }) {
     initializeStates(headCells, rows);
   }
@@ -71,12 +71,11 @@ class ResizableTableViewModel extends ChangeNotifier {
 
   /// -------------------------------------------------------------- headRowView
   TabHeadRowView get headRowView => TabHeadRowView(
-        cells: List<TabHeadCellView>.generate(
-          columnLength,
-          (index) {
-            final headCell = _headCells[index];
-            return TabHeadCellView(
+        cells: [
+          for (final headCell in _headCells)
+            TabHeadCellView(
               key: ValueKey(headCell.idLabel),
+              idLabel: headCell.idLabel,
               minWidth: headCell.fixedWidth ?? headCell.minWidth,
               maxWidth: headCell.fixedWidth ?? headCell.maxWidth,
               width: headCell.width,
@@ -84,32 +83,32 @@ class ResizableTableViewModel extends ChangeNotifier {
               isEnable: headCell.isShow,
               isPinned: headCell.isPinned,
               isSHowDragElement: showControlsElement,
-              onWidthUpdate: (newWidth) => onColumnWidthUpdate(index, newWidth),
-              onWidthUpdateFinish: () => onColumnWidthUpdateFinish(headCell),
-            );
-          },
-        ),
+            )
+        ],
       );
 
   /// ----------------------------------------------------------------- rowViews
-  List<TabRowView> get rowViews => [
-        for (final row in _rows)
-          TabRowView(
-            hasDivider: true,
-            cells: List<TabCellView>.generate(row.cells.length, (index) {
-              return TabCellView(
-                element: row.cells[index].element,
-                width: _headCells[index].width,
-                height: rowHeight,
-                isShow: _headCells[index].isShow,
-              );
-            }),
-          )
-      ];
+  List<TabRowView> get rowViews {
+    return _rows.map<TabRowView>((row) {
+      return TabRowView(
+        hasDivider: withDivider,
+        cells: _headCells.map<TabCellView>((headCell) {
+          final cell =
+              row.cells.firstWhere((cell) => cell.idColumn == headCell.idLabel);
+          return TabCellView(
+            width: headCell.width,
+            element: cell.element,
+            isShow: headCell.isShow,
+            height: rowHeight,
+          );
+        }).toList(),
+      );
+    }).toList();
+  }
 
   /// ---------------------------------------------------------------- onReorder
 
-  void onReorder(int oldIndex, int newIndex) {
+  void onColumnReorder(int oldIndex, int newIndex) {
     // print('old $oldIndex -> new $newIndex');
     if (_headCells[oldIndex].isPinned || _headCells[newIndex].isPinned) return;
     final replacedCell = _headCells.removeAt(oldIndex);
@@ -131,24 +130,21 @@ class ResizableTableViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// ------------------------------------------------ onColumnWidthUpdateFinish
-  void onColumnWidthUpdateFinish(TabHeadCell headCell) {
-    persistance?.saveState(
-      name: headCell.idLabel,
-      state: ResizableState(headCell.width, headCell.isShow),
-    );
-  }
-
-  /// ------------------------------------------------------ onColumnWidthUpdate
-  void onColumnWidthUpdate(int index, double width) {
-    _headCells[index].width = width;
-    notifyListeners();
-  }
-
   /// ------------------------------------------------------ showControlsElement
   bool showControlsElement = false;
   void setShowControlElements(bool isShow) {
     showControlsElement = isShow;
     notifyListeners();
+  }
+
+  /// ------------------------------------------------------ onColumnWidthUpdate
+  void onColumnWidthUpdate(String idLabel, double width) {
+    _headCells.firstWhere((e) => e.idLabel == idLabel).width = width;
+    notifyListeners();
+  }
+
+  /// ------------------------------------------------ onColumnWidthUpdateFinish
+  void onColumnWidthUpdateFinish(String idLabel, double width) {
+    persistance?.saveState(name: idLabel, state: ResizableState(width, true));
   }
 }

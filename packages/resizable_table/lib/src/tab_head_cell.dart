@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'resizable_table_view_model.dart';
 
 /// ================================================================ TabHeadCell
 class TabHeadCell {
@@ -48,10 +51,12 @@ class TabHeadCellView extends StatefulWidget {
     this.textPadding = 8,
     required this.isEnable,
     required this.isPinned,
-    this.onWidthUpdateFinish,
-    this.onWidthUpdate,
+    required this.idLabel,
+    // this.onWidthUpdateFinish,
+    // this.onWidthUpdate,
   }) : super(key: key);
 
+  final String idLabel;
   final Widget element;
   final double width;
   final double minWidth;
@@ -60,8 +65,8 @@ class TabHeadCellView extends StatefulWidget {
   final double textPadding;
   final bool isEnable;
   final bool isPinned;
-  final void Function(double newWidth)? onWidthUpdate;
-  final void Function()? onWidthUpdateFinish;
+  // final void Function(double newWidth)? onWidthUpdate;
+  // final void Function()? onWidthUpdateFinish;
 
   @override
   State<TabHeadCellView> createState() => _TabHeadCellViewState();
@@ -115,12 +120,11 @@ class _TabHeadCellViewState extends State<TabHeadCellView> {
                   // print(detail);
                 },
                 onHorizontalDragEnd: (detail) {
-                  if (widget.onWidthUpdateFinish != null) {
-                    widget.onWidthUpdateFinish!();
-                  }
-                  setState(() {
-                    onDrag = false;
-                  });
+                  context
+                      .read<ResizableTableViewModel>()
+                      .onColumnWidthUpdateFinish(widget.idLabel, width);
+
+                  setState(() => onDrag = false);
                 },
                 onHorizontalDragUpdate: (detail) {
                   double newValue = width + detail.delta.dx;
@@ -128,9 +132,10 @@ class _TabHeadCellViewState extends State<TabHeadCellView> {
                   if (newValue < widget.maxWidth &&
                       newValue > widget.minWidth) {
                     setState(() => width = newValue);
-                    if (widget.onWidthUpdate != null) {
-                      widget.onWidthUpdate!(newValue);
-                    }
+
+                    context
+                        .read<ResizableTableViewModel>()
+                        .onColumnWidthUpdate(widget.idLabel, newValue);
                   }
                 },
                 child: Container(

@@ -29,13 +29,7 @@ class TabHeadRowView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemCount: cells.length,
-        onReorder: context.read<ResizableTableViewModel>().onReorder,
-        onReorderEnd: (index) {
-          print(index);
-        },
-        onReorderStart: (index) {
-          print(index);
-        },
+        onReorder: context.read<ResizableTableViewModel>().onColumnReorder,
         itemBuilder: (context, index) {
           final headCell = cells[index];
           if (headCell.isPinned) {

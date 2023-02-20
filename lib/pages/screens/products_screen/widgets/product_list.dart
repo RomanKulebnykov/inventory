@@ -17,6 +17,7 @@ class ProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isChecked = false;
+    final testProducts = List<Product>.generate(20, (index) => products.first);
     return ResizableTable(
       persistance: persistance,
       withDividers: true,
@@ -35,38 +36,38 @@ class ProductList extends StatelessWidget {
           isPinned: true,
         ),
         TabHeadCell(
-          element: const Text('Image', overflow: TextOverflow.ellipsis),
+          element: const HeadCellText(text: 'Image'),
           idLabel: 'image',
           fixedWidth: 50,
           isPinned: true,
         ),
         TabHeadCell(
-          element: const Text('Code', overflow: TextOverflow.ellipsis),
+          element: const HeadCellText(text: 'Code'),
           idLabel: 'code',
         ),
         TabHeadCell(
-          element: const Text('Article', overflow: TextOverflow.ellipsis),
+          element: const HeadCellText(text: 'Article'),
           idLabel: 'article',
         ),
         TabHeadCell(
-          element: const Text('Title', overflow: TextOverflow.ellipsis),
+          element: const HeadCellText(text: 'Title'),
           idLabel: 'title',
         ),
         TabHeadCell(
-          element: const Text('Entry Price', overflow: TextOverflow.ellipsis),
+          element: const HeadCellText(text: 'Entry Price'),
           idLabel: 'entryPrice',
         ),
         TabHeadCell(
-          element: const Text('Selling Price', overflow: TextOverflow.ellipsis),
+          element: const HeadCellText(text: 'Selling Price'),
           idLabel: 'sellingPrice',
         ),
         TabHeadCell(
-          element: const Text('Last Update', overflow: TextOverflow.ellipsis),
+          element: const HeadCellText(text: 'Last Update'),
           idLabel: 'lastUpdate',
         ),
       ],
       rows: [
-        for (final product in products)
+        for (final product in testProducts)
           TabRow(
             cells: [
               TabCell(
