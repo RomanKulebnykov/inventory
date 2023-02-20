@@ -59,12 +59,14 @@ class ResizableTableViewModel extends ChangeNotifier {
 
   /// --------------------------------------------------------------------- menu
   Widget get menu => Visibility(
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
         visible: showControlsElement,
         child: HeadMenu(
-            columns: _headCells
-                .where((element) => element.isPinned == false)
-                .toList(),
-            onChange: onShowColumnChange),
+          columns: _headCells.where((e) => e.isPinned == false).toList(),
+          onChange: onShowColumnChange,
+        ),
       );
 
   /// -------------------------------------------------------------- headRowView
@@ -108,8 +110,14 @@ class ResizableTableViewModel extends ChangeNotifier {
   /// ---------------------------------------------------------------- onReorder
 
   void onReorder(int oldIndex, int newIndex) {
-    //
-    print('old $oldIndex -> new $newIndex');
+    // print('old $oldIndex -> new $newIndex');
+    if (_headCells[oldIndex].isPinned || _headCells[newIndex].isPinned) return;
+    final replacedCell = _headCells.removeAt(oldIndex);
+    if (oldIndex < newIndex) {
+      _headCells.insert(newIndex - 1, replacedCell);
+    } else {
+      _headCells.insert(newIndex, replacedCell);
+    }
     notifyListeners();
   }
 

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class AppFormatter {
   AppFormatter._internal();
 
-  static String currencyFormatter(double value) {
+  static String currency(double value) {
     return NumberFormat.decimalPatternDigits(decimalDigits: 2).format(value);
   }
 
@@ -20,7 +20,7 @@ class TextInputCurrencyFormatter extends TextInputFormatter {
   ) {
     final number = double.tryParse(newValue.text);
     if (number != null) {
-      final formattedValue = AppFormatter.currencyFormatter(number);
+      final formattedValue = AppFormatter.currency(number);
       return TextEditingValue(
         text: formattedValue,
         selection: newValue.selection,

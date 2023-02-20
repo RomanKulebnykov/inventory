@@ -69,20 +69,36 @@ class ProductList extends StatelessWidget {
         for (final product in products)
           TabRow(
             cells: [
-              TabCell(element: Checkbox(value: false, onChanged: (value) {})),
-              TabCell(element: ImageDataView(imageData: product.image)),
-              TabCell(element: Text(product.code)),
-              TabCell(element: Text(product.articles.join(','))),
-              TabCell(element: Text(product.title)),
               TabCell(
-                element:
-                    Text(AppFormatter.currencyFormatter(product.entryPrice)),
+                idColumn: 'check',
+                element: Checkbox(value: false, onChanged: (value) {}),
               ),
               TabCell(
-                element:
-                    Text(AppFormatter.currencyFormatter(product.sellingPrice)),
+                idColumn: 'image',
+                element: ImageDataView(imageData: product.image),
               ),
               TabCell(
+                idColumn: 'code',
+                element: Text(product.code),
+              ),
+              TabCell(
+                idColumn: 'article',
+                element: Text(product.articles.join(',')),
+              ),
+              TabCell(
+                idColumn: 'title',
+                element: Text(product.title),
+              ),
+              TabCell(
+                idColumn: 'entryPrice',
+                element: Text(AppFormatter.currency(product.entryPrice)),
+              ),
+              TabCell(
+                idColumn: 'sellingPrice',
+                element: Text(AppFormatter.currency(product.sellingPrice)),
+              ),
+              TabCell(
+                idColumn: 'lastUpdate',
                 element:
                     Text(AppFormatter.dateFormat.format(product.lastUpdate)),
               ),

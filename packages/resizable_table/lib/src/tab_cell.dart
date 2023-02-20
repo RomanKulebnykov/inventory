@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TabCell {
-  TabCell({required this.element});
+  TabCell({required this.idColumn, required this.element});
+  final String idColumn;
   final Widget element;
 }
 

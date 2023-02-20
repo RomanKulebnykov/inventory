@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resizable_table/src/resizable_table_view_model.dart';
@@ -27,16 +28,25 @@ class TabHeadRowView extends StatelessWidget {
         buildDefaultDragHandles: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        onReorder: context.read<ResizableTableViewModel>().onReorder,
         itemCount: cells.length,
+        onReorder: context.read<ResizableTableViewModel>().onReorder,
+        onReorderEnd: (index) {
+          print(index);
+        },
+        onReorderStart: (index) {
+          print(index);
+        },
         itemBuilder: (context, index) {
           final headCell = cells[index];
-          return ReorderableDragStartListener(
-            key: ValueKey(headCell.key),
-            enabled: !headCell.isPinned,
-            index: index,
-            child: Container(color: Colors.transparent, child: headCell),
-          );
+          if (headCell.isPinned) {
+            return headCell;
+          } else {
+            return ReorderableDragStartListener(
+              key: ValueKey(headCell.key),
+              index: index,
+              child: Container(color: Colors.transparent, child: headCell),
+            );
+          }
         },
       ),
     );
