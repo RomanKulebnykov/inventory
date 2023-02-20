@@ -1,14 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'tab_cell.dart';
 
+/// ===================================================================== TabRow
 class TabRow {
   final List<TabCell> cells;
 
   TabRow({required this.cells});
 }
 
+/// ================================================================= TabRowView
 class TabRowView extends StatelessWidget {
   const TabRowView({
     super.key,

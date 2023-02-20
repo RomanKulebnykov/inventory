@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../resizable_table.dart';
 import 'resizable_table_view_model.dart';
 
-/// ResizableTable
+/// ============================================================= ResizableTable
 class ResizableTable extends StatelessWidget {
   ResizableTable({
     super.key,
@@ -39,7 +39,7 @@ class ResizableTable extends StatelessWidget {
   }
 }
 
-/// ResizableTableView
+/// ========================================================= ResizableTableView
 class _ResizableTableView extends StatelessWidget {
   const _ResizableTableView({super.key});
 

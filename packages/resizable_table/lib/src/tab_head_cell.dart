@@ -52,8 +52,6 @@ class TabHeadCellView extends StatefulWidget {
     required this.isEnable,
     required this.isPinned,
     required this.idLabel,
-    // this.onWidthUpdateFinish,
-    // this.onWidthUpdate,
   }) : super(key: key);
 
   final String idLabel;
@@ -65,8 +63,6 @@ class TabHeadCellView extends StatefulWidget {
   final double textPadding;
   final bool isEnable;
   final bool isPinned;
-  // final void Function(double newWidth)? onWidthUpdate;
-  // final void Function()? onWidthUpdateFinish;
 
   @override
   State<TabHeadCellView> createState() => _TabHeadCellViewState();
@@ -90,62 +86,64 @@ class _TabHeadCellViewState extends State<TabHeadCellView> {
         minWidth: widget.minWidth,
         maxWidth: widget.maxWidth,
       ),
-      child: SizedBox(
-        width: width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: widget.textPadding),
-                child: widget.element,
-              ),
-            ),
-            MouseRegion(
-              cursor: SystemMouseCursors.resizeLeftRight,
-              onEnter: (v) {
-                onEnter = false;
-                // print('onEnter');
-              },
-              onExit: (v) {
-                onEnter = false;
-                // print('onExit');
-              },
-              child: GestureDetector(
-                onHorizontalDragStart: (detail) {
-                  setState(() {
-                    onDrag = true;
-                  });
-
-                  // print(detail);
-                },
-                onHorizontalDragEnd: (detail) {
-                  context
-                      .read<ResizableTableViewModel>()
-                      .onColumnWidthUpdateFinish(widget.idLabel, width);
-
-                  setState(() => onDrag = false);
-                },
-                onHorizontalDragUpdate: (detail) {
-                  double newValue = width + detail.delta.dx;
-                  // print(newValue);
-                  if (newValue < widget.maxWidth &&
-                      newValue > widget.minWidth) {
-                    setState(() => width = newValue);
-
-                    context
-                        .read<ResizableTableViewModel>()
-                        .onColumnWidthUpdate(widget.idLabel, newValue);
-                  }
-                },
-                child: Container(
-                  width: widget.isSHowDragElement ? 3 : 0,
-                  color: onDrag ? Colors.blue : Colors.blue.withAlpha(100),
-                  height: 20,
+      child: MouseRegion(
+        onEnter: (event) {
+          // context.read<ResizableTableViewModel>().setShowControlElements(true);
+          print('onEnter');
+        },
+        onExit: (event) {
+          // context.read<ResizableTableViewModel>().setShowControlElements(false);
+          print('onExit');
+        },
+        child: SizedBox(
+          width: width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: widget.textPadding),
+                  child: widget.element,
                 ),
               ),
-            ),
-          ],
+              MouseRegion(
+                cursor: SystemMouseCursors.resizeLeftRight,
+                child: GestureDetector(
+                  onHorizontalDragStart: (detail) {
+                    setState(() {
+                      onDrag = true;
+                    });
+
+                    // print(detail);
+                  },
+                  onHorizontalDragEnd: (detail) {
+                    context
+                        .read<ResizableTableViewModel>()
+                        .onColumnWidthUpdateFinish(widget.idLabel, width);
+
+                    setState(() => onDrag = false);
+                  },
+                  onHorizontalDragUpdate: (detail) {
+                    double newValue = width + detail.delta.dx;
+                    // print(newValue);
+                    if (newValue < widget.maxWidth &&
+                        newValue > widget.minWidth) {
+                      setState(() => width = newValue);
+
+                      context
+                          .read<ResizableTableViewModel>()
+                          .onColumnWidthUpdate(widget.idLabel, newValue);
+                    }
+                  },
+                  child: Container(
+                    width: widget.isSHowDragElement ? 3 : 0,
+                    color: onDrag ? Colors.blue : Colors.blue.withAlpha(100),
+                    height: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
