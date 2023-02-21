@@ -21,25 +21,28 @@ class ResizableTableViewModel extends ChangeNotifier {
     List<TabHeadCell> headCells,
     List<TabRow> rows,
   ) async {
-    final updatedHeadCells = <TabHeadCell>[];
-    for (var headCell in headCells) {
-      // if (headCell.fixedWidth != null) continue;
-      final state = await persistance?.loadState(name: headCell.idLabel);
-      if (state != null) {
-        headCell.isShow = state.isShow;
-        headCell.width = state.width;
+    List<TabHeadCell>? updatedHeadCells;
+    final states = await persistance?.loadState();
+    print(persistance);
+    if (states != null && states.length == headCells.length) {
+      updatedHeadCells = [];
+      for (final state in states) {
+        final headCell = headCells.firstWhere((e) => e.idLabel == state.id);
         updatedHeadCells.add(
           TabHeadCell(
-              idLabel: headCell.idLabel,
-              element: headCell.element,
-              isShow: state.isShow,
-              width: state.width),
+            idLabel: state.id,
+            width: state.width,
+            isShow: state.isShow,
+            element: headCell.element,
+            isPinned: headCell.isPinned,
+            fixedWidth: headCell.fixedWidth,
+            minWidth: headCell.minWidth,
+            maxWidth: headCell.maxWidth,
+          ),
         );
-      } else {
-        updatedHeadCells.add(headCell);
       }
     }
-    _headCells = updatedHeadCells;
+    _headCells = updatedHeadCells ?? headCells;
     _rows = rows;
     notifyListeners();
   }
@@ -109,7 +112,6 @@ class ResizableTableViewModel extends ChangeNotifier {
   /// ---------------------------------------------------------------- onReorder
 
   void onColumnReorder(int oldIndex, int newIndex) {
-    // print('old $oldIndex -> new $newIndex');
     if (_headCells[oldIndex].isPinned || _headCells[newIndex].isPinned) return;
     final replacedCell = _headCells.removeAt(oldIndex);
     if (oldIndex < newIndex) {
@@ -118,16 +120,14 @@ class ResizableTableViewModel extends ChangeNotifier {
       _headCells.insert(newIndex, replacedCell);
     }
     notifyListeners();
+    _saveTableState();
   }
 
   /// ------------------------------------------------------- onShowColumnChange
   void onShowColumnChange(TabHeadCell column, bool value) {
     column.isShow = value;
-    persistance?.saveState(
-      name: column.idLabel,
-      state: ResizableState(column.width, value),
-    );
     notifyListeners();
+    _saveTableState();
   }
 
   /// ------------------------------------------------------ showControlsElement
@@ -145,6 +145,14 @@ class ResizableTableViewModel extends ChangeNotifier {
 
   /// ------------------------------------------------ onColumnWidthUpdateFinish
   void onColumnWidthUpdateFinish(String idLabel, double width) {
-    persistance?.saveState(name: idLabel, state: ResizableState(width, true));
+    _saveTableState();
+  }
+
+  Future<void> _saveTableState() async {
+    persistance?.saveState(
+      states: _headCells
+          .map<ColumnState>((e) => ColumnState(e.idLabel, e.width, e.isShow))
+          .toList(),
+    );
   }
 }

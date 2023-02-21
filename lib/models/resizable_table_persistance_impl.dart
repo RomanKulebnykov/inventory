@@ -3,18 +3,15 @@ import 'package:resizable_table/resizable_table.dart';
 class PersistanceMemory extends ResizableTablePersistance {
   PersistanceMemory(super.tableName);
 
-  final Map<String, ResizableState> states = {};
+  final Map<String, List<ColumnState>> tables = {};
 
   @override
-  Future<ResizableState?> loadState({required String name}) async {
-    return states.containsKey(name) ? states[name] : null;
+  Future<List<ColumnState>?> loadState() async {
+    return tables[super.tableName];
   }
 
   @override
-  Future<void> saveState({
-    required String name,
-    required ResizableState state,
-  }) async {
-    states[name] = state;
+  Future<void> saveState({required List<ColumnState> states}) async {
+    tables[super.tableName] = states;
   }
 }

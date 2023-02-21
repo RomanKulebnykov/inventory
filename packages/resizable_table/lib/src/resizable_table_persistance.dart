@@ -3,12 +3,13 @@ abstract class ResizableTablePersistance {
 
   final String tableName;
 
-  Future<void> saveState({required String name, required ResizableState state});
-  Future<ResizableState?> loadState({required String name});
+  Future<void> saveState({required List<ColumnState> states});
+  Future<List<ColumnState>?> loadState();
 }
 
-class ResizableState {
-  ResizableState(this.width, this.isShow);
+class ColumnState {
+  ColumnState(this.id, this.width, this.isShow);
+  final String id;
   final double width;
   final bool isShow;
 }
