@@ -93,6 +93,7 @@ class ResizableTableViewModel extends ChangeNotifier {
   List<TabRowView> get rowViews {
     return _rows.map<TabRowView>((row) {
       return TabRowView(
+        onTap: row.onTap,
         hasDivider: withDivider,
         cells: _headCells.map<TabCellView>((headCell) {
           final cell =

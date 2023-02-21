@@ -18,6 +18,7 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     final testProducts =
         List<ProductPresentation>.generate(20, (index) => products.first);
+
     return ResizableTable(
       persistance: persistance,
       withDividers: true,
@@ -66,6 +67,9 @@ class ProductList extends StatelessWidget {
       rows: [
         for (final product in testProducts)
           TabRow(
+            onTap: () {
+              print(product.title);
+            },
             cells: [
               TabCell(
                 idColumn: 'check',

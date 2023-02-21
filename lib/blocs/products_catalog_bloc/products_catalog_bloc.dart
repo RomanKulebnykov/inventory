@@ -49,7 +49,8 @@ class ProductsCatalogBloc
     add(ProductsCatalogReloadProductsEvent());
   }
 
-  /// -------------------------------------------------- _getProductPresentations
+  /// ---------------------------------------------------------- PRIVATE METHODS
+  /// ------------------------------------------------- _getProductPresentations
   Future<List<ProductPresentation>> _getProductPresentations() async {
     final productEntities = await productRepository.list(ProductFilter());
     List<ProductPresentation> result = [];
