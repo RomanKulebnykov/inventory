@@ -94,6 +94,7 @@ class ResizableTableViewModel extends ChangeNotifier {
     return _rows.map<TabRowView>((row) {
       return TabRowView(
         onTap: row.onTap,
+        heightLightListColor: row.heightLightListColor,
         hasDivider: withDivider,
         cells: _headCells.map<TabCellView>((headCell) {
           final cell =

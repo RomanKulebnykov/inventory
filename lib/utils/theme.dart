@@ -25,6 +25,7 @@ class AppTheme {
           : const InputDecorationTheme();
 
   static Color get navigationRailColor => Colors.blue;
+  static Color get heightLightListColor => Colors.blue;
   static Color get addElementColor => Colors.green;
 
   ThemeData get getTheme => ThemeData.dark().copyWith(
