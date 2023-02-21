@@ -51,6 +51,7 @@ dependencies:
   window_manager: ^0.3.0
 
   font_awesome_flutter: ^10.3.0
+  currency_text_input_formatter: ^2.1.9
   cupertino_icons: ^1.0.2
 
   shared_kernel:

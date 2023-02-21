@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventory/pages/screens/order_inventory_enter_screen/order_inventory_enter_screen.dart';
 
 import '../../pages/screens/products_screen/products_screen.dart';
 
@@ -41,15 +42,21 @@ class ScreenManager {
       title: 'Inventory',
       screens: [
         Screen(
-          icon: Icon(Icons.fireplace),
-          selectedIcon: Icon(Icons.fireplace),
-          title: 'title',
+          icon: Icon(Icons.move_to_inbox_outlined),
+          selectedIcon: Icon(Icons.move_to_inbox),
+          title: 'Inventory Enter',
+          screen: OrderInventoryEnterScreen(),
+        ),
+        Screen(
+          icon: Icon(Icons.outbox_outlined),
+          selectedIcon: Icon(Icons.outbox),
+          title: 'Inventory Loss',
           screen: Placeholder(),
         ),
         Screen(
-          icon: Icon(Icons.fireplace),
-          selectedIcon: Icon(Icons.fireplace),
-          title: 'title',
+          icon: Icon(Icons.integration_instructions_outlined),
+          selectedIcon: Icon(Icons.integration_instructions),
+          title: 'Inventory Check',
           screen: Placeholder(),
         ),
       ],

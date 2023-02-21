@@ -32,7 +32,7 @@ class TabCellView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: elementPadding),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: element,
+            child: Center(child: element),
           ),
         ),
       ),

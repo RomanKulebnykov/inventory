@@ -59,6 +59,7 @@ class _TabRowViewState extends State<TabRowView> {
                     isHover ? basicScaleFactor + 0.05 : basicScaleFactor,
               ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: widget.cells,
               ),

@@ -1,3 +1,4 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_dialog.dart';
 import 'package:inventory/pages/edit_brand/edit_brand_vm.dart';
@@ -145,7 +146,8 @@ class EditProductPage extends StatelessWidget {
                                   controller: viewModel.sellingPrice,
                                   label: 'Selling price',
                                   inputFormatters: [
-                                    TextInputCurrencyFormatter()
+                                    CurrencyTextInputFormatter(symbol: '')
+                                    // TextInputCurrencyFormatter()
                                   ],
                                 ),
                               ],

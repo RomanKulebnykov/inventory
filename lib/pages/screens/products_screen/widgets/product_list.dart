@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventory/blocs/products_catalog_bloc/products_catalog_bloc.dart';
 import 'package:inventory/models/product_presentation.dart';
 import 'package:inventory/utils/formatters.dart';
 import 'package:inventory/widgets/image_data_view.dart';
@@ -65,11 +66,10 @@ class ProductList extends StatelessWidget {
         ),
       ],
       rows: [
-        for (final product in testProducts)
+        for (final product in products)
           TabRow(
-            onTap: () {
-              print(product.title);
-            },
+            onTap: () => ProductsCatalogBloc.addEvent(
+                context, ProductsCatalogEditProductEvent(product.toProduct)),
             cells: [
               TabCell(
                 idColumn: 'check',

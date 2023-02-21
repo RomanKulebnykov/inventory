@@ -26,6 +26,7 @@ class ProductsScreen extends StatelessWidget {
               builder: (context) {
                 return ChangeNotifierProvider<EditProductVM>(
                   create: (context) => EditProductVM(
+                    editProduct: state.editedProduct,
                     productsRepository: Di.getIt(),
                     brandsRepository: Di.getIt(),
                     onProductSave: (Product product) {
