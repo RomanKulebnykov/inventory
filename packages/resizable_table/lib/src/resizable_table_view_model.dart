@@ -23,7 +23,6 @@ class ResizableTableViewModel extends ChangeNotifier {
   ) async {
     List<TabHeadCell>? updatedHeadCells;
     final states = await persistance?.loadState();
-    print(persistance);
     if (states != null && states.length == headCells.length) {
       updatedHeadCells = [];
       for (final state in states) {

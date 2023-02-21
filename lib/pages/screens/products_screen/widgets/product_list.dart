@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:inventory/models/product_presentation.dart';
 import 'package:inventory/utils/formatters.dart';
 import 'package:inventory/widgets/image_data_view.dart';
-import 'package:products_catalog/products_catalog.dart';
 import 'package:resizable_table/resizable_table.dart';
 
 class ProductList extends StatelessWidget {
@@ -11,59 +11,56 @@ class ProductList extends StatelessWidget {
     this.persistance,
   }) : super(key: key);
 
-  final List<Product> products;
+  final List<ProductPresentation> products;
   final ResizableTablePersistance? persistance;
 
   @override
   Widget build(BuildContext context) {
-    bool isChecked = false;
-    final testProducts = List<Product>.generate(20, (index) => products.first);
+    final testProducts =
+        List<ProductPresentation>.generate(20, (index) => products.first);
     return ResizableTable(
       persistance: persistance,
       withDividers: true,
       columns: [
         TabHeadCell(
-          element: StatefulBuilder(
-            builder: (context, setState) {
-              return Checkbox(
-                value: isChecked,
-                onChanged: (value) => setState(() => isChecked = value!),
-              );
-            },
-          ),
+          element: CellCheckBox(value: false, onChange: (value) {}),
           idLabel: 'check',
           fixedWidth: 52,
           isPinned: true,
         ),
         TabHeadCell(
-          element: const HeadCellText(text: 'Image'),
+          element: const CellText(text: 'Image'),
           idLabel: 'image',
           fixedWidth: 50,
           isPinned: true,
         ),
         TabHeadCell(
-          element: const HeadCellText(text: 'Code'),
+          element: const CellText(text: 'Code'),
           idLabel: 'code',
         ),
         TabHeadCell(
-          element: const HeadCellText(text: 'Article'),
+          element: const CellText(text: 'Article'),
           idLabel: 'article',
         ),
         TabHeadCell(
-          element: const HeadCellText(text: 'Title'),
+          element: const CellText(text: 'Title'),
           idLabel: 'title',
         ),
         TabHeadCell(
-          element: const HeadCellText(text: 'Entry Price'),
+          element: const CellText(text: 'Entry Price'),
           idLabel: 'entryPrice',
         ),
         TabHeadCell(
-          element: const HeadCellText(text: 'Selling Price'),
+          element: const CellText(text: 'Selling Price'),
           idLabel: 'sellingPrice',
         ),
         TabHeadCell(
-          element: const HeadCellText(text: 'Last Update'),
+          element: const CellText(text: 'Last Update'),
           idLabel: 'lastUpdate',
+        ),
+        TabHeadCell(
+          element: const CellText(text: 'Brand'),
+          idLabel: 'brand',
         ),
       ],
       rows: [
@@ -72,7 +69,7 @@ class ProductList extends StatelessWidget {
             cells: [
               TabCell(
                 idColumn: 'check',
-                element: Checkbox(value: false, onChanged: (value) {}),
+                element: CellCheckBox(value: false, onChange: (value) {}),
               ),
               TabCell(
                 idColumn: 'image',
@@ -102,6 +99,10 @@ class ProductList extends StatelessWidget {
                 idColumn: 'lastUpdate',
                 element:
                     Text(AppFormatter.dateFormat.format(product.lastUpdate)),
+              ),
+              TabCell(
+                idColumn: 'brand',
+                element: ImageDataView(imageData: product.brand?.image),
               ),
             ],
           )

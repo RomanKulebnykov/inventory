@@ -32,7 +32,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => NavigationBloc()),
-        BlocProvider(create: (context) => ProductsCatalogBloc(Di.getIt())),
+        BlocProvider(
+          create: (context) => ProductsCatalogBloc(
+            brandsRepository: Di.getIt(),
+            productRepository: Di.getIt(),
+          ),
+        ),
       ],
       child: MultiProvider(
         providers: [

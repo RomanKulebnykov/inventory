@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory/models/product_presentation.dart';
 import 'package:inventory/models/resizable_table_persistance_impl.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:resizable_table/resizable_table.dart';
@@ -16,31 +17,52 @@ class ProductsCatalogBloc
   }
 
   /// --------------------------------------------------------------- Properties
-  final ProductsRepository repository;
+  final ProductsRepository productRepository;
+  final BrandsRepository brandsRepository;
   final ResizableTablePersistance persistance = PersistanceMemory('nnnn');
 
   /// -------------------------------------------------------------- Constructor
-  ProductsCatalogBloc(this.repository) : super(ProductsCatalogInitial()) {
-    /// ProductsCatalogReloadProductsEvent
+  ProductsCatalogBloc({
+    required this.productRepository,
+    required this.brandsRepository,
+  }) : super(ProductsCatalogInitial()) {
+    /// ------------------------------------- ProductsCatalogReloadProductsEvent
     on<ProductsCatalogReloadProductsEvent>((event, emit) async {
       emit(ProductsCatalogLoad());
-      final products = await repository.list(ProductFilter());
+      final productPresentations = await _getProductPresentations();
       emit(ProductsCatalogShowProducts(
-        productsList: products,
+        productsList: productPresentations,
         resizableTablePersistance: persistance,
       ));
     });
 
-    /// ProductsCatalogAddNewProductEvent
+    /// -------------------------------------- ProductsCatalogAddNewProductEvent
     on<ProductsCatalogAddNewProductEvent>((event, emit) {
       emit(const ProductsCatalogEditProduct());
     });
 
-    /// ProductsCatalogEditProductEvent
+    /// ---------------------------------------- ProductsCatalogEditProductEvent
     on<ProductsCatalogEditProductEvent>((event, emit) {
       emit(ProductsCatalogEditProduct(editedProduct: event.product));
     });
 
     add(ProductsCatalogReloadProductsEvent());
+  }
+
+  /// -------------------------------------------------- _getProductPresentations
+  Future<List<ProductPresentation>> _getProductPresentations() async {
+    final productEntities = await productRepository.list(ProductFilter());
+    List<ProductPresentation> result = [];
+    for (final productEntity in productEntities) {
+      Brand? brand;
+      if (productEntity.brandId != null) {
+        brand = await brandsRepository.getById(productEntity.brandId!);
+      }
+      result.add(ProductPresentation.fromProduct(
+        product: productEntity,
+        brand: brand,
+      ));
+    }
+    return result;
   }
 }

@@ -7,4 +7,5 @@ export 'src/tab_row.dart';
 export 'src/resizable_table_persistance.dart';
 
 // decoration
-export 'src/decoration_elements/head_cell_text.dart';
+export 'src/decoration_elements/cell_text.dart';
+export 'src/decoration_elements/cell_checkbox.dart';

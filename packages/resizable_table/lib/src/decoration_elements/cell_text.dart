@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HeadCellText extends StatelessWidget {
-  const HeadCellText({
+class CellText extends StatelessWidget {
+  const CellText({
     super.key,
     required this.text,
   });
