@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory/blocs/bloc/order_inventory_bloc/order_inventory_bloc.dart';
 import 'package:inventory/blocs/navigation/navigation_bloc.dart';
 import 'package:inventory/blocs/products_catalog_bloc/products_catalog_bloc.dart';
 import 'package:inventory/utils/device.dart';
@@ -38,6 +39,12 @@ class MyApp extends StatelessWidget {
             productRepository: Di.getIt(),
           ),
         ),
+        BlocProvider(
+          create: (context) => OrderInventoryEnterBloc(
+            brandsRepository: Di.getIt(),
+            productRepository: Di.getIt(),
+          ),
+        )
       ],
       child: MultiProvider(
         providers: [

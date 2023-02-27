@@ -6,9 +6,9 @@ import 'package:inventory/models/resizable_table_persistance_impl.dart';
 import 'package:products_catalog/products_catalog.dart';
 import 'package:resizable_table/resizable_table.dart';
 
-part 'products_catalog_event.dart';
-part 'products_catalog_state.dart';
-
+/// ****************************************************************************
+/// ======================================================================= BLOC
+/// ****************************************************************************
 class ProductsCatalogBloc
     extends Bloc<ProductsCatalogEvent, ProductsCatalogState> {
   /// -------------------------------------------------------- Bloc acces helper
@@ -19,7 +19,7 @@ class ProductsCatalogBloc
   /// --------------------------------------------------------------- Properties
   final ProductsRepository productRepository;
   final BrandsRepository brandsRepository;
-  final ResizableTablePersistance persistance = PersistanceMemory('nnnn');
+  final ResizableTablePersistance persistance = PersistanceMemory('products');
 
   /// -------------------------------------------------------------- Constructor
   ProductsCatalogBloc({
@@ -28,7 +28,7 @@ class ProductsCatalogBloc
   }) : super(ProductsCatalogInitial()) {
     /// ------------------------------------- ProductsCatalogReloadProductsEvent
     on<ProductsCatalogReloadProductsEvent>((event, emit) async {
-      emit(ProductsCatalogLoad());
+      emit(ProductsCatalogLoading());
       final productPresentations = await _getProductPresentations();
       emit(ProductsCatalogShowProducts(
         productsList: productPresentations,
@@ -66,4 +66,64 @@ class ProductsCatalogBloc
     }
     return result;
   }
+}
+
+/// ****************************************************************************
+/// ===================================================================== EVENTS
+/// ****************************************************************************
+
+/// ------------------------------------------------------- ProductsCatalogEvent
+abstract class ProductsCatalogEvent extends Equatable {
+  const ProductsCatalogEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+/// ----------------------------------------- ProductsCatalogReloadProductsEvent
+class ProductsCatalogReloadProductsEvent extends ProductsCatalogEvent {}
+
+/// ------------------------------------------ ProductsCatalogAddNewProductEvent
+class ProductsCatalogAddNewProductEvent extends ProductsCatalogEvent {}
+
+/// -------------------------------------------- ProductsCatalogEditProductEvent
+class ProductsCatalogEditProductEvent extends ProductsCatalogEvent {
+  const ProductsCatalogEditProductEvent(this.product);
+  final Product product;
+
+  @override
+  List<Object?> get props => [super.props, product];
+}
+
+/// ****************************************************************************
+/// ====================================================================== STATE
+/// ****************************************************************************
+
+/// ------------------------------------------------------- ProductsCatalogState
+abstract class ProductsCatalogState extends Equatable {
+  const ProductsCatalogState();
+  @override
+  List<Object> get props => [];
+}
+
+/// ----------------------------------------------------- ProductsCatalogInitial
+class ProductsCatalogInitial extends ProductsCatalogState {}
+
+/// ----------------------------------------------------- ProductsCatalogLoading
+class ProductsCatalogLoading extends ProductsCatalogState {}
+
+/// ------------------------------------------------ ProductsCatalogShowProducts
+class ProductsCatalogShowProducts extends ProductsCatalogState {
+  const ProductsCatalogShowProducts({
+    required this.productsList,
+    required this.resizableTablePersistance,
+  });
+  final List<ProductPresentation> productsList;
+  final ResizableTablePersistance resizableTablePersistance;
+}
+
+/// ------------------------------------------------- ProductsCatalogEditProduct
+class ProductsCatalogEditProduct extends ProductsCatalogState {
+  const ProductsCatalogEditProduct({this.editedProduct});
+  final Product? editedProduct;
 }
